@@ -20,4 +20,5 @@ from staff import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^staff/', include('staff.urls')),
+    url(r'^students/', include('students.urls')),
 ]
