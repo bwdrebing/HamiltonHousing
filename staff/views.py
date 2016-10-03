@@ -1,5 +1,7 @@
 from django.shortcuts import render
+from .models import Building
 
 #Create your views here.
 def home(request):
-    return render(request, 'staff/home.html', {})
+    buildings = list(Building.objects.all())
+    return render(request, 'staff/home.html', {'buildings': buildings})
