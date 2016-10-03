@@ -79,19 +79,19 @@
           </div>
           
         <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Floor
-            <span class="caret"></span></button>
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Floor<span class="caret"></span></button>
             <ul class="dropdown-menu">
               <li><a href="#">All Floors</a></li>
-              <li><a href="#">First Floor</a></li>
-              <li><a href="#">Second Floor</a></li>
-              <li><a href="#">Thrid Floor</a></li>
+              {% for floor in floors.keys() %}
+              <li>Floor {{floor}}</li>
+              {% endfor %}
             </ul>
         </div>
           
-      <!-- table of open rooms -->
       <div class="col-md-6 col-xs-12">
-        <h2 class="sub-header">All Open Rooms</h2>
+          
+        <!-- table of all open rooms -->
+        <h2 class="sub-header">Open Rooms</h2>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
@@ -133,7 +133,7 @@
                 {% endfor %}
               </tbody>
             </table>
-          </div><!--table of rooms-->    
+          </div><!--table of rooms-->   
       </div><!--/first half of screen-->
         
     <!-- floor plans -->
