@@ -28,8 +28,17 @@ class Room(models.Model):
         on_delete=models.CASCADE,
     )
     number = models.CharField(max_length = 5)
-    total_rooms = models.PositiveSmallIntegerField()
+    total_beds = models.PositiveSmallIntegerField()
+    available_beds = models.PositiveSmallIntegerField()
+    available = models.BooleanField()
+    pull = models.ForeignKey(
+        'self',
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
     
+    # For taking room - student year/number/gender
     FEMALE = 'F'
     MALE = 'M'
     NONE = 'N'
@@ -43,17 +52,18 @@ class Room(models.Model):
         choices=GENDER_CHOICES,
         default=NONE,
     )
-    
-    available = models.BooleanField()
-    available_beds = models.PositiveSmallIntegerField()
-    total_beds = models.PositiveSmallIntegerField()
-    pull = models.ForeignKey(
-        'self',
-        on_delete=models.CASCADE,
+
+    class_year = models.PositiveSmallIntegerField(
+        blank=True,
+        null=True,
+    )     #come back to this
+    lottery_number = models.PositiveSmallIntegerField(
+        blank=True,
+        null=True,
+    ) #come back to this
+    notes = models.TextField(
+        blank=True
     )
     
-    class_year = models.PositiveSmallIntegerField()     #come back to this
-    lottery_number = models.PositiveSmallIntegerField() #come back to this
-    
     def __str__(self):
-        return (self.building + self.number)
+        return (str(self.building) + " " + str(self.number))
