@@ -3,6 +3,12 @@ from __future__ import unicode_literals
 from django.db import models
 
 # Create your models here.
+class LotteryNumber(models.Model):
+    number = models.PositiveSmallIntegerField()
+
+    def __str__(self):
+        return str(self.number)
+
 
 class Building(models.Model):
     name = models.CharField(max_length = 100)
