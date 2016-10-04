@@ -1,2 +1,2 @@
 from django.db import models
-import staff
+from staff.models import *
