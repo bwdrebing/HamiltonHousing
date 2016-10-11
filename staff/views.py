@@ -65,6 +65,36 @@ def upload(request):
     return render(request, 'staff/UploadForms.html', {'form': form}, context_instance=RequestContext(request))
 
 
+def import_data(request):
+    if request.method == "POST":
+        form = UploadFileForm(request.POST,
+                              request.FILES)
+
+        def choice_func(row):
+            q = Question.objects.filter(slug=row[0])[0]
+            row[0] = q
+            return row
+        if form.is_valid():
+            request.FILES['file'].save_book_to_database(
+                models=[Room],
+                initializers=[None, choice_func],
+                mapdicts=[
+                    ['building', 'number', 'room_type', 'gender', 'pull', 'notes', 'notes2']]
+            )
+            return HttpResponse("OK", status=200)
+        else:
+            return HttpResponseBadRequest()
+    else:
+        form = UploadFileForm()
+    return render(
+        request,
+        'staff/ImportForms.html',
+        {
+            'form': form,
+            'title': 'Import excel data into database example',
+            'header': 'Please upload sample-data.xls:'
+        })
+
 def home(request):
     number = list(LotteryNumber.objects.all())[-1]
     return render(request, 'staff/home.html',
