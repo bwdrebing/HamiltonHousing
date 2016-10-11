@@ -14,18 +14,19 @@ class BuildingForm(forms.Form):
     name = forms.ChoiceField(
                 choices = [(str(o), str(o)) for o in list(Building.objects.all())])
 
-    room_number = forms.IntegerField()
+    room_number = forms.CharField()
 
 class StudentInfoForm(forms.Form):
 
-    lottery_number = forms.IntegerField()
+    def __init__(self, num_students):
+        super(StudentInfoForm, self).__init__()
+        for i in range(1,num_students + 1):
+            self.fields['Resident #' + str(i) + ' Lottery Number'] = forms.IntegerField()
+            
+            self.fields['Resident #' + str(i) + ' Gender'] = forms.ChoiceField(
+                choices = [('male', 'Male'), ('female', 'Female')] 
+                )
 
-    gender_choices = [('male', 'Male'), ('female', 'Female')]
-
-    gender = forms.ChoiceField(
-        choices = gender_choices
-        )
-
-    year_choices = [(num, num) for num in range (2014, 2019)]
-
-    class_year = forms.ChoiceField(choices = year_choices)
+            self.fields['Resident #' + str(i) + ' Class Year'] = forms.ChoiceField(
+                choices = [(num, num) for num in range (2014, 2019)]
+                )

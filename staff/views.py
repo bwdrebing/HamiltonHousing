@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 
 from .models import LotteryNumber 
 from .models import Building
+from .models import Room
 
 from .forms import LotteryNumberForm
 from .forms import BuildingForm
@@ -28,10 +29,15 @@ def RoomSelect(request):
     if request.method == "POST":
         responseForm = BuildingForm(request.POST)
         if responseForm.is_valid():
-            headerText = "Placing student in room " + \
+            building = Building.objects.get(name = responseForm.\
+                                                cleaned_data['name'])
+            rooms = Room.objects.filter(building = building)
+            room = rooms.get(number = responseForm.cleaned_data['room_number'])
+            
+            headerText = "Placing student in  " + \
                 str(responseForm.cleaned_data['name']) + \
                 " " + str(responseForm.cleaned_data['room_number'])
-            form = StudentInfoForm()
+            form = StudentInfoForm(room.available_beds)
 
 
     buildings = list(Building.objects.all())
