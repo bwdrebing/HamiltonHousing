@@ -8,7 +8,15 @@ from .models import Building
 from .forms import LotteryNumberForm
 from .forms import BuildingForm
 
+from django import forms
+import django_excel as excel
+from django.http import HttpResponseBadRequest, HttpResponse
+from django.template import RequestContext
 
+#Form to upload excel spreadsheets
+class UploadFileForm(forms.Form):
+    file = forms.FileField()
+    
 #Create your views here.
 def lotteryNumberInput(request):
     if request.method == "POST":
@@ -32,6 +40,16 @@ def RoomSelect(request):
     number = list(LotteryNumber.objects.all())[-1]
     return render(request, 'staff/RoomSelect.html',
             {'buildings' : buildings, 'LotteryNumber' : number, 'form' : form})
+
+def upload(request):
+    if request.method == "POST":
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            filehandle = request.FILES['file']
+            return excel.make_response(filehandle.get_sheet(), "csv", file_name="download")
+    else:
+        form = UploadFileForm()
+    return render(request, 'staff/UploadForms.html', {'form': form}, context_instance=RequestContext(request))
 
 
 def home(request):
