@@ -56,6 +56,7 @@ class Room(models.Model):
     room_type = models.CharField(
         max_length=1,
         choices=ROOM_TYPE_CHOICES,
+        default=OTHER,
     )
     
         
