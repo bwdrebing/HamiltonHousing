@@ -4,9 +4,11 @@ from django.shortcuts import redirect
 
 from .models import LotteryNumber 
 from .models import Building
+from .models import Room
 
 from .forms import LotteryNumberForm
 from .forms import BuildingForm
+from .forms import StudentInfoForm
 
 from django import forms
 import django_excel as excel
@@ -30,16 +32,27 @@ def lotteryNumberInput(request):
             {'LotteryNumber': number,'form' : form})
 
 def RoomSelect(request):
-    if request.method == "POST":
-        form = BuildingForm(request.POST)
-        if form.is_valid:
-           print("Building Chosen")
-           #Do some redirection here
     form = BuildingForm()
+    headerText = "Please enter student information to get started..."
+    if request.method == "POST":
+        responseForm = BuildingForm(request.POST)
+        if responseForm.is_valid():
+            building = Building.objects.get(name = responseForm.\
+                                                cleaned_data['name'])
+            rooms = Room.objects.filter(building = building)
+            room = rooms.get(number = responseForm.cleaned_data['room_number'])
+            
+            headerText = "Placing student in  " + \
+                str(responseForm.cleaned_data['name']) + \
+                " " + str(responseForm.cleaned_data['room_number'])
+            form = StudentInfoForm(room.available_beds)
+
+
     buildings = list(Building.objects.all())
     number = list(LotteryNumber.objects.all())[-1]
     return render(request, 'staff/RoomSelect.html',
-            {'buildings' : buildings, 'LotteryNumber' : number, 'form' : form})
+            {'HeaderText' : headerText, 'LotteryNumber' : number, 'form' : \
+                 form})
 
 def upload(request):
     if request.method == "POST":
