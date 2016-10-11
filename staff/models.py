@@ -29,21 +29,36 @@ class Building(models.Model):
 
     
 class Room(models.Model):
+    # Building
     building = models.ForeignKey(
         'Building',
         on_delete=models.CASCADE,
     )
+    
+    # Room Number
     number = models.CharField(max_length = 5)
-    total_beds = models.PositiveSmallIntegerField()
-    available_beds = models.PositiveSmallIntegerField()
-    available = models.BooleanField()
-    pull = models.ForeignKey(
-        'self',
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True,
+    
+    # Choices for Room Type
+    SINGLE = 'S'
+    DOUBLE = 'D'
+    TRIPLE = 'T'
+    QUAD = 'Q'
+    OTHER = 'O'
+    ROOM_TYPE_CHOICES = (
+        (SINGLE, 'Single'),
+        (DOUBLE, 'Double'),
+        (TRIPLE, 'Triple'),
+        (QUAD, 'Quad'),
+        (OTHER, 'Other'),
     )
     
+    # Room Type Field
+    room_type = models.CharField(
+        max_length=1,
+        choices=ROOM_TYPE_CHOICES,
+    )
+    
+        
     # For taking room - student year/number/gender
     FEMALE = 'F'
     MALE = 'M'
@@ -58,6 +73,25 @@ class Room(models.Model):
         choices=GENDER_CHOICES,
         default=NONE,
     )
+    
+    # Room Pulled by this Room
+    pull = models.ForeignKey(
+        'self',
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
+    
+    # Total Number of Beds in Room
+    total_beds = models.PositiveSmallIntegerField()
+    
+    # Currently Available Number of Beds
+    available_beds = models.PositiveSmallIntegerField()
+    
+    # Room Availabilty Status
+    available = models.BooleanField()
+
+
 
     class_year = models.PositiveSmallIntegerField(
         blank=True,
@@ -67,7 +101,15 @@ class Room(models.Model):
         blank=True,
         null=True,
     ) #come back to this
+    
+    
+    # Notes - SPECIFICS1 
     notes = models.TextField(
+        blank=True
+    )
+    
+    # Notes2 - SPECIFICS2
+    notes2 = models.TextField(
         blank=True
     )
     
