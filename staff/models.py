@@ -76,23 +76,29 @@ class Room(models.Model):
     )
     
     # Room Pulled by this Room
-    pull = models.ForeignKey(
-        'self',
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True,
+    #pull = models.ForeignKey(
+    #    'self',
+    #    on_delete=models.CASCADE,
+    #    blank=True,
+    #    null=True,
+    #)
+    
+    pull = models.CharField(
+        max_length = 5,
+        default = '',
     )
     
     # Total Number of Beds in Room
-    total_beds = models.PositiveSmallIntegerField()
+    total_beds = models.PositiveSmallIntegerField(
+        default = 0)
     
     # Currently Available Number of Beds
-    available_beds = models.PositiveSmallIntegerField()
+    available_beds = models.PositiveSmallIntegerField(
+        default = 0)
     
     # Room Availabilty Status
-    available = models.BooleanField()
-
-
+    available = models.BooleanField(
+        default = False)
 
     class_year = models.PositiveSmallIntegerField(
         blank=True,
@@ -106,12 +112,12 @@ class Room(models.Model):
     
     # Notes - SPECIFICS1 
     notes = models.TextField(
-        blank=True
+        default = ''
     )
     
     # Notes2 - SPECIFICS2
     notes2 = models.TextField(
-        blank=True
+        default = ''
     )
     
     def __str__(self):

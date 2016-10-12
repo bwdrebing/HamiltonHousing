@@ -30,3 +30,4 @@ class StudentInfoForm(forms.Form):
             self.fields['Resident #' + str(i) + ' Class Year'] = forms.ChoiceField(
                 choices = [(num, num) for num in range (2014, 2019)]
                 )
+
