@@ -4,7 +4,7 @@ from .models import Room
 
 # Home page view
 def home(request):
-    buildings = list(Building.objects.all())
+    buildings = list(Building.objects.all().order_by('name'))
     return render(request, 'students/home.html', {'buildings': buildings})
 
 # Building page view
