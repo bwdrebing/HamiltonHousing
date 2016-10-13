@@ -1,5 +1,4 @@
 from django import forms
-
 from .models import LotteryNumber
 from .models import Building
 
