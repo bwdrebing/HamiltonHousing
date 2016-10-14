@@ -1,0 +1,22 @@
+<nav role="navigation" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        
+        <!-- Site Name -->
+        <div class="navbar-header pull-left" style="padding-left: 5px;">
+            <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".sidebar" style="float:left;">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/students">Site Name</a>
+         </div><!--/.navbar-header-->
+        
+         <!-- Lottery Number - sticks to right hand side -->
+         <div class="navbar-header pull-right" style="padding-right: 12px;">
+            <ul class="nav pull-left">
+                <li class="navbar-text pull-left loto-num">Next Up: {{ LotteryNumber }}</li>
+            </ul>
+            
+         </div><!--/.navbar-right-->
+    </div><!--/.container-->
+</nav><!--/.navbar -->
