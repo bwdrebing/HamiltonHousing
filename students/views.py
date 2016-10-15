@@ -1,11 +1,16 @@
 from django.shortcuts import render
 from .models import Building
 from .models import Room
+from .models import LotteryNumber
 
 # Home page view
 def home(request):
     buildings = list(Building.objects.all().order_by('name'))
-    return render(request, 'students/home.html', {'buildings': buildings})
+    
+    # get next lottery number for header
+    number = list(LotteryNumber.objects.all())[-1]
+    return render(request, 'students/home.html', {'buildings': buildings,
+                                                  'LotteryNumber': number})
 
 # Building page view
 def building(request, building_name):
@@ -17,10 +22,14 @@ def building(request, building_name):
                              .filter(building=bldg)
                              .exclude(available=False)
                              .order_by('number'))
+    
+    # get next lottery number for header
+    number = list(LotteryNumber.objects.all())[-1]
             
     return render(request, 
                   'students/building.html', 
                   {'current_building': bldg, 
                    'building': bldg, 
                    'rooms': rooms, 
-                   'buildings': building_list})
+                   'buildings': building_list,
+                   'LotteryNumber': number})
