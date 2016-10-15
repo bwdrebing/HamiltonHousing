@@ -46,9 +46,9 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="home">Home</a></li>
+            <li><a href="/staff/home">Home</a></li>
             <li class="active"><a href="#">Room Selection</a></li>
-            <li><a href="LotteryNumber">Number Input</a></li>
+            <li><a href="/staff/LotteryNumber">Number Input</a></li>
           </ul>
     	  <ul class="nav navbar-nav navbar-right">
 	    <li><a>Current Number: {{ LotteryNumber }}</a></li>
@@ -62,7 +62,7 @@
       <div class="starter-template">
         <h1>Welcome to Room Selection</h1>
 	<p class="lead">{{ HeaderText }}</p>
-	<form method="POST" class="post-form">{% csrf_token %}
+	<form method="POST" class="post-form" action="{{Action}}">{% csrf_token %}
 	{{form.as_p}}
 	<button type="submit" class="save btn btn-default">Save</button>
 	</form>

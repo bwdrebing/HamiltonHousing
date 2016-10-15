@@ -122,3 +122,40 @@ class Room(models.Model):
     
     def __str__(self):
         return (str(self.building) + " " + str(self.number))
+
+
+
+class Transaction(models.Model):
+    #Stores the lottery number, room, and year of each puller and pullee
+    #So someone who did not pull anyone, the pullee information will be None
+    Puller_Number = models.PositiveSmallIntegerField()
+    Puller_Room = models.ForeignKey(
+        'Room',
+        on_delete=models.CASCADE,
+        related_name = 'Puller_Room',
+    )
+    Puller_Year = models.PositiveSmallIntegerField()
+    
+    Pullee_Number = models.PositiveSmallIntegerField(blank=True, null=True)
+    Pullee_Room = models.ForeignKey(
+        'Room',
+        on_delete=models.CASCADE,
+        related_name = "Pullee_Room",
+        blank=True,
+        null=True,
+    )
+
+    Pullee_Year = models.PositiveSmallIntegerField(blank = True, null=True)
+
+    def __str__(self):
+
+        toReturn = '#' + str(self.Puller_Number)
+        if(self.Pullee_Number == None):
+            toReturn += " took a room"
+        else:
+            toReturn += ' pulled #' + str(self.Pullee_Number)
+
+        return toReturn
+
+
+
