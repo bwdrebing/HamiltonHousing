@@ -12,16 +12,18 @@ class LotteryNumber(models.Model):
 
 class Building(models.Model):
     name = models.CharField(max_length = 100)
-    total_rooms = models.PositiveSmallIntegerField()
-    total_floors = models.PositiveSmallIntegerField()
-    total_singles = models.PositiveSmallIntegerField()
-    total_doubles = models.PositiveSmallIntegerField()
-    total_triples = models.PositiveSmallIntegerField()
-    total_quads = models.PositiveSmallIntegerField()
-    total_beds = models.PositiveSmallIntegerField()
-    location = models.CharField(max_length = 100)
-    gender_blocked = models.BooleanField()
-    closed = models.BooleanField()
+    total_singles = models.PositiveSmallIntegerField(default = 0)
+    total_doubles = models.PositiveSmallIntegerField(default = 0)
+    total_triples = models.PositiveSmallIntegerField(default = 0)
+    total_quads = models.PositiveSmallIntegerField(default = 0)
+    total_fivepulls = models.PositiveSmallIntegerField(default = 0)
+    total_sixpulls = models.PositiveSmallIntegerFielddefault = 0
+    total_rooms = models.PositiveSmallIntegerField(default = 0)
+    total_beds = models.PositiveSmallIntegerField(default = 0)
+    total_floors = models.PositiveSmallIntegerField(default = 0)
+    location = models.CharField(max_length = 100, blank = True)
+    gender_blocked = models.BooleanField(default = False)
+    closed = models.BooleanField(default = False)
     notes = models.TextField(blank=True)
     
     def __str__(self):

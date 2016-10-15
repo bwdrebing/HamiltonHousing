@@ -13,6 +13,7 @@ from .forms import StudentInfoForm
 
 
 #Create your views here.
+
 def lotteryNumberInput(request):
     if request.method == "POST":
         form = LotteryNumberForm(request.POST)
