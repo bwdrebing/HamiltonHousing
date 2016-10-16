@@ -1,7 +1,5 @@
 from django.contrib import admin
-from .models import LotteryNumber
-from .models import Building
-from .models import Room
+from .models import *
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 from import_export import fields
@@ -11,6 +9,7 @@ from import_export.widgets import *
 
 admin.site.register(LotteryNumber)
 admin.site.register(Building)
+admin.site.register(FloorPlan)
 #admin.site.register(Room)
 
 

@@ -24,9 +24,43 @@ class Building(models.Model):
     closed = models.BooleanField()
     notes = models.TextField(blank=True)
     
+    # ManyToManyField allows for a list-like collection of associated models (i think)
+    floor_plans = models.ManyToManyField(
+        'FloorPlan', 
+        blank=True
+    )
+    
     def __str__(self):
         return self.name
+    
+# returns a filepath for an image in the format MEDIA_ROOT/floorplan/building/floor/image
+def building_directory_path(instance, filename):
+    return 'floorplan/' + instance.related_building.name + '/' + str(instance.floor) + '/' + filename
+    
+class FloorPlan(models.Model):
+    # the building this floor plan is from
+    related_building = models.ForeignKey(
+        'Building',
+        on_delete=models.CASCADE,
+        null=True,
+        verbose_name = 'building' # the name that the user inputting data will see
+    )
+   
+    floor = models.PositiveSmallIntegerField()
 
+    # user input display name for floor plan (to be display on website)
+    display_name = models.CharField(
+        max_length = 25, 
+        default="",
+        help_text="This will be the title of the image displayed to students. Ex. Floor 1 (West)"
+    )
+
+    image = models.ImageField(
+        upload_to=building_directory_path
+    )
+
+    def __str__(self):
+        return str(self.related_building.name) + " " + str(self.display_name)
     
 class Room(models.Model):
     # Building

@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,7 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>SiteName</title>
+    <title>{{current_building.name}}</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/static/students/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -40,31 +41,35 @@
         
       <div id="main">
           <div class="col-md-12">
-              <h2>{{building.name}}</h2>
+              <h1>{{current_building.name}}</h1>
               <div class="row">
                   <div class="col-md-12">
                     <div class="well">
-                        <h4>Total rooms: {{building.total_rooms}}</h4>
+                        <h4>Total rooms: {{current_building.total_rooms}}</h4>
                     </div><!--/well-->
                   </div>
               </div><!--/row-->
           </div>
           
+        <!-- filter by floor dropdown available if there are rooms left -->
+        {% if rooms %}
         <div class="col-md-12">
             <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Floor<span class="caret"></span></button>
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Floor <span class="caret"></span></button>
                 <ul class="dropdown-menu">
-                  <li><a href="#">All Floors</a></li>
-                  <li><a href="#">Floor One</a></li>
-                  <li><a href="#">Floor Two/a></li>
-                  <li><a href="#">Floor Three</a></li>
+                    <li><a href="#">All Floors</a></li>
+                    {% for floor in floors %}
+                    <li><a href="#">Floor {{floor}}</a></li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
+        {% endif %}
           
       <div class="col-md-6 col-xs-12">
           
         <!-- table of all open rooms -->
+        {% if rooms %}
         <h2 class="sub-header">Open Rooms</h2>
           <div class="table-responsive">
             <table class="table table-striped">
@@ -108,11 +113,34 @@
               </tbody>
             </table>
           </div><!--table of rooms-->   
+          {% else %}
+            <h3>There are currently no available rooms</h3>
+          {% endif %}
       </div><!--/first half of screen-->
         
     <!-- floor plans -->
     <div class="col-md-6 col-xs-12">
-        <img id="floor_plan" class="img-responsive floor-plan-img" id="zoom_01" src="/static/students/floor_plans/images/small/{{current_building.name}}.jpg" data-zoom-image="/static/students/floor_plans/images/large/{{current_building.name}}.jpg"/>
+        
+        <!-- floor plan selector -->
+        <div class="dropdown">
+            {% if floor_images %}
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Floor Plan <span class="caret"></span></button>
+            {% endif %}
+            <ul class="dropdown-menu">
+                {% for floorplan in floor_images %}
+                    {% if floorplan == first_floorplan %}  
+                        <li class="active"><a href="#">{{floorplan.display_name}}</a></li>
+                    {% else %}
+                        <li class="#"><a href="#">{{floorplan.display_name}}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        
+        {% if first_floorplan != None %}
+            <img id="floor_plan" class="img-responsive floor-plan-img" id="zoom_01" src="{{first_floorplan.image.url}}" data-zoom-image="{{first_floorplan.image.url}}"/>
+        {% endif %}
+        
     </div><!--/floor plans-->
     </div><!--/row-offcanvas -->
 
@@ -121,7 +149,9 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    
     <script>window.jQuery || document.write('<script src="/static/students/assets/js/vendor/jquery.min.js"><\/script>')</script>
+        
     <script src="/../static/students/dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="/static/students/assets/js/ie10-viewport-bug-workaround.js"></script>
