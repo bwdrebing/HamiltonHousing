@@ -23,6 +23,31 @@ def building(request, building_name):
                              .exclude(available=False)
                              .order_by('number'))
     
+    # calculate building stats
+    rooms_left = 0
+    singles = 0
+    doubles = 0
+    triples = 0
+    quads = 0
+    for room in rooms:
+        if room.room_type == 'S':
+            singles += 1
+        if room.room_type == 'D':
+            doubles += 1
+        if room.room_type == 'T':
+            triples += 1
+        if room.room_type == 'Q':
+            quads += 1
+        rooms_left += 1
+        
+    building_stats = {
+        'rooms_left': rooms_left,
+        'singles': singles,
+        'doubles': doubles,
+        'triples': triples,
+        'quads': quads
+    }
+    
     # all the floor images associated with this building 
     floor_images = list(bldg.floor_plans.all().order_by('floor'))
     
@@ -49,4 +74,5 @@ def building(request, building_name):
                    'floors': floors,
                    'floor_images': floor_images,
                    'first_floorplan': first_floorplan,
-                   'LotteryNumber': number})
+                   'LotteryNumber': number,
+                   'building_stats': building_stats})

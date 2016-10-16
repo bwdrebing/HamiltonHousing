@@ -43,13 +43,44 @@
           <div class="col-md-12">
               <h1>{{current_building.name}}</h1>
               <div class="row">
-                  <div class="col-md-12">
-                    <div class="well">
-                        <h4>Total rooms: {{current_building.total_rooms}}</h4>
-                    </div><!--/well-->
+                  
+                  <!-- Rooms Left -->
+                  <div class="container col-md-6">
+                      <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Rooms Left</h3>
+                            </div>
+                            <div class="panel-body">
+                                <strong>{{building_stats.rooms_left}}</strong> / {{current_building.total_rooms}}
+                            </div>
+                      </div>
                   </div>
+                  
+                   <!-- Types of Rooms -->
+                   <div class="container col-md-6">
+                      <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Types of Rooms</h3>
+                            </div>
+                            <div class="panel-body">
+                                {% if current_building.total_singles != 0 %}
+                                    <strong>{{building_stats.singles}}</strong> / {{current_building.total_singles}} Singles<br>
+                                {% endif %}
+                                {% if current_building.total_doubles != 0 %}
+                                    <strong>{{building_stats.doubles}}</strong> / {{current_building.total_doubles}} Doubles<br>
+                                {% endif %}
+                                {% if current_building.total_triples != 0 %}
+                                    <strong>{{building_stats.triples}}</strong> / {{current_building.total_triples}} Triples<br>
+                                {% endif %}
+                                {% if current_building.total_quads != 0 %}
+                                    <strong>{{building_stats.quads}}</strong> / {{current_building.total_quads}} Quads<br>
+                                {% endif %}
+                            </div>
+                       </div>
+                  </div>
+                
               </div><!--/row-->
-          </div>
+          </div><!--/col-md-12
           
         <!-- filter by floor dropdown available if there are rooms left -->
         {% if rooms %}
@@ -66,6 +97,7 @@
         </div>
         {% endif %}
           
+      <!-- first half of room -->
       <div class="col-md-6 col-xs-12">
           
         <!-- table of all open rooms -->
@@ -118,9 +150,8 @@
           {% endif %}
       </div><!--/first half of screen-->
         
-    <!-- floor plans -->
+    <!-- second half of screen (floor plans) -->
     <div class="col-md-6 col-xs-12">
-        
         <!-- floor plan selector -->
         <div class="dropdown">
             {% if floor_images %}
@@ -136,12 +167,13 @@
                 {% endfor %}
             </ul>
         </div>
-        
+
+        <!-- floor plan image -->
         {% if first_floorplan != None %}
             <img id="floor_plan" class="img-responsive floor-plan-img" id="zoom_01" src="{{first_floorplan.image.url}}" data-zoom-image="{{first_floorplan.image.url}}"/>
         {% endif %}
-        
     </div><!--/floor plans-->
+        
     </div><!--/row-offcanvas -->
 
 

@@ -123,6 +123,7 @@ class Room(models.Model):
     pull = models.CharField(
         max_length = 5,
         default = '',
+        blank=True
     )
     
     # Total Number of Beds in Room
