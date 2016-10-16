@@ -33,6 +33,7 @@ class Building(models.Model):
     def __str__(self):
         return self.name
     
+    
 # returns a filepath for an image in the format MEDIA_ROOT/floorplan/building/floor/image
 def building_directory_path(instance, filename):
     return 'floorplan/' + instance.related_building.name + '/' + str(instance.floor) + '/' + filename
@@ -61,6 +62,7 @@ class FloorPlan(models.Model):
 
     def __str__(self):
         return str(self.related_building.name) + " " + str(self.display_name)
+    
     
 class Room(models.Model):
     # Building
@@ -161,7 +163,6 @@ class Room(models.Model):
         return (str(self.building) + " " + str(self.number))
 
 
-
 class Transaction(models.Model):
     #Stores the lottery number, room, and year of each puller and pullee
     #So someone who did not pull anyone, the pullee information will be None
@@ -193,6 +194,3 @@ class Transaction(models.Model):
             toReturn += ' pulled #' + str(self.Pullee_Number)
 
         return toReturn
-
-
-
