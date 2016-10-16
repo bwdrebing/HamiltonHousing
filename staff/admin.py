@@ -5,13 +5,33 @@ from import_export.admin import ImportExportModelAdmin
 from import_export import fields
 from import_export.widgets import *
 
+import re
+
 admin.site.register(LotteryNumber)
 #admin.site.register(Building)
 admin.site.register(FloorPlan)
 admin.site.register(Transaction)
 #admin.site.register(Room)
 
-
+def room_before_import_row(row, **kwargs):
+    print("OUR BEFORE_IMPORT_ROW")
+    for key, value in row.items():
+            if(value):
+                row[key] = re.sub('[^A-Za-z0-9 ]+', '', value)
+            if (value == "DOUBLE"):
+                row[key] = 'D'
+            if (value == "SINGLE"):
+                row[key] = 'S'
+            if (value == "TRIPLE"):
+                row[key] = 'T'
+            if (value == "QUAD"):
+                row[key] = 'Q'
+            if (value == "EITHER"):
+                row[key] = 'N'
+            if (value == "FEMALE"):
+                row[key] = 'F'
+            if (value == "MALE"):
+                row[key] = 'M'
 
 class RoomResource(resources.ModelResource):
     building = fields.Field(attribute = 'building', column_name = 'BUILDING', widget = ForeignKeyWidget(Building, 'name'))
@@ -28,22 +48,43 @@ class RoomResource(resources.ModelResource):
         model = Room
         fields = ('building', 'number', 'room_type', 'gender', 'pull', 'notes', 'notes2')
         export_order = fields
+        
+    def before_import_row(self, row, **kwargs):
+        """
+        Override to add additional logic. Does nothing by default.
+        """
+        for key, value in row.items():
+            if(value):
+                row[key] = re.sub('[^A-Za-z0-9 ]+', '', value)
+            if (value == "DOUBLE"):
+                row[key] = 'D'
+            if (value == "SINGLE"):
+                row[key] = 'S'
+            if (value == "TRIPLE"):
+                row[key] = 'T'
+            if (value == "QUAD"):
+                row[key] = 'Q'
+            if (value == "EITHER"):
+                row[key] = 'N'
+            if (value == "FEMALE"):
+                row[key] = 'F'
+            if (value == "MALE"):
+                row[key] = 'M'
+            #pass
     
     #def dehydrate_room_name(self, Room):
        # return '%s'
         
     #def after_import_instance(instance, new, **kwargs):
     
-    rows = {'BUILDING', 'ROOM', 'ROOM TYPE', 'GENDER', 'PULL', 'SPECIFICS1', 'SPECIFICS2'}
+    #row = {'BUILDING', 'ROOM', 'ROOM TYPE', 'GENDER', 'PULL', 'SPECIFICS1', 'SPECIFICS2'}
     
-    def before_import_rows(rows, **kwargs):
-        print("TESTING BEFORE IMPORT ROWS")
-        
-        
-
         
 class RoomAdmin(ImportExportModelAdmin):
+
     resource_class = RoomResource
+    #funcType = type(resource_class)
+    #resource_class.before_import_row = funcType(room_before_import_row, resource_class, RoomResource)
     
     
     
@@ -65,10 +106,10 @@ class BuildingResource(resources.ModelResource):
         export_order = fields
         
         
-    # row = {'Building', '# Singles', '# Doubles', '# Triples', '# Quads', 'Total # Rooms', 'Capacity'}
+    row = {'Building', '# Singles', '# Doubles', '# Triples', '# Quads', 'Total # Rooms', 'Capacity'}
         
-    #def before_import_row(row, **kwargs):
-        #print("TESTING BEFORE_IMPORT_ROW")
+
+        
         
     
         
