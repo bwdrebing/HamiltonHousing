@@ -12,17 +12,17 @@ class LotteryNumber(models.Model):
 
 class Building(models.Model):
     name = models.CharField(max_length = 100)
-    total_rooms = models.PositiveSmallIntegerField()
-    total_floors = models.PositiveSmallIntegerField()
-    total_singles = models.PositiveSmallIntegerField()
-    total_doubles = models.PositiveSmallIntegerField()
-    total_triples = models.PositiveSmallIntegerField()
-    total_quads = models.PositiveSmallIntegerField()
-    total_beds = models.PositiveSmallIntegerField()
-    location = models.CharField(max_length = 100)
-    gender_blocked = models.BooleanField()
-    closed = models.BooleanField()
-    notes = models.TextField(blank=True)
+    total_rooms = models.PositiveSmallIntegerField(blank= True)
+    total_floors = models.PositiveSmallIntegerField(blank= True, default = 0)
+    total_singles = models.PositiveSmallIntegerField(blank= True)
+    total_doubles = models.PositiveSmallIntegerField(blank= True)
+    total_triples = models.PositiveSmallIntegerField(blank= True)
+    total_quads = models.PositiveSmallIntegerField(blank= True)
+    total_beds = models.PositiveSmallIntegerField(blank= True)
+    location = models.CharField(max_length = 100, blank = True)
+    gender_blocked = models.BooleanField(default = False)
+    closed = models.BooleanField(blank = True, default = False)
+    notes = models.TextField(blank=True, default = '')
     
     def __str__(self):
         return self.name
@@ -64,6 +64,7 @@ class Room(models.Model):
     FEMALE = 'F'
     MALE = 'M'
     NONE = 'N'
+    
     GENDER_CHOICES = (
         (FEMALE, 'Female'),
         (MALE, 'Male'),
