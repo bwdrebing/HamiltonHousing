@@ -39,7 +39,7 @@
       <div class="starter-template">
         <h1>Welcome to Room Selection</h1>
 	<p class="lead">{{ HeaderText }}</p>
-	<form method="POST" class="post-form">{% csrf_token %}
+	<form method="POST" class="post-form" action="{{Action}}">{% csrf_token %}
 	{{form.as_p}}
 	<button type="submit" class="save btn btn-default">Save</button>
 	</form>

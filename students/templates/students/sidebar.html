@@ -4,7 +4,7 @@
         <ul class="nav nav-pills nav-stacked">
             {% for building in buildings %}
                 {% url 'building-view' building.name as building_url %}
-                {% if building.name == current_building.name  %}
+                {% if building.name == current_building.name %}
                    <li class="active"><a href="{{building_url}}">{{building}}</a></li>
                 {% else %}
                     <li class="#"><a href="{{building_url}}">{{building}}</a></li>

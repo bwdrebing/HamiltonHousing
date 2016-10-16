@@ -12,17 +12,17 @@ class LotteryNumber(models.Model):
 
 class Building(models.Model):
     name = models.CharField(max_length = 100)
-    total_rooms = models.PositiveSmallIntegerField()
-    total_floors = models.PositiveSmallIntegerField()
-    total_singles = models.PositiveSmallIntegerField()
-    total_doubles = models.PositiveSmallIntegerField()
-    total_triples = models.PositiveSmallIntegerField()
-    total_quads = models.PositiveSmallIntegerField()
-    total_beds = models.PositiveSmallIntegerField()
-    location = models.CharField(max_length = 100)
-    gender_blocked = models.BooleanField()
-    closed = models.BooleanField()
-    notes = models.TextField(blank=True)
+    total_rooms = models.PositiveSmallIntegerField(blank= True)
+    total_floors = models.PositiveSmallIntegerField(blank= True, default = 0)
+    total_singles = models.PositiveSmallIntegerField(blank= True)
+    total_doubles = models.PositiveSmallIntegerField(blank= True)
+    total_triples = models.PositiveSmallIntegerField(blank= True)
+    total_quads = models.PositiveSmallIntegerField(blank= True)
+    total_beds = models.PositiveSmallIntegerField(blank= True)
+    location = models.CharField(max_length = 100, blank = True)
+    gender_blocked = models.BooleanField(default = False)
+    closed = models.BooleanField(blank = True, default = False)
+    notes = models.TextField(blank=True, default = '')
     
     # ManyToManyField allows for a list-like collection of associated models (i think)
     floor_plans = models.ManyToManyField(
@@ -98,6 +98,7 @@ class Room(models.Model):
     FEMALE = 'F'
     MALE = 'M'
     NONE = 'N'
+    
     GENDER_CHOICES = (
         (FEMALE, 'Female'),
         (MALE, 'Male'),
@@ -146,13 +147,52 @@ class Room(models.Model):
     
     # Notes - SPECIFICS1 
     notes = models.TextField(
-        default = ''
+        default = '',
+        blank=True
     )
     
     # Notes2 - SPECIFICS2
     notes2 = models.TextField(
-        default = ''
+        default = '',
+        blank=True
     )
     
     def __str__(self):
         return (str(self.building) + " " + str(self.number))
+
+
+
+class Transaction(models.Model):
+    #Stores the lottery number, room, and year of each puller and pullee
+    #So someone who did not pull anyone, the pullee information will be None
+    Puller_Number = models.PositiveSmallIntegerField()
+    Puller_Room = models.ForeignKey(
+        'Room',
+        on_delete=models.CASCADE,
+        related_name = 'Puller_Room',
+    )
+    Puller_Year = models.PositiveSmallIntegerField()
+    
+    Pullee_Number = models.PositiveSmallIntegerField(blank=True, null=True)
+    Pullee_Room = models.ForeignKey(
+        'Room',
+        on_delete=models.CASCADE,
+        related_name = "Pullee_Room",
+        blank=True,
+        null=True,
+    )
+
+    Pullee_Year = models.PositiveSmallIntegerField(blank = True, null=True)
+
+    def __str__(self):
+
+        toReturn = '#' + str(self.Puller_Number)
+        if(self.Pullee_Number == None):
+            toReturn += " took a room"
+        else:
+            toReturn += ' pulled #' + str(self.Pullee_Number)
+
+        return toReturn
+
+
+
