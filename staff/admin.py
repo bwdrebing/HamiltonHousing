@@ -13,6 +13,11 @@ admin.site.register(Transaction)
 
 HouseSyns = ['apts', 'apt', 'apartment', 'apartments', 'house', 'hall', 'estate', 'dorm', 'dormitory'] #what if Wally J? fix later...
 
+# -------------------------------------------------------------
+#   ROOM ADMIN MODEL
+# -------------------------------------------------------------
+
+# Resource for importing rooms through an excel spreadsheet
 class RoomResource(resources.ModelResource):
     building = fields.Field(attribute = 'building', column_name = 'BUILDING', widget = ForeignKeyWidget(Building, 'name'))
     number = fields.Field(attribute = 'number', column_name = 'ROOM')
@@ -57,10 +62,23 @@ class RoomResource(resources.ModelResource):
                     if word.lower() in HouseSyns:
                         row[key] = row[key].replace(' '+ word, '', 1)
                         
-class RoomAdmin(ImportExportModelAdmin):
+# Action for admin page
+def make_available(modeladmin, request, queryset):
+    """Adds action to Room admin page - make rooms available"""
+    queryset.update(available=True)
+make_available.short_description = "Mark selected rooms as available"
 
+class RoomAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = RoomResource
+    list_display = ['building', 'number','available']
+    ordering = ['building']
+    actions = [make_available]
+
+# -------------------------------------------------------------
+#   BUILDING ADMIN MODEL
+# -------------------------------------------------------------
     
+# Resource for importing buildings using an excel spreadsheet
 class BuildingResource(resources.ModelResource):
     name = fields.Field(attribute = 'name', column_name = 'Building')
     total_singles = fields.Field(attribute = 'total_singles', column_name = '# Singles')
@@ -104,13 +122,18 @@ class BuildingResource(resources.ModelResource):
             if(isinstance(row[key], str)):
                 if('Total' in value):
                     Building.objects.get(name = value).delete()
-                    
-                    
-        
-class BuildingAdmin(ImportExportModelAdmin):
-    resource_class = BuildingResource
 
+# MASS CLOSE ACTION FOR ADMIN PAGE
+def make_closed(modeladmin, request, queryset):
+    """Adds action to Building admin page - make buildings closed"""
+    queryset.update(closed=True)
+make_closed.short_description = "Mark selected buildings as closed"
+        
+class BuildingAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = BuildingResource
+    list_display = ['name', 'total_rooms', 'closed']
+    ordering = ['name']
+    actions = [make_closed]
     
 admin.site.register(Building, BuildingAdmin)    
 admin.site.register(Room, RoomAdmin)
-    
