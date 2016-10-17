@@ -6,7 +6,6 @@ from import_export import fields
 from import_export.widgets import *
 
 import re
-import difflib
 
 admin.site.register(LotteryNumber)
 admin.site.register(FloorPlan)
