@@ -6,10 +6,13 @@ from import_export import fields
 from import_export.widgets import *
 
 import re
+import difflib
 
 admin.site.register(LotteryNumber)
 admin.site.register(FloorPlan)
 admin.site.register(Transaction)
+
+HouseSyns = ['apts', 'apt', 'apartment', 'apartments', 'house', 'hall', 'estate', 'dorm', 'dormitory'] #what if Wally J? fix later...
 
 class RoomResource(resources.ModelResource):
     building = fields.Field(attribute = 'building', column_name = 'BUILDING', widget = ForeignKeyWidget(Building, 'name'))
@@ -48,7 +51,13 @@ class RoomResource(resources.ModelResource):
                 row[key] = 'F'
             if (value == "MALE"):
                 row[key] = 'M'
-        
+            
+            if(isinstance(row[key], str)):
+                row[key] = row[key].strip()
+                for word in row[key].split():
+                    if word.lower() in HouseSyns:
+                        row[key] = row[key].replace(' '+ word, '', 1)
+                        
 class RoomAdmin(ImportExportModelAdmin):
 
     resource_class = RoomResource
@@ -76,12 +85,28 @@ class BuildingResource(resources.ModelResource):
         """
         for key, value in row.items():
             if(value):
-                row[key] = re.sub('[^A-Za-z0-9 /(/)]+', '', value)
-        for key, value in row.items():
-            if(value == ''):
+                row[key] = re.sub('\s*\([^\)]+\)', '', row[key])
+                row[key] = re.sub('[^A-Za-z0-9 ]+', '', row[key])
+                if(isinstance(row[key], str)):
+                    row[key] = row[key].strip()
+                    for word in row[key].split():
+                        if word.lower() in HouseSyns:
+                            row[key] = row[key].replace(' '+ word, '', 1)
+                        
+            if(row[key] == ''):
                 row[key] = 0
-                
-    
+
+    def after_import_row(self, row, row_result, **kwargs):
+        """
+        Override to add additional logic. Does nothing by default.
+        """
+        
+        for key, value in row.items():
+            if(isinstance(row[key], str)):
+                if('Total' in value):
+                    Building.objects.get(name = value).delete()
+                    
+                    
         
 class BuildingAdmin(ImportExportModelAdmin):
     resource_class = BuildingResource
