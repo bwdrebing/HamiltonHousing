@@ -21,6 +21,9 @@
     <!-- Custom styles for this template -->
     <link href="/static/students/home/starter-template.css" rel="stylesheet">
     <link href="/static/students/building_dashboard/dashboard.css" rel="stylesheet">
+      
+    <!-- CSS for nice select menus for Floor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -41,9 +44,7 @@
         
       <div id="main">
           <div class="col-md-12">
-              <div class="centered-div">
-                    <h1>{{current_building.name}}</h1>
-              </div>
+              <h1>{{current_building.name}}</h1>
               <div class="row">
                   
                   <!-- Rooms Left -->
@@ -87,22 +88,19 @@
           
       <!-- first half of page - room list -->
       <div class="col-md-6 col-xs-12">
-          
+
         <!-- filter by floor dropdown available if there are rooms left -->
-        {% if rooms %}
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Floor <span class="caret"></span></button>
-            <ul class="dropdown-menu">
-                <li><a href="#">All Floors</a></li>
-                {% for floor in floors %}
-                <li><a href="#">Floor {{floor}}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
+        {% if num_floors > 1 %}
+        <select id="floorSelect" class="selectpicker" data-style="btn-primary">
+            <option name="all" value="all">All Floors</option>
+            {% for floor in floors %}
+                <option name="{{floor}}" value="all">Floor {{floor}}</option>
+            {% endfor %}
+        </select>
         {% endif %}
           
         <!-- table of all open rooms -->
-        {% if rooms %}
+        {% if rooms_by_floor %}
         <h2>Open Rooms</h2>
           <div class="table-responsive">
             <table class="table table-hover">
@@ -115,33 +113,35 @@
                   <th>Notes</th>
                 </tr>
               </thead>
-              <tbody>
-                {% for room in rooms %}
-                <tr>
-                  <td>{{room.number}}</td>
-                  <td>
-                  {% if room.total_beds == 1 %}
-                    Single
-                  {% elif room.total_beds == 2 %}
-                    Double
-                  {% elif room.total_beds == 3 %}
-                    Triple
-                  {% elif room.total_beds == 4 %}
-                    Quad
-                  {% else %}
-                    N/A
-                  {% endif %}
-                  </td>
-                  <td>{{room.available_beds}}</td>
-                  <td>
-                    {% if room.pull %}
-                      {{room.pull}}
-                    {% else %}
-                      None
-                    {% endif %}
-                  </td>
-                  <td>{{room.notes}}</td>
-                </tr>
+              <tbody class="room-list">
+                {% for floor, rooms in rooms_by_floor.items %}
+                    {% for room in rooms %}
+                    <tr name="{{room}}" class="{{floor}}">
+                      <td>{{room.number}}</td>
+                      <td>
+                      {% if room.total_beds == 1 %}
+                        Single
+                      {% elif room.total_beds == 2 %}
+                        Double
+                      {% elif room.total_beds == 3 %}
+                        Triple
+                      {% elif room.total_beds == 4 %}
+                        Quad
+                      {% else %}
+                        N/A
+                      {% endif %}
+                      </td>
+                      <td>{{room.available_beds}}</td>
+                      <td>
+                        {% if room.pull %}
+                          {{room.pull}}
+                        {% else %}
+                          None
+                        {% endif %}
+                      </td>
+                      <td>{{room.notes}}</td>
+                    </tr>
+                    {% endfor %}
                 {% endfor %}
               </tbody>
             </table>
@@ -156,6 +156,7 @@
         
     <!-- second half of screen (floor plans) -->
     <div class="col-md-6 col-xs-12">
+        
         <!-- floor plan selector -->
         <div class="dropdown">
             {% if floor_images %}
@@ -172,14 +173,18 @@
             </ul>
         </div>
         
-        <h2>{{first_floorplan.display_name}}</h2>
-
-        <!-- floor plan image -->
-        {% if first_floorplan != None %}
-            <img id="floor_plan" class="img-responsive floor-plan-img" id="zoom_01" src="{{first_floorplan.image.url}}" data-zoom-image="{{first_floorplan.image.url}}"/>
-        {% endif %}
-    </div><!--/floor plans-->
+        <!-- floor images -->
+        {% if floor_images %}
+        {% with first_image=floor_images|first %}
+            <h2>{{ first_image.display_name }}</h2>
         
+        <!-- floor plan image -->
+        
+            <img id="floor_plan" class="img-responsive floor-plan-img" id="zoom_01" src="{{ first_image.image.url }}" data-zoom-image="{{ first_image.image.url }}"/>
+        {% endwith %}
+        {% endif %}
+
+    </div><!--/floor plans-->
     </div><!--/row-offcanvas -->
 
 
@@ -197,11 +202,10 @@
     <script src="/static/students/home/home-sidebar.js"></script>
     <!-- Script for Zoom JQuery Plugin -->
     <script src="/static/students/assets/js/zoom/jquery.elevateZoom-3.0.8.min.js" type="text/javascript"></script>
-    <script>
-        $("#floor_plan").elevateZoom({
-            zoomType: "inner",
-            cursor: "crosshair"
-        });
-    </script>
+    <!-- Script for floor plan inner zoom -->
+    <script src="/static/students/building/zoom.js" type="text/javascript"></script> 
+    <!-- Scripts for filtering by floor -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+    <script src="/static/students/building/floorFilter.js"></script>
   </body>
 </html>

@@ -59,7 +59,7 @@ class FloorPlan(models.Model):
     image = models.ImageField(
         upload_to=building_directory_path
     )
-
+    
     def __str__(self):
         return str(self.related_building.name) + " " + str(self.display_name)
     
@@ -94,7 +94,6 @@ class Room(models.Model):
         choices=ROOM_TYPE_CHOICES,
         default=OTHER,
     )
-    
         
     # For taking room - student year/number/gender
     FEMALE = 'F'
