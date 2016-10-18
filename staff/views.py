@@ -10,6 +10,7 @@ from .models import Transaction
 from .forms import LotteryNumberForm
 from .forms import BuildingForm
 from .forms import StudentInfoForm
+from .forms import ReviewStudentInfoForm
 
 
 #Create your views here.
@@ -35,6 +36,45 @@ def RoomSelect(request):
             {'HeaderText' : headerText,
                 'Action' : '/staff/RoomSelect/StudentInfo',
                 'LotteryNumber' : number,
+                'form' : form})
+
+def ReviewRoom(request):
+    #Allow the user to input a room number to review and edit
+        # the information presented
+
+    form = BuildingForm()
+    headerText = "Please enter a building and a number to proceed"
+
+    number = list(LotteryNumber.objects.all())[-1]
+    return render(request, 'staff/RoomSelect.html',
+            {'HeaderText' : headerText,
+                'Action' : '/staff/ReviewRoom/ReviewStudentInfo',
+                'LotteryNumber' : number,
+                'form' : form})
+
+def ReviewStudentInfo(request):
+    if request.method == "POST":
+        responseForm = BuildingForm(request.POST)
+        if responseForm.is_valid():
+            building = Building.objects.get(
+                    name = responseForm.cleaned_data['name'])
+
+            rooms = Room.objects.filter(building = building)
+            room = rooms.get(number = responseForm.cleaned_data['room_number'])
+            
+            headerText = "Placing student in  " + \
+                str(responseForm.cleaned_data['name']) + \
+                " " + str(responseForm.cleaned_data['room_number'])
+           
+           #Create a form with the room id 
+            form = ReviewStudentInfoForm()
+            form.init(room.id)
+            number = list(LotteryNumber.objects.all())[-1]
+
+            return render(request, 'staff/ReviewRoom.html',
+            {'HeaderText' : headerText, 
+                'Action' : '/staff/ReviewRoom/ConfirmSelection',
+                'LotteryNumber' : number, 
                 'form' : form})
 
 
@@ -74,29 +114,20 @@ def ConfirmSelection(request):
         if responseForm.is_valid():
             numberOfStudents = int(request.POST['numOfStudents'])
 
-            #Create the transaction for the puller student
-            Transaction.objects.create(
-                Puller_Number = request.POST['PullNumber0'],
-                Puller_Year = request.POST['PullYear0'],
-                Puller_Room = Room.objects.get(id=request.POST['PullRoom0']),
-                Pullee_Number = None,
-                Pullee_Year = None,
-                Pullee_Room = None,
-                )
-
             #If more than 1 student was involved create a transaction for each
-            if(numberOfStudents > 1):
-                for i in range(1,numberOfStudents):
+            for i in range(0,numberOfStudents):
                     
-                    Transaction.objects.create(
-                        Puller_Number = request.POST['PullNumber0'],
-                        Puller_Year = request.POST['PullYear0'],
-                        Puller_Room = Room.objects.get(id=request.POST['PullRoom0']),
-                        Pullee_Number = request.POST['PullNumber' + str(i)],
-                        Pullee_Year = request.POST['PullYear' + str(i)],
-                        Pullee_Room = Room.objects.get(id=request.POST['PullRoom' + str(i)]),
-                        )
-                    
+                Transaction.objects.create(
+                    Puller_Number = request.POST['PullNumber0'],
+                    Puller_Year = request.POST['PullYear0'],
+                    Puller_Room = Room.objects.get(id=request.POST['PullRoom0']),
+                    Puller_Gender = request.POST['PullGender0'],
+                    Pullee_Number = request.POST['PullNumber' + str(i)],
+                    Pullee_Year = request.POST['PullYear' + str(i)],
+                    Pullee_Room = Room.objects.get(id=request.POST['PullRoom' + str(i)]),
+                    Pullee_Gender = request.POST['PullGender' + str(i)]
+                    )
+                
     number = list(LotteryNumber.objects.all())[-1]
     return render(request, 'staff/RoomSelect.html',
             {'HeaderText' : "Confirm this Room Selection Please", 

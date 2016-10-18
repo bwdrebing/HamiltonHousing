@@ -173,6 +173,19 @@ class Transaction(models.Model):
         related_name = 'Puller_Room',
     )
     Puller_Year = models.PositiveSmallIntegerField()
+
+    FEMALE = 'F'
+    MALE = 'M'
+    NONE = 'N'
+    
+    GENDER_CHOICES = (
+        (FEMALE, 'Female'),
+        (MALE, 'Male'),
+        (NONE, 'None'),
+    )
+
+    Puller_Gender = models.CharField(max_length=1, choices=GENDER_CHOICES,
+                                     default=NONE)
     
     Pullee_Number = models.PositiveSmallIntegerField(blank=True, null=True)
     Pullee_Room = models.ForeignKey(
@@ -184,6 +197,19 @@ class Transaction(models.Model):
     )
 
     Pullee_Year = models.PositiveSmallIntegerField(blank = True, null=True)
+
+    FEMALE = 'F'
+    MALE = 'M'
+    NONE = 'N'
+    
+    GENDER_CHOICES = (
+        (FEMALE, 'Female'),
+        (MALE, 'Male'),
+        (NONE, 'None'),
+    )
+
+    Pullee_Gender = models.CharField(max_length=1, choices=GENDER_CHOICES,
+                                     default=NONE)
 
     def __str__(self):
 
