@@ -10,6 +10,7 @@ from .models import Transaction
 from .forms import LotteryNumberForm
 from .forms import BuildingForm
 from .forms import StudentInfoForm
+from .forms import ReviewStudentInfoForm
 
 
 #Create your views here.
@@ -35,6 +36,45 @@ def RoomSelect(request):
             {'HeaderText' : headerText,
                 'Action' : '/staff/RoomSelect/StudentInfo',
                 'LotteryNumber' : number,
+                'form' : form})
+
+def ReviewRoom(request):
+    #Allow the user to input a room number to review and edit
+        # the information presented
+
+    form = BuildingForm()
+    headerText = "Please enter a building and a number to proceed"
+
+    number = list(LotteryNumber.objects.all())[-1]
+    return render(request, 'staff/RoomSelect.html',
+            {'HeaderText' : headerText,
+                'Action' : '/staff/ReviewRoom/ReviewStudentInfo',
+                'LotteryNumber' : number,
+                'form' : form})
+
+def ReviewStudentInfo(request):
+    if request.method == "POST":
+        responseForm = BuildingForm(request.POST)
+        if responseForm.is_valid():
+            building = Building.objects.get(
+                    name = responseForm.cleaned_data['name'])
+
+            rooms = Room.objects.filter(building = building)
+            room = rooms.get(number = responseForm.cleaned_data['room_number'])
+            
+            headerText = "Placing student in  " + \
+                str(responseForm.cleaned_data['name']) + \
+                " " + str(responseForm.cleaned_data['room_number'])
+           
+           #Create a form with the room id 
+            form = ReviewStudentInfoForm()
+            form.init(room.id)
+            number = list(LotteryNumber.objects.all())[-1]
+
+            return render(request, 'staff/ReviewRoom.html',
+            {'HeaderText' : headerText, 
+                'Action' : '/staff/ReviewRoom/ConfirmSelection',
+                'LotteryNumber' : number, 
                 'form' : form})
 
 

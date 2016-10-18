@@ -11,6 +11,13 @@ admin.site.register(LotteryNumber)
 admin.site.register(FloorPlan)
 admin.site.register(Transaction)
 
+HouseSyns = ['apts', 'apt', 'apartment', 'apartments', 'house', 'hall', 'estate', 'dorm', 'dormitory'] #what if Wally J? fix later...
+
+# -------------------------------------------------------------
+#   ROOM ADMIN MODEL
+# -------------------------------------------------------------
+
+# Resource for importing rooms through an excel spreadsheet
 class RoomResource(resources.ModelResource):
     building = fields.Field(attribute = 'building', column_name = 'BUILDING', widget = ForeignKeyWidget(Building, 'name'))
     number = fields.Field(attribute = 'number', column_name = 'ROOM')
@@ -48,11 +55,30 @@ class RoomResource(resources.ModelResource):
                 row[key] = 'F'
             if (value == "MALE"):
                 row[key] = 'M'
-        
-class RoomAdmin(ImportExportModelAdmin):
+            
+            if(isinstance(row[key], str)):
+                row[key] = row[key].strip()
+                for word in row[key].split():
+                    if word.lower() in HouseSyns:
+                        row[key] = row[key].replace(' '+ word, '', 1)
+                        
+# Action for admin page
+def make_available(modeladmin, request, queryset):
+    """Adds action to Room admin page - make rooms available"""
+    queryset.update(available=True)
+make_available.short_description = "Mark selected rooms as available"
 
+class RoomAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = RoomResource
+    list_display = ['building', 'number','available']
+    ordering = ['building']
+    actions = [make_available]
+
+# -------------------------------------------------------------
+#   BUILDING ADMIN MODEL
+# -------------------------------------------------------------
     
+# Resource for importing buildings using an excel spreadsheet
 class BuildingResource(resources.ModelResource):
     name = fields.Field(attribute = 'name', column_name = 'Building')
     total_singles = fields.Field(attribute = 'total_singles', column_name = '# Singles')
@@ -76,17 +102,44 @@ class BuildingResource(resources.ModelResource):
         """
         for key, value in row.items():
             if(value):
-                row[key] = re.sub('[^A-Za-z0-9 /(/)]+', '', value)
-        for key, value in row.items():
-            if(value == ''):
+                row[key] = re.sub('\s*\([^\)]+\)', '', row[key])
+                row[key] = re.sub('[^A-Za-z0-9 ]+', '', row[key])
+                if(isinstance(row[key], str)):
+                    row[key] = row[key].strip()
+                    for word in row[key].split():
+                        if word.lower() in HouseSyns:
+                            row[key] = row[key].replace(' '+ word, '', 1)
+                        
+            if(row[key] == ''):
                 row[key] = 0
-                
-    
-        
-class BuildingAdmin(ImportExportModelAdmin):
-    resource_class = BuildingResource
 
+    def after_import_row(self, row, row_result, **kwargs):
+        """
+        Override to add additional logic. Does nothing by default.
+        """
+        
+        for key, value in row.items():
+            if(isinstance(row[key], str)):
+                if('Total' in value):
+                    Building.objects.get(name = value).delete()
+
+# MASS CLOSE ACTION FOR ADMIN PAGE
+def make_closed(modeladmin, request, queryset):
+    """Adds action to Building admin page - make buildings closed"""
+    queryset.update(closed=True)
+make_closed.short_description = "Mark selected buildings as closed"
+
+# MASS OPEN ACTION FOR BUILDING ADMIN
+def make_open(modeladmin, request, queryset):
+    """Adds action to Building admin page - make buildings open"""
+    queryset.update(closed=False)
+make_open.short_description = "Mark selected buildings as open"
+        
+class BuildingAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = BuildingResource
+    list_display = ['name', 'total_rooms', 'closed']
+    ordering = ['name']
+    actions = [make_closed, make_open]
     
 admin.site.register(Building, BuildingAdmin)    
 admin.site.register(Room, RoomAdmin)
-    

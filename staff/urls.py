@@ -7,5 +7,8 @@ urlpatterns = [
     url(r'^RoomSelect/StudentInfo$', views.StudentInfo),
     url(r'^RoomSelect/ConfirmSelection$', views.ConfirmSelection),
     url(r'^home$', views.home),
+    url(r'^ReviewRoom$', views.ReviewRoom),
+    url(r'^ReviewRoom/ReviewStudentInfo$', views.ReviewStudentInfo),
+    url(r'^ReviewRoom/ConfirmSelection$', views.ConfirmSelection),
     url(r'^$', views.home),
 ]
