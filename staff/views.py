@@ -46,57 +46,69 @@ def StudentInfo(request):
         responseForm = BuildingForm(request.POST)
         if responseForm.is_valid():
             building = Building.objects.get(
-                    name = responseForm.cleaned_data['name'])
+            name = responseForm.cleaned_data['name'])
 
             rooms = Room.objects.filter(building = building)
             room = rooms.get(number = responseForm.cleaned_data['room_number'])
-            
+            pullRoom = rooms.get(number = room.pull)
+            roomsToRender = [room, pullRoom]
+
             headerText = "Placing student in  " + \
                 str(responseForm.cleaned_data['name']) + \
                 " " + str(responseForm.cleaned_data['room_number'])
            
-           #Create a form with the room id 
-            form = StudentInfoForm()
-            form.init(room.id)
+            #Create two forms, the first will be the baseRoom form
+            #It will be what you have already but no looking up of pulls
+            #Then, look up the pulls for that room and create a new form
+            #This form will be the pullForm, it will have optional stuff
+            #Each of these forms will take their respective rooms!
+            #We will render these two forms separatly
+            #we will need to handle these so that their form names don't
+            #clash
+            baseForm = StudentInfoForm()
+            baseForm.forBaseRoom(room)
+            additionalForm = StudentInfoForm()
+            additionalForm.forAdditionalRoom(pullRoom)
+
             number = list(LotteryNumber.objects.all())[-1]
 
-            return render(request, 'staff/RoomSelect.html',
+            return render(request, 'staff/StudentInfo.html',
             {'HeaderText' : headerText, 
                 'Action' : '/staff/RoomSelect/ConfirmSelection',
                 'LotteryNumber' : number, 
-                'form' : form})
+                'baseForm' : baseForm,
+                'additionalForm' : additionalForm})
 
 def ConfirmSelection(request):
     #This form will save the transaction based on info of previous form
     #XXX:Need to be able to go back or decline the creation of transactions.
     if request.method == "POST":
-        responseForm = StudentInfoForm(request.POST)
-        if responseForm.is_valid():
-            numberOfStudents = int(request.POST['numOfStudents'])
+        totalNumberOfStudents = int(request.POST['numberOfStudents'])
 
-            #Create the transaction for the puller student
+        for i in range(totalNumberOfStudents):
+            
             Transaction.objects.create(
-                Puller_Number = request.POST['PullNumber0'],
-                Puller_Year = request.POST['PullYear0'],
-                Puller_Room = Room.objects.get(id=request.POST['PullRoom0']),
-                Pullee_Number = None,
-                Pullee_Year = None,
-                Pullee_Room = None,
+                Puller_Number = request.POST['Number0'],
+                Puller_Year = request.POST['Year0'],
+                Puller_Room = Room.objects.get(id=request.POST['Room0']),
+                Pullee_Number = request.POST['Number' + str(i)],
+                Pullee_Year = request.POST['Year' + str(i)],
+                Pullee_Room = Room.objects.get(id=request.POST['Room' + str(i)]),
                 )
+                   
+        if('Show_Pull' in request.POST):
+            totalNumberOfPulls = int(request.POST['PullnumberOfStudents'])
 
-            #If more than 1 student was involved create a transaction for each
-            if(numberOfStudents > 1):
-                for i in range(1,numberOfStudents):
-                    
-                    Transaction.objects.create(
-                        Puller_Number = request.POST['PullNumber0'],
-                        Puller_Year = request.POST['PullYear0'],
-                        Puller_Room = Room.objects.get(id=request.POST['PullRoom0']),
-                        Pullee_Number = request.POST['PullNumber' + str(i)],
-                        Pullee_Year = request.POST['PullYear' + str(i)],
-                        Pullee_Room = Room.objects.get(id=request.POST['PullRoom' + str(i)]),
-                        )
-                    
+            for i in range(totalNumberOfPulls):
+                
+                Transaction.objects.create(
+                    Puller_Number = request.POST['Number0'],
+                    Puller_Year = request.POST['Year0'],
+                    Puller_Room = Room.objects.get(id=request.POST['Room0']),
+                    Pullee_Number = request.POST['PullNumber' + str(i)],
+                    Pullee_Year = request.POST['PullYear' + str(i)],
+                    Pullee_Room = Room.objects.get(id=request.POST['PullRoom' + str(i)]),
+                    )
     number = list(LotteryNumber.objects.all())[-1]
     return render(request, 'staff/RoomSelect.html',
             {'HeaderText' : "Confirm this Room Selection Please", 
