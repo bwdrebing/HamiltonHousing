@@ -2,6 +2,7 @@ from django import forms
 from .models import LotteryNumber
 from .models import Building
 from .models import Room
+from .models import Transaction
 
 class LotteryNumberForm(forms.ModelForm):
 
@@ -46,3 +47,34 @@ class StudentInfoForm(forms.Form):
                 )
 
 
+class ReviewStudentInfoForm(forms.Form):
+    numberOfStudents = 0
+
+    def init(self, chosenRoomID):
+        room = Room.objects.get(id=chosenRoomID)
+        transaction_rooms = Transaction.objects.filter(Pullee_Room = 
+                                                           room)
+        self.numberOfStudents = transaction_rooms.count()
+
+        for i in range(self.numberOfStudents):
+
+            self.fields['PullNumber' + str(i)] = forms.IntegerField(
+                    label = 'Resident #' + str(i+1) + ' Lottery Number', 
+                    initial = transaction_rooms[i].Pullee_Number)
+           
+            self.fields['PullRoom' + str(i)] = forms.IntegerField(
+                    initial = chosenRoomID,
+                    widget = forms.HiddenInput(),
+                )
+
+            self.fields['PullYear'+str(i)] = forms.ChoiceField(
+                label = 'Resident #' + str(i+1) + ' Class Year',
+                choices = [(num, num) for num in range (2014, 2019)],
+                initial = transaction_rooms[i].Pullee_Year
+                )
+
+            self.fields['PullGender'+str(i)] = forms.ChoiceField(
+                label = 'Resident #' + str(i+1) + ' Gender',
+                choices = [('male', 'Male'), ('female', 'Female')],
+                initial = transaction_rooms[i].Pullee_Year
+                )
