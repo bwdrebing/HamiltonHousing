@@ -24,6 +24,9 @@
       
     <!-- CSS for nice select menus for Floor -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
+      
+    <!-- CSS for nice select menus for Floor -->
+    <link rel="stylesheet" href="/static/students/building/thumbnail.css">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -105,8 +108,7 @@
           
         <!-- table of all open rooms -->
         {% if rooms_by_floor %}
-        <h2>Open Rooms</h2>
-          <div class="table-responsive">
+        <div class="table-responsive">
             <table class="table table-hover">
               <thead>
                 <tr>
@@ -123,13 +125,13 @@
                     <tr name="{{room}}" class="{{floor}}">
                       <td>{{room.number}}</td>
                       <td>
-                      {% if room.total_beds == 1 %}
+                      {% if room.room_type == 'S' %}
                         Single
-                      {% elif room.total_beds == 2 %}
+                      {% elif room.room_type == 'D' %}
                         Double
-                      {% elif room.total_beds == 3 %}
+                      {% elif room.room_type == 'T' %}
                         Triple
-                      {% elif room.total_beds == 4 %}
+                      {% elif room.room_type == 'Q' %}
                         Quad
                       {% else %}
                         N/A
@@ -139,8 +141,6 @@
                       <td>
                         {% if room.pull %}
                           {{room.pull}}
-                        {% else %}
-                          None
                         {% endif %}
                       </td>
                       <td>{{room.notes}}</td>
@@ -161,31 +161,32 @@
     <!-- second half of screen (floor plans) -->
     <div class="col-md-6 col-xs-12">
         
-        <!-- floor plan selector -->
-        <div class="dropdown">
-            {% if floor_images %}
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Floor Plan <span class="caret"></span></button>
-            {% endif %}
-            <ul class="dropdown-menu">
-                {% for floorplan in floor_images %}
-                    {% if floorplan == first_floorplan %}  
-                        <li class="active"><a href="#">{{floorplan.display_name}}</a></li>
-                    {% else %}
-                        <li class="#"><a href="#">{{floorplan.display_name}}</a></li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        </div>
-        
-        <!-- floor images -->
+        <!-- large floor image -->
         {% if floor_images %}
         {% with first_image=floor_images|first %}
-            <h2>{{ first_image.display_name }}</h2>
+            <h2 id="floorPlanName">{{ first_image.display_name }}</h2>
         
-        <!-- floor plan image -->
-        
-            <img id="floor_plan" class="img-responsive floor-plan-img" id="zoom_01" src="{{ first_image.image.url }}" data-zoom-image="{{ first_image.image.url }}"/>
+            <!-- floor plan image -->
+            <img id="fullFloorPlan" class="img-responsive floor-plan-img" id="zoom_01" src="{{ first_image.image.url }}" data-zoom-image="{{first_image.image.url}}"/>
         {% endwith %}
+        {% endif %}
+        
+        <!-- floor plan thumbnail links -->
+        {% if floor_images %}
+        <div class="row" id="thumbnails">
+            {% for floorplan in floor_images %}
+                <div class="col-xs-3 col-md-3 thumb-div">
+                    {% if forloop.first %}
+                    <a class="active thumbnail">
+                    {% else %}
+                    <a class="thumbnail">
+                    {% endif %}
+                        <img src="{{floorplan.image.url}}" class="floorplan-thumbnail" alt="{{floorplan.display_name}}"/>
+                        <div class="caption thumbnail-label">{{floorplan.display_name}}</div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
         {% endif %}
 
     </div><!--/floor plans-->
@@ -211,5 +212,7 @@
     <!-- Scripts for filtering by floor -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
     <script src="/static/students/building/floorFilter.js"></script>
+    <!-- Script for floor plan thumbnail click function -->
+    <script src="/static/students/building/thumbnail.js"></script>
   </body>
 </html>
