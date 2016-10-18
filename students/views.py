@@ -5,7 +5,7 @@ from .models import LotteryNumber
 
 # Home page view
 def home(request):
-    buildings = list(Building.objects.all().order_by('name'))
+    buildings = list(Building.objects.all().exclude(closed=True).order_by('name'))
     
     # get next lottery number for header
     number = list(LotteryNumber.objects.all())[-1]

@@ -128,12 +128,18 @@ def make_closed(modeladmin, request, queryset):
     """Adds action to Building admin page - make buildings closed"""
     queryset.update(closed=True)
 make_closed.short_description = "Mark selected buildings as closed"
+
+# MASS OPEN ACTION FOR BUILDING ADMIN
+def make_open(modeladmin, request, queryset):
+    """Adds action to Building admin page - make buildings open"""
+    queryset.update(closed=False)
+make_open.short_description = "Mark selected buildings as open"
         
 class BuildingAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = BuildingResource
     list_display = ['name', 'total_rooms', 'closed']
     ordering = ['name']
-    actions = [make_closed]
+    actions = [make_closed, make_open]
     
 admin.site.register(Building, BuildingAdmin)    
 admin.site.register(Room, RoomAdmin)
