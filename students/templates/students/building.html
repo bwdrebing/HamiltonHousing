@@ -87,14 +87,18 @@
           </div><!--/col-md-12
           
       <!-- first half of page - room list -->
+      {% if floor_images %}
       <div class="col-md-6 col-xs-12">
+      {% else %}
+      <div class="col-md-12">
+      {% endif %}
 
         <!-- filter by floor dropdown available if there are rooms left -->
         {% if num_floors > 1 %}
         <select id="floorSelect" class="selectpicker" data-style="btn-primary">
             <option name="all" value="all">All Floors</option>
             {% for floor in floors %}
-                <option name="{{floor}}" value="all">Floor {{floor}}</option>
+                <option name="{{floor}}" value="{{floor}}">Floor {{floor}}</option>
             {% endfor %}
         </select>
         {% endif %}
