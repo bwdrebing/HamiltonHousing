@@ -39,6 +39,7 @@ class RoomResource(resources.ModelResource):
         Override to add additional logic. Does nothing by default.
         """
         for key, value in row.items():
+            print(row[key])
             if(value):
                 row[key] = re.sub('[^A-Za-z0-9 ]+', '', value)
             if (value == "DOUBLE"):
@@ -104,12 +105,16 @@ class BuildingResource(resources.ModelResource):
             if(value):
                 row[key] = re.sub('\s*\([^\)]+\)', '', row[key])
                 row[key] = re.sub('[^A-Za-z0-9 ]+', '', row[key])
+                
+                #Convert building name to a string to preprocess it
+                if(key == u'Building'):
+                    row[key] = str(row[key]) 
+
                 if(isinstance(row[key], str)):
                     row[key] = row[key].strip()
                     for word in row[key].split():
                         if word.lower() in HouseSyns:
                             row[key] = row[key].replace(' '+ word, '', 1)
-                        
             if(row[key] == ''):
                 row[key] = 0
 

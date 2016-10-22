@@ -36,6 +36,7 @@ def RoomSelect(request):
             {'HeaderText' : headerText,
                 'Action' : '/staff/RoomSelect/StudentInfo',
                 'LotteryNumber' : number,
+                'rooms' : list(Room.objects.all()),
                 'form' : form})
 
 def ReviewRoom(request):
@@ -80,7 +81,6 @@ def ReviewStudentInfo(request):
 
 def StudentInfo(request):
     #Gather information about student and any roommates they might have
-    #XXX: Need to extend this to support pulling into different rooms
     #XXX: Need to actually update the available beds in the taken room
     if request.method == "POST":
         responseForm = BuildingForm(request.POST)
@@ -90,25 +90,19 @@ def StudentInfo(request):
 
             rooms = Room.objects.filter(building = building)
             room = rooms.get(number = responseForm.cleaned_data['room_number'])
-            pullRoom = rooms.get(number = room.pull)
-            roomsToRender = [room, pullRoom]
 
+            baseForm = StudentInfoForm()
+            baseForm.forBaseRoom(room)
+            additionalForm = StudentInfoForm()
+            if(room.pull != ''):
+                pullRoom = rooms.get(number = room.pull)
+                roomsToRender = [room, pullRoom]
+                additionalForm.forAdditionalRoom(pullRoom)
+            
             headerText = "Placing student in  " + \
                 str(responseForm.cleaned_data['name']) + \
                 " " + str(responseForm.cleaned_data['room_number'])
            
-            #Create two forms, the first will be the baseRoom form
-            #It will be what you have already but no looking up of pulls
-            #Then, look up the pulls for that room and create a new form
-            #This form will be the pullForm, it will have optional stuff
-            #Each of these forms will take their respective rooms!
-            #We will render these two forms separatly
-            #we will need to handle these so that their form names don't
-            #clash
-            baseForm = StudentInfoForm()
-            baseForm.forBaseRoom(room)
-            additionalForm = StudentInfoForm()
-            additionalForm.forAdditionalRoom(pullRoom)
 
             number = list(LotteryNumber.objects.all())[-1]
 

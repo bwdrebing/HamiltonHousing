@@ -12,10 +12,16 @@ class LotteryNumberForm(forms.ModelForm):
 
 class BuildingForm(forms.Form):
     
-    name = forms.ChoiceField(
-                choices = [(str(o), str(o)) for o in list(Building.objects.all())])
+    buildingChoices = [(o.name, o.name) for o in list(Building.objects.all())]
+    buildingChoices.insert(0,('','-- Select a Building --')) 
 
-    room_number = forms.CharField()
+    roomChoices = [(o.number, o.building) for o in list(Room.objects.filter(available=True).exclude(available_beds = 0))]
+    
+    name = forms.ChoiceField(
+                choices = buildingChoices) 
+
+    room_number = forms.ChoiceField(
+                choices = roomChoices) 
 
 class StudentInfoForm(forms.Form):
     numberOfStudents = 0
