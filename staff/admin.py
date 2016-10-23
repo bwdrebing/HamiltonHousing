@@ -29,7 +29,7 @@ class RoomResource(resources.ModelResource):
     notes2 = fields.Field(attribute = 'notes2', column_name = 'SPECIFICS2', default = '')
     
     class Meta:
-        import_id_fields = ['number']
+        import_id_fields = ['building', 'number']
         model = Room
         fields = ('building', 'number', 'room_type', 'gender', 'pull', 'notes', 'notes2')
         export_order = fields
@@ -62,7 +62,7 @@ class RoomResource(resources.ModelResource):
                 for word in row[key].split():
                     if word.lower() in HouseSyns:
                         row[key] = row[key].replace(' '+ word, '', 1)
-                        
+                    
 # Action for admin page
 def make_available(modeladmin, request, queryset):
     """Adds action to Room admin page - make rooms available"""
