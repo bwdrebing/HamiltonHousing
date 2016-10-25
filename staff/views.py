@@ -12,7 +12,6 @@ from .forms import BuildingForm
 from .forms import StudentInfoForm
 from .forms import ReviewStudentInfoForm
 
-
 #Create your views here.
 def lotteryNumberInput(request):
     if request.method == "POST":
@@ -41,8 +40,7 @@ def RoomSelect(request):
 
 def ReviewRoom(request):
     #Allow the user to input a room number to review and edit
-        # the information presented
-
+    # the information presented
     form = BuildingForm()
     headerText = "Please enter a building and a number to proceed"
 
@@ -77,7 +75,6 @@ def ReviewStudentInfo(request):
                 'Action' : '/staff/ReviewRoom/ConfirmSelection',
                 'LotteryNumber' : number, 
                 'form' : form})
-
 
 def StudentInfo(request):
     #Gather information about student and any roommates they might have

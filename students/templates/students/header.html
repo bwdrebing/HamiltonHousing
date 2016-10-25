@@ -14,7 +14,11 @@
          <!-- Lottery Number - sticks to right hand side -->
          <div class="navbar-header pull-right" style="padding-right: 12px;">
             <ul class="nav pull-left">
-                <li class="navbar-text pull-left loto-num">Next Up: {{ LotteryNumber }}</li>
+                <li class="navbar-text pull-left loto-num">
+                    {% if LotteryNumber %}
+                        Next Up: {{ LotteryNumber }}
+                    {% endif %} 
+                </li>
             </ul>
             
          </div><!--/.navbar-right-->
