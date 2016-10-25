@@ -1,0 +1,63 @@
+/* * {
+  -webkit-border-radius: 0 !important;
+     -moz-border-radius: 0 !important;
+          border-radius: 0 !important;
+}*/
+* {
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
+
+#page-title {
+    margin-bottom: 20px;
+}
+
+#sidebar-title {
+    margin-bottom: 18px;
+}
+
+.thumbnail-label {
+    top:0;
+    left:0;
+    position: absolute;
+}
+
+.thumb-div {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+.thumbnail {
+    border-radius: 0;
+    position:relative;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.stat-panel-heading .panel-title {
+    text-transform: uppercase;
+    font-family: "Ideal Sans SSm A", "Ideal Sans SSm B", "Ideal Sans", sans-serif;
+    font-weight: 300;
+    letter-spacing: 1.33px;
+    line-height: 1.2;
+    font-size: 1.25rem;
+    color: #686e78;
+}
+
+.bootstrap-select {
+    padding-bottom: 12px;    
+}
+
+.apt-room {
+    background-color: #fcfcfc;
+}
+
+/* get rid of upper margin only when the floor plan/room panels are displaying next to each other */
+@media (min-width: 992px) {
+    
+#floorPlanName {
+    margin-top: 0px;
+}
+
+}
