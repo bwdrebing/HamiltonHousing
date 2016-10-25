@@ -11,21 +11,51 @@ class LotteryNumberForm(forms.ModelForm):
         fields = ('number',)
 
 class BuildingForm(forms.Form):
+
+    name = forms.ChoiceField()
+    room_number = forms.ChoiceField()
     
-    buildingChoices = [(o.name, o.name) for o in list(Building.objects.all())]
-    buildingChoices.insert(0,('','-- Select a Building --')) 
+    def __init__(self, *args, **kargs):
+        super(BuildingForm, self).__init__(*args, **kargs)
+        buildingChoices = [(o.name, o.name) for o in list(Building.objects.all())]
+        buildingChoices.insert(0,('','-- Select a Building --')) 
 
-    roomChoices = [(o.number, o.building) for o in list(Room.objects.filter(available=True).exclude(available_beds = 0))]
+        rooms = list(Room.objects.filter(available=True))
+        roomChoices = [(o.number, o.building) for o in rooms]
+        
+        self.fields['name'].choices = buildingChoices 
+        self.fields['room_number'].choices = roomChoices
+        
     
-    name = forms.ChoiceField(
-                choices = buildingChoices) 
-
-    room_number = forms.ChoiceField(
-                choices = roomChoices) 
-
 class StudentInfoForm(forms.Form):
     numberOfStudents = 0
 
+    def forBlock(self,suite):
+        self.numberOfStudents = suite.available_beds
+        self.fields[prefix + 'numberOfStudents'] = forms.IntegerField( 
+                initial = self.numberOfStudents,
+                widget = forms.HiddenInput(),
+                )
+        self.fields[prefix + 'Number' + str(i)] = forms.IntegerField(
+            label = 'Resident #' + str(i+1) + ' Lottery Number')
+        
+
+        for i in range(self.numberOfStudents):
+            self.fields[prefix + 'Room_Number' + str(i)] = forms.CharField(
+                    disabled = True,
+                    initial = suite.number,
+                    widget = forms.HiddenInput()
+                )
+            self.fields[prefix + 'Room' + str(i)] = forms.IntegerField(
+                    initial = room.id,
+                    widget = forms.HiddenInput(),
+                )
+            self.fields[prefix + 'Gender'+str(i)] = forms.ChoiceField(
+                label = 'Resident #' + str(i+1) + ' Gender',
+                choices = [('M', 'Male'), ('F', 'Female')] 
+                )
+
+    
     def forBaseRoom(self, room, prefix = ""):
         self.numberOfStudents = room.available_beds
         self.fields[prefix + 'numberOfStudents'] = forms.IntegerField( 
@@ -41,7 +71,8 @@ class StudentInfoForm(forms.Form):
             
             self.fields[prefix + 'Room_Number' + str(i)] = forms.CharField(
                     disabled = True,
-                    initial = room.number 
+                    initial = room.number,
+                    widget = forms.HiddenInput()
                 )
 
             self.fields[prefix + 'Number' + str(i)] = forms.IntegerField(
@@ -55,7 +86,7 @@ class StudentInfoForm(forms.Form):
 
             self.fields[prefix + 'Gender'+str(i)] = forms.ChoiceField(
                 label = 'Resident #' + str(i+1) + ' Gender',
-                choices = [('male', 'Male'), ('female', 'Female')] 
+                choices = [('M', 'Male'), ('F', 'Female')] 
                 )
 
     def forAdditionalRoom(self, room):
