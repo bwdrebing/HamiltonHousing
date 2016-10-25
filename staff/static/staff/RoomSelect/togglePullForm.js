@@ -1,9 +1,14 @@
 $("#id_Show_Pull").change(function (){
+    var parentId = $(this).parent().parent().parent().attr('id');
 	if($("#id_Show_Pull:checked").val()){
-		$(".PullFields").show();	
-		$(".PullFields :input").prop('required',true);
+		$(".PullField" + parentId).show();	
+		$(".PullField" + parentId + " :input").prop('required',true);
 	} else {
-		$(".PullFields :input").prop('required',false);
-		$(".PullFields").hide();	
+		$(".PullField" + parentId + " :input").prop('required',false);
+		$(".PullField" + parentId).hide();	
 	}
 })
+
+$('input').each(function(){
+    $(this).addClass("form-control");   
+});

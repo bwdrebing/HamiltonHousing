@@ -78,7 +78,6 @@ def ReviewStudentInfo(request):
 
 def StudentInfo(request):
     #Gather information about student and any roommates they might have
-    #XXX: Need to actually update the available beds in the taken room
     if request.method == "POST":
         responseForm = BuildingForm(request.POST)
         if responseForm.is_valid():
@@ -87,14 +86,20 @@ def StudentInfo(request):
 
             rooms = Room.objects.filter(building = building)
             room = rooms.get(number = responseForm.cleaned_data['room_number'])
-
+            
+            roomsToRender = [room]
+            
             baseForm = StudentInfoForm()
             baseForm.forBaseRoom(room)
-            additionalForm = StudentInfoForm()
-            if(room.pull != ''):
+            
+            formsToRender = [baseForm]
+            
+            if(room.pull != '' and rooms.get(number = room.pull).available == True):
+                additionalForm = StudentInfoForm()
                 pullRoom = rooms.get(number = room.pull)
-                roomsToRender = [room, pullRoom]
+                roomsToRender.append(pullRoom)
                 additionalForm.forAdditionalRoom(pullRoom)
+                formsToRender.append(additionalForm)
             
             headerText = "Placing student in  " + \
                 str(responseForm.cleaned_data['name']) + \
@@ -107,9 +112,37 @@ def StudentInfo(request):
             {'HeaderText' : headerText, 
                 'Action' : '/staff/RoomSelect/ConfirmSelection',
                 'LotteryNumber' : number, 
-                'baseForm' : baseForm,
-                'additionalForm' : additionalForm})
+                'Rooms' : roomsToRender,
+                'Forms' : formsToRender})
 
+def StudentInfoForBlock(request):
+    if request.method == "POST":
+        responseForm = BuildingForm(request.POST)
+        if responseForm.is_valid():
+            building = Building.objects.get(
+            name = responseForm.cleaned_data['name'])
+
+            rooms = Room.objects.filter(building = building)
+            room = rooms.get(number = responseForm.cleaned_data['room_number'])
+
+            roomsToRender = [room]
+
+            baseForm = StudentInfoForm()
+            baseForm.forBlock(room)
+
+            formsToRender = [baseForm]
+
+
+            number = list(LotteryNumber.objects.all())[-1]
+
+            return render(request, 'staff/StudentInfo.html',
+            {'HeaderText' : headerText, 
+                'Action' : '/staff/RoomSelect/ConfirmSelection',
+                'LotteryNumber' : number, 
+                'Rooms' : roomsToRender,
+                'Forms' : formsToRender})
+
+    
 def ConfirmSelection(request):
     #This form will save the transaction based on info of previous form
     #XXX:Need to be able to go back or decline the creation of transactions.
@@ -126,7 +159,18 @@ def ConfirmSelection(request):
                 Pullee_Year = request.POST['Year' + str(i)],
                 Pullee_Room = Room.objects.get(id=request.POST['Room' + str(i)]),
                 )
-                   
+            #Update the room in the database
+            print(request.POST)
+            room = Room.objects.get(id=request.POST['Room' + str(i)])   
+            room.gender = str(request.POST["Gender" + str(i)])
+            room.lottery_number = int(request.POST["Number0"])
+            room.class_year = int(request.POST["Year0"])
+            room.available_beds -= 1
+            if(room.available_beds == 0):
+                room.available = False
+            room.save()
+
+        #If a pull wasn't taken, that room should be updated as having no pull
         if('Show_Pull' in request.POST):
             totalNumberOfPulls = int(request.POST['PullnumberOfStudents'])
 
@@ -140,6 +184,17 @@ def ConfirmSelection(request):
                     Pullee_Year = request.POST['PullYear' + str(i)],
                     Pullee_Room = Room.objects.get(id=request.POST['PullRoom' + str(i)]),
                     )
+                #Update the room in the database
+
+                room = Room.objects.get(id=request.POST['PullRoom' + str(i)])
+                room.lottery_number = request.POST["Number0"]
+                room.class_year = request.POST["Year0"]
+                room.gender = request.POST["PullGender" + str(i)]
+                room.available_beds -= 1
+                if(room.available_beds == 0):
+                    room.available = False
+                room.save()
+
     number = list(LotteryNumber.objects.all())[-1]
     return render(request, 'staff/RoomSelect.html',
             {'HeaderText' : "Confirm this Room Selection Please", 

@@ -35,52 +35,68 @@
     {% include "staff/header.html" %}
     <div class="container">
       <div class="starter-template">
-        <h1>Welcome to Room Selection</h1>
-	<p class="lead">{{ HeaderText }}</p>
-	<form method="POST" class="post-form" action="{{Action}}">{% csrf_token %}
-	   <div class="row">
-		   <div class="col-md-6">
-			   <div class="panel">
-				<h2> Input information for First Room</h2>
-				{% for field in baseForm.visible_fields %}
-				<p>
-				{{ field.label_tag }} {{ field }}
-				</p>
-				{% endfor %}
-				{% for field in baseForm.hidden_fields %}
-				<p>
-				 {{ field }}
-				</p>
-				{% endfor %}
-			   </div>
-			</div>
-		<div class="col-md-6">
-			<div class="panel">
-			<h2> Input information for Next Room</h2>
-			{% for field in additionalForm.visible_fields %}
-			{% if forloop.counter0 == 0 %}
-			<p>
-			{{ field.label_tag }} {{ field }}
-			</p>
-			{% else %}	
-			<p class=PullFields>
-			{{ field.label_tag }} {{ field }}
-			</p>
-			{% endif %}
-			{% endfor %}
-			
-			{% for field in additionalForm.hidden_fields %}
-			<p class=PullFields>
-			{{ field }}
-			</p>
-			{% endfor %}
-			</div>
+          <div class="container col-md-12">
+              <form role="form" method="POST" class="post-form form-horizontal" action="{{Action}}">
+                        {% csrf_token %}
+              <div class="panel panel-default">
+                    
+                  <div class="panel-heading">
+                  <h1 class="panel-title">Input Student Information</h1>
+                    <ul class="nav nav-pills">
+                        {% for room in Rooms %}
+                            {% if forloop.counter0 == 0%}
+                            <li class="active">
+                            {% else %}
+                            <li>
+                            {% endif %}
+                            <a  href="#{{forloop.counter}}a" data-toggle="tab">{{room}}</a>
+                        </li>
+                        {% endfor %}
+                      <ul class="nav navbar-nav navbar-right">
+                          <li>
+	                       <button type="submit" class="save btn btn-default">Save</button>
+                          </li>
+                      </ul>
+                        </ul>
+                          
+                </div>
+                  <div class="panel-body">
+                        <div class="tab-content clearfix">
+                            {% for form in Forms %}
+                                {% if forloop.first %}
+                                    <div class="tab-pane active" id="{{forloop.counter}}a">
+                                {% else %}
+                                    <div class="tab-pane" id="{{forloop.counter}}a">
+                                {% endif %}
+                                {% for field in form.visible_fields %}
+                                    {% if  not forloop.first and not forloop.parentloop.first %}
+                                        <div class="form-group PullField{{forloop.parentloop.counter}}a">
+                                    {% else %}
+                                        <div class="form-group">
+                                    {% endif %}
+                                    <label for="FormInput" class="col-sm-4 control-label"> 
+                                        {{field.label_tag}}
+                                    </label>  
+                                    <div class="col-sm-8">
+                                        {{ field }}
+                                    </div>
+                                    </div>
+                                {% endfor %}
 
-		</div>
-	   </div>
-	<button type="submit" class="save btn btn-default">Save</button>
-	</form>
-      </div>
+                                {% for field in form.hidden_fields %}
+                                        {{ field }}
+                                {% endfor %}                    
+                                </div> <!-- End tab-pane -->
+                             <!-- End tab-content -->
+                            {% endfor %}
+                            </div>
+                        </div>
+                  </div>
+              </div>
+          </div>
+
+    </form>
+    </div>
 
     </div><!-- /.container -->
 
