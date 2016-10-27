@@ -45,7 +45,7 @@ def ReviewRoom(request):
     headerText = "Please enter a building and a number to proceed"
 
     number = list(LotteryNumber.objects.all())[-1]
-    return render(request, 'staff/RoomSelect.html',
+    return render(request, 'staff/ReviewRoom.html',
             {'HeaderText' : headerText,
                 'Action' : '/staff/ReviewRoom/ReviewStudentInfo',
                 'LotteryNumber' : number,
@@ -70,7 +70,7 @@ def ReviewStudentInfo(request):
             form.init(room.id)
             number = list(LotteryNumber.objects.all())[-1]
 
-            return render(request, 'staff/ReviewRoom.html',
+            return render(request, 'staff/ReviewStudentInfo.html',
             {'HeaderText' : headerText, 
                 'Action' : '/staff/ReviewRoom/ConfirmSelection',
                 'LotteryNumber' : number, 
@@ -196,7 +196,7 @@ def ConfirmSelection(request):
                 room.save()
 
     number = list(LotteryNumber.objects.all())[-1]
-    return render(request, 'staff/RoomSelect.html',
+    return render(request, 'staff/ConfirmSelection.html',
             {'HeaderText' : "Confirm this Room Selection Please", 
                 'Action' : '/staff/RoomSelect',
                 'LotteryNumber' : number, 
