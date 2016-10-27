@@ -12,4 +12,3 @@ $('#id_room_number option').each(function(index) {
 	$(this).hide();
 });
 
-

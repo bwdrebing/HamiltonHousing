@@ -8,31 +8,30 @@ class LotteryNumber(models.Model):
 
     def __str__(self):
         return str(self.number)
-
-
+    
 class Building(models.Model):
     name = models.CharField(max_length = 100)
-    total_rooms = models.PositiveSmallIntegerField(blank= True)
-    total_floors = models.PositiveSmallIntegerField(blank= True, default = 0)
-    total_singles = models.PositiveSmallIntegerField(blank= True)
-    total_doubles = models.PositiveSmallIntegerField(blank= True)
-    total_triples = models.PositiveSmallIntegerField(blank= True)
-    total_quads = models.PositiveSmallIntegerField(blank= True)
-    total_beds = models.PositiveSmallIntegerField(blank= True)
-    location = models.CharField(max_length = 100, blank = True)
-    gender_blocked = models.BooleanField(default = False)
-    closed = models.BooleanField(blank = True, default = False)
-    notes = models.TextField(blank=True, default = '')
+    available = models.BooleanField(blank=True, default=True)
+    total_rooms = models.PositiveSmallIntegerField(default=0)
+    total_singles = models.PositiveSmallIntegerField(default=0)
+    total_doubles = models.PositiveSmallIntegerField(default=0)
+    total_triples = models.PositiveSmallIntegerField(default=0)
+    total_quads = models.PositiveSmallIntegerField(default=0)
+    total_fivepulls = models.PositiveSmallIntegerField(default=0)
+    total_sixpulls = models.PositiveSmallIntegerField(default=0)
+    total_beds = models.PositiveSmallIntegerField(default=0)
+    gender_blocked = models.BooleanField(default=False)
     
     # ManyToManyField allows for a list-like collection of associated models (i think)
     floor_plans = models.ManyToManyField(
         'FloorPlan', 
         blank=True
     )
+
+    notes = models.TextField(blank=True, default='')
     
     def __str__(self):
         return self.name
-    
     
 # returns a filepath for an image in the format MEDIA_ROOT/floorplan/building/floor/image
 def building_directory_path(instance, filename):
@@ -79,12 +78,14 @@ class Room(models.Model):
     DOUBLE = 'D'
     TRIPLE = 'T'
     QUAD = 'Q'
+    BLOCK = 'B'
     OTHER = 'O'
     ROOM_TYPE_CHOICES = (
         (SINGLE, 'Single'),
         (DOUBLE, 'Double'),
         (TRIPLE, 'Triple'),
         (QUAD, 'Quad'),
+        (BLOCK, 'Block'),
         (OTHER, 'Other'),
     )
     
@@ -98,17 +99,18 @@ class Room(models.Model):
     # For taking room - student year/number/gender
     FEMALE = 'F'
     MALE = 'M'
-    NONE = 'N'
+    EITHER = 'E'
     
     GENDER_CHOICES = (
         (FEMALE, 'Female'),
         (MALE, 'Male'),
-        (NONE, 'None'),
+        (EITHER, 'Either'),
     )
+    
     gender = models.CharField(
         max_length=1,
         choices=GENDER_CHOICES,
-        default=NONE,
+        default=EITHER,
     )
     
     # Room Pulled by this Room
@@ -126,26 +128,21 @@ class Room(models.Model):
     )
     
     # Total Number of Beds in Room
-    total_beds = models.PositiveSmallIntegerField(
-        default = 0)
+    total_beds = models.PositiveSmallIntegerField(default = 0)
     
     # Currently Available Number of Beds
-    available_beds = models.PositiveSmallIntegerField(
-        default = 0)
+    available_beds = models.PositiveSmallIntegerField(default = 0)
     
     # Room Availabilty Status
-    available = models.BooleanField(
-        default = False)
-
-    class_year = models.PositiveSmallIntegerField(
-        blank=True,
-        null=True,
-    )     #come back to this
-    lottery_number = models.PositiveSmallIntegerField(
-        blank=True,
-        null=True,
-    ) #come back to this
+    available = models.BooleanField(default = False)
     
+    # True if this room is part of an apartment
+    apartment_number = models.CharField(
+        max_length=5,
+        blank = True,
+        default = '',
+        help_text="If this room is part of an apartment, this is the apartment's number/name"
+    )
     
     # Notes - SPECIFICS1 
     notes = models.TextField(
@@ -176,16 +173,16 @@ class Transaction(models.Model):
 
     FEMALE = 'F'
     MALE = 'M'
-    NONE = 'N'
+    EITHER = 'E'
     
     GENDER_CHOICES = (
         (FEMALE, 'Female'),
         (MALE, 'Male'),
-        (NONE, 'None'),
+        (EITHER, 'Either'),
     )
 
     Puller_Gender = models.CharField(max_length=1, choices=GENDER_CHOICES,
-                                     default=NONE)
+                                     default=EITHER)
     
     Pullee_Number = models.PositiveSmallIntegerField(blank=True, null=True)
     Pullee_Room = models.ForeignKey(
@@ -198,18 +195,8 @@ class Transaction(models.Model):
 
     Pullee_Year = models.PositiveSmallIntegerField(blank = True, null=True)
 
-    FEMALE = 'F'
-    MALE = 'M'
-    NONE = 'N'
-    
-    GENDER_CHOICES = (
-        (FEMALE, 'Female'),
-        (MALE, 'Male'),
-        (NONE, 'None'),
-    )
-
     Pullee_Gender = models.CharField(max_length=1, choices=GENDER_CHOICES,
-                                     default=NONE)
+                                     default=EITHER)
 
     def __str__(self):
 
