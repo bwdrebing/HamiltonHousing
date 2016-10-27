@@ -39,7 +39,6 @@ class RoomResource(resources.ModelResource):
         Override to add additional logic. Does nothing by default.
         """
         for key, value in row.items():
-            print(row[key])
             if(value):
                 row[key] = re.sub('[^A-Za-z0-9 ]+', '', value)
             if (value == "DOUBLE"):
@@ -62,7 +61,7 @@ class RoomResource(resources.ModelResource):
                 for word in row[key].split():
                     if word.lower() in HouseSyns:
                         row[key] = row[key].replace(' '+ word, '', 1)
-                    
+
 # Action for admin page
 def make_available(modeladmin, request, queryset):
     """Adds action to Room admin page - make rooms available"""
@@ -83,7 +82,6 @@ class RoomAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 class BuildingResource(resources.ModelResource):
     name = fields.Field(attribute = 'name', column_name = 'Building')
     total_singles = fields.Field(attribute = 'total_singles', column_name = '# Singles')
-    print(type(total_singles))
     total_doubles = fields.Field(attribute = 'total_doubles', column_name = '# Doubles')
     total_triples = fields.Field(attribute = 'total_triples', column_name = '# Triples')
     total_quads = fields.Field(attribute = 'total_quads', column_name = '# Quads')
