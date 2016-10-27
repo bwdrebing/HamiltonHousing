@@ -106,6 +106,7 @@ def building(request, building_name):
     rooms = list(Room.objects.all()
                              .filter(building=bldg)
                              .exclude(available=False)
+                             .exclude(available_beds = 0)
                              .order_by('number'))
     
     # all the floor images associated with this building 
