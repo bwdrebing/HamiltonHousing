@@ -8,7 +8,3 @@ $("#id_Show_Pull").change(function (){
 		$(".PullField" + parentId).hide();	
 	}
 })
-
-$('input').each(function(){
-    $(this).addClass("form-control");   
-});

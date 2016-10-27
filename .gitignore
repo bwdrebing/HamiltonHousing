@@ -1,2 +1,6 @@
 db.sqlite3
 *.pyc
+staff/migrations/*
+
+!staff/migrations/__init__.py
+!staff/migrations/0001_initial.py
