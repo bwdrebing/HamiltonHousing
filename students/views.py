@@ -72,8 +72,9 @@ def get_rooms_by_floor(rooms):
                     apts_left += 1
                     rooms_by_floor[floor][room.apartment_number] = [room]
             else:
-                rooms_by_floor[floor] = collections.OrderedDict([(room.apartment_number,                                                    [room])])
-            
+                rooms_by_floor[floor] = collections.OrderedDict([(room.apartment_number,
+                                                                  [room])])
+                                                                
         else:
             rooms_left += 1
             

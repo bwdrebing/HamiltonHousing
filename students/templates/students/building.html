@@ -125,6 +125,7 @@
                   <th>#</th>
                   <th>Type</th>
                   <th>Open Beds</th>
+                  <th>Gender</th>
                   <th>Pulls</th>
                   <th>Notes</th>
                 </tr>
@@ -137,33 +138,47 @@
                   
                 {% for floor, rooms in rooms_by_floor.items %}
                     {% for room, apt_rooms in rooms.items %}
+                  
+                        <!-- An apartment dropdown -->
                         {% if apt_rooms|length > 1 %}
                             <tr name="{{room}}" class="{{floor}} table-dropdown table-hoverable">
                               <td><span class="glyphicon glyphicon-menu-down"></span></td>
                               <td><strong>{{room}}</strong></td>
                               <td><strong>Apartment</strong></td>
-                              <td>{{room.available_beds}}</td>
+                              <td></td>
+                              <td></td>
                               <td></td>
                               <td></td>
                             </tr>
+                  
+                            <!-- Apartment rooms -->
                             {% for rm in apt_rooms %}
                                 <tr name="{{rm}}" class="{{floor}} apt-room" style="display: none;">
                                   <td></td>
                                   <td>{{rm.number}}</td>
                                   <td>
-                                  {% if rm.room_type == 'S' %}
-                                    Single
-                                  {% elif rm.room_type == 'D' %}
-                                    Double
-                                  {% elif rm.room_type == 'T' %}
-                                    Triple
-                                  {% elif rm.room_type == 'Q' %}
-                                    Quad
-                                  {% else %}
-                                    N/A
-                                  {% endif %}
+                                      {% if rm.room_type == 'S' %}
+                                        Single
+                                      {% elif rm.room_type == 'D' %}
+                                        Double
+                                      {% elif rm.room_type == 'T' %}
+                                        Triple
+                                      {% elif rm.room_type == 'Q' %}
+                                        Quad
+                                      {% elif rm.room_type == 'B' %}
+                                        Block
+                                      {% else %}
+                                        N/A
+                                      {% endif %}
                                   </td>
                                   <td>{{rm.available_beds}}</td>
+                                  <td>
+                                      {% if rm.gender == 'F' %}
+                                        Female
+                                      {% elif rm.gender == 'M' %}
+                                        Male
+                                      {% endif %}
+                                  </td>
                                   <td>
                                     {% if rm.pull %}
                                       {{rm.pull}}
@@ -186,11 +201,20 @@
                                 Triple
                               {% elif rm.room_type == 'Q' %}
                                 Quad
+                              {% elif rm.room_type == 'B' %}
+                                Block
                               {% else %}
                                 N/A
                               {% endif %}
                               </td>
                               <td>{{rm.available_beds}}</td>
+                              <td>
+                              {% if rm.gender == 'F' %}
+                                Female
+                              {% elif rm.gender == 'M' %}
+                                Male
+                              {% endif %}
+                              </td>
                               <td>
                                 {% if rm.pull %}
                                   {{rm.pull}}
