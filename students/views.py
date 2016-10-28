@@ -72,8 +72,9 @@ def get_rooms_by_floor(rooms):
                     apts_left += 1
                     rooms_by_floor[floor][room.apartment_number] = [room]
             else:
-                rooms_by_floor[floor] = collections.OrderedDict([(room.apartment_number,                                                    [room])])
-            
+                rooms_by_floor[floor] = collections.OrderedDict([(room.apartment_number,
+                                                                  [room])])
+                                                                
         else:
             rooms_left += 1
             
@@ -105,6 +106,7 @@ def building(request, building_name):
     rooms = list(Room.objects.all()
                              .filter(building=bldg)
                              .exclude(available=False)
+                             .exclude(available_beds = 0)
                              .order_by('number'))
     
     # all the floor images associated with this building 
