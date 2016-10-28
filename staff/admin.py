@@ -91,16 +91,24 @@ def make_available(modeladmin, request, queryset):
 def make_unavailable(modeladmin, request, queryset):
     """Adds action to Room admin page - make rooms unavailable"""
     queryset.update(unavailable=True)
+    
+# Action for admin page (not sure if this will be useful for the future
+def make_all_beds_available(modeladmin, request, queryset):
+    """Adds action to Room admin page - make available beds equal to total number of beds"""
+    for entry in queryset:
+        entry.available_beds = entry.total_beds
+        entry.save()
 
 # admin action descriptions
 make_available.short_description = "Mark selected rooms as available"
 make_unavailable.short_description = "Mark selected rooms as unavailable"
+make_all_beds_available.short_description = "Make all beds available for selected rooms"
 
 class RoomAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = RoomResource
-    list_display = ['building', 'number', 'apartment_number', 'gender', 'available']
+    list_display = ['building', 'number', 'apartment_number', 'available_beds', 'gender', 'available']
     ordering = ['building']
-    actions = [make_available, make_unavailable]
+    actions = [make_available, make_unavailable, make_all_beds_available]
     
     
 # -------------------------------------------------------------
