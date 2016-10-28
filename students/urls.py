@@ -5,5 +5,5 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.home),
-    url(r'^building/([a-zA-Z ]+)$', views.building, name='building-view')
+    url(r'^building/([a-zA-Z1-9/(/) ]+)$', views.building, name='building-view')
 ]

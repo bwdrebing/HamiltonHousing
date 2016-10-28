@@ -50,28 +50,6 @@
               <h1 id="page-title">{{current_building.name}}</h1>
               <div class="row">
                   
-                  <!-- Rooms Left -->
-                  <div class="container col-md-6">
-                      <div class="panel panel-default">
-                            <div class="panel-heading stat-panel-heading">
-                                <h3 class="panel-title">Rooms Left</h3>
-                            </div>
-                            <div class="panel-body stat-panel">
-                                {% if current_building.total_apartments != 0 %}
-                                <strong>{{building_stats.rooms_left}}</strong> / {{current_building.total_rooms}} Rooms<br>
-                                {% endif %}
-                                {% if current_building.apts_left > 0 %}
-                                    <strong>{{building_stats.apts_left}}</strong>
-                                    {% if building_stats.apts_left == 1 %}
-                                        Apartment<br>
-                                    {% else %}
-                                        Apartments<br>
-                                    {% endif %}
-                                {% endif %}
-                            </div>
-                      </div>
-                  </div>
-                  
                    <!-- Types of Rooms -->
                    <div class="container col-md-6">
                       <div class="panel panel-default stat-panel-heading">
@@ -80,20 +58,34 @@
                             </div>
                             <div class="panel-body">
                                 {% if current_building.total_singles != 0 %}
-                                    <strong>{{building_stats.singles}}</strong> / {{current_building.total_singles}} Singles<br>
+                                    <strong>{{current_building.available_singles}}</strong> / {{current_building.total_singles}} Singles<br>
                                 {% endif %}
                                 {% if current_building.total_doubles != 0 %}
-                                    <strong>{{building_stats.doubles}}</strong> / {{current_building.total_doubles}} Doubles<br>
+                                    <strong>{{current_building.available_doubles}}</strong> / {{current_building.total_doubles}} Doubles<br>
                                 {% endif %}
                                 {% if current_building.total_triples != 0 %}
-                                    <strong>{{building_stats.triples}}</strong> / {{current_building.total_triples}} Triples<br>
+                                    <strong>{{current_building.total_triples}}</strong> / {{current_building.total_triples}} Triples<br>
                                 {% endif %}
                                 {% if current_building.total_quads != 0 %}
-                                    <strong>{{building_stats.quads}}</strong> / {{current_building.total_quads}} Quads<br>
+                                    <strong>{{current_building.total_quads}}</strong> / {{current_building.total_quads}} Quads<br>
                                 {% endif %}
                             </div>
                        </div>
                   </div>
+                  
+                   <!-- Building Notes -->
+                  {% if building.notes %}
+                   <div class="container col-md-12">
+                      <div class="panel panel-default stat-panel-heading">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Notes</h3>
+                            </div>
+                            <div class="panel-body">
+                                {{building.notes}}
+                            </div>
+                       </div>
+                  </div>
+                  {% endif %}
                 
               </div><!--/row-->
           </div><!--/col-md-12
@@ -125,6 +117,7 @@
                   <th>#</th>
                   <th>Type</th>
                   <th>Open Beds</th>
+                  <th>Gender</th>
                   <th>Pulls</th>
                   <th>Notes</th>
                 </tr>
@@ -137,33 +130,47 @@
                   
                 {% for floor, rooms in rooms_by_floor.items %}
                     {% for room, apt_rooms in rooms.items %}
+                  
+                        <!-- An apartment dropdown -->
                         {% if apt_rooms|length > 1 %}
                             <tr name="{{room}}" class="{{floor}} table-dropdown table-hoverable">
                               <td><span class="glyphicon glyphicon-menu-down"></span></td>
                               <td><strong>{{room}}</strong></td>
                               <td><strong>Apartment</strong></td>
-                              <td>{{room.available_beds}}</td>
+                              <td></td>
+                              <td></td>
                               <td></td>
                               <td></td>
                             </tr>
+                  
+                            <!-- Apartment rooms -->
                             {% for rm in apt_rooms %}
                                 <tr name="{{rm}}" class="{{floor}} apt-room" style="display: none;">
                                   <td></td>
                                   <td>{{rm.number}}</td>
                                   <td>
-                                  {% if rm.room_type == 'S' %}
-                                    Single
-                                  {% elif rm.room_type == 'D' %}
-                                    Double
-                                  {% elif rm.room_type == 'T' %}
-                                    Triple
-                                  {% elif rm.room_type == 'Q' %}
-                                    Quad
-                                  {% else %}
-                                    N/A
-                                  {% endif %}
+                                      {% if rm.room_type == 'S' %}
+                                        Single
+                                      {% elif rm.room_type == 'D' %}
+                                        Double
+                                      {% elif rm.room_type == 'T' %}
+                                        Triple
+                                      {% elif rm.room_type == 'Q' %}
+                                        Quad
+                                      {% elif rm.room_type == 'B' %}
+                                        Block
+                                      {% else %}
+                                        N/A
+                                      {% endif %}
                                   </td>
                                   <td>{{rm.available_beds}}</td>
+                                  <td>
+                                      {% if rm.gender == 'F' %}
+                                        Female
+                                      {% elif rm.gender == 'M' %}
+                                        Male
+                                      {% endif %}
+                                  </td>
                                   <td>
                                     {% if rm.pull %}
                                       {{rm.pull}}
@@ -186,11 +193,20 @@
                                 Triple
                               {% elif rm.room_type == 'Q' %}
                                 Quad
+                              {% elif rm.room_type == 'B' %}
+                                Block
                               {% else %}
                                 N/A
                               {% endif %}
                               </td>
                               <td>{{rm.available_beds}}</td>
+                              <td>
+                              {% if rm.gender == 'F' %}
+                                Female
+                              {% elif rm.gender == 'M' %}
+                                Male
+                              {% endif %}
+                              </td>
                               <td>
                                 {% if rm.pull %}
                                   {{rm.pull}}
@@ -224,7 +240,7 @@
             <h2 id="floorPlanName">{{ first_image.display_name }}</h2>
         
             <!-- floor plan image -->
-            <img id="fullFloorPlan" class="img-responsive floor-plan-img" src="{{ first_image.image.url }}" data-zoom-image="{{first_image.image.url}}"/>
+            <img id="fullFloorPlan" class="img-responsive floor-plan-img" src="{{first_image.image.url}}" data-zoom-image="{{first_image.image.url}}"/>
         {% endwith %}
         {% endif %}
         
@@ -239,7 +255,9 @@
                     <a class="thumbnail">
                     {% endif %}
                         <img src="{{floorplan.image.url}}" class="floorplan-thumbnail" alt="{{floorplan.display_name}}"/>
-                        <div class="caption thumbnail-label">{{floorplan.display_name}}</div>
+                        <div class="caption thumbnail-label">
+                            {{floorplan.display_name}}
+                        </div>
                     </a>
                 </div>
             {% endfor %}

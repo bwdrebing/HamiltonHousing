@@ -28,11 +28,52 @@ class Building(models.Model):
         blank=True
     )
 
-    notes = models.TextField(blank=True, default='')
+    notes = models.TextField(blank=True, default='') 
+    
+    def get_available_rooms(self):
+        return (Room.objects.filter(building = self)
+                           .filter(available = True)
+                           .exclude(available_beds = 0)
+                           .count())
+    
+    def get_available_singles(self):
+        return (Room.objects.filter(building = self)
+                            .filter(available = True)
+                            .exclude(available_beds = 0)
+                            .filter(room_type = 'S')
+                            .count())
+            
+    def get_available_doubles(self):
+        return (Room.objects.filter(building = self)
+                            .filter(available = True)
+                            .exclude(available_beds = 0)
+                            .filter(room_type = 'D')
+                            .count())
+                    
+    def get_available_triples(self):
+        return (Room.objects.filter(building = self)
+                            .filter(available = True)
+                            .exclude(available_beds = 0)
+                            .filter(room_type = 'T')
+                            .count())
+        
+    def get_available_quads(self):
+        return (Room.objects.filter(building = self)
+                            .filter(available = True)
+                            .exclude(available_beds = 0)
+                            .filter(room_type = 'Q')
+                            .count())
+    
+        
+    available_rooms = property(get_available_rooms)    
+    available_singles = property(get_available_singles)   
+    available_doubles = property(get_available_doubles)   
+    available_triples = property(get_available_triples)   
+    available_quads = property(get_available_quads)  
     
     def __str__(self):
         return self.name
-    
+
 # returns a filepath for an image in the format MEDIA_ROOT/floorplan/building/floor/image
 def building_directory_path(instance, filename):
     return 'floorplan/' + instance.related_building.name + '/' + str(instance.floor) + '/' + filename
@@ -61,7 +102,7 @@ class FloorPlan(models.Model):
     
     def __str__(self):
         return str(self.related_building.name) + " " + str(self.display_name)
-    
+
     
 class Room(models.Model):
     # Building
@@ -74,43 +115,33 @@ class Room(models.Model):
     number = models.CharField(max_length = 5)
     
     # Choices for Room Type
-    SINGLE = 'S'
-    DOUBLE = 'D'
-    TRIPLE = 'T'
-    QUAD = 'Q'
-    BLOCK = 'B'
-    OTHER = 'O'
     ROOM_TYPE_CHOICES = (
-        (SINGLE, 'Single'),
-        (DOUBLE, 'Double'),
-        (TRIPLE, 'Triple'),
-        (QUAD, 'Quad'),
-        (BLOCK, 'Block'),
-        (OTHER, 'Other'),
+        ('S', 'Single'),
+        ('D', 'Double'),
+        ('T', 'Triple'),
+        ('Q', 'Quad'),
+        ('B', 'Block'),
+        ('O', 'Other'),
     )
     
     # Room Type Field
     room_type = models.CharField(
         max_length=1,
         choices=ROOM_TYPE_CHOICES,
-        default=OTHER,
+        default='O', # Other
     )
         
     # For taking room - student year/number/gender
-    FEMALE = 'F'
-    MALE = 'M'
-    EITHER = 'E'
-    
     GENDER_CHOICES = (
-        (FEMALE, 'Female'),
-        (MALE, 'Male'),
-        (EITHER, 'Either'),
+        ('F', 'Female'),
+        ('M', 'Male'),
+        ('E', 'Either'),
     )
     
     gender = models.CharField(
         max_length=1,
         choices=GENDER_CHOICES,
-        default=EITHER,
+        default='E', # Either
     )
     
     # Room Pulled by this Room
@@ -141,7 +172,8 @@ class Room(models.Model):
         max_length=5,
         blank = True,
         default = '',
-        help_text="If this room is part of an apartment, this is the apartment's number/name"
+        help_text="If this room is part of an apartment, this is the apartment's number/name",
+        verbose_name = 'Apartment #'
     )
     
     # Notes - SPECIFICS1 
@@ -155,6 +187,11 @@ class Room(models.Model):
         default = '',
         blank=True
     )
+    
+    def _calculate_floor(self):
+        return self.number[0]
+    
+    floor = property(_calculate_floor)
     
     def __str__(self):
         return (str(self.building) + " " + str(self.number))

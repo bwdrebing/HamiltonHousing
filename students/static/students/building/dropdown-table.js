@@ -13,10 +13,3 @@ $('.table-hoverable').hover(
         $(this).removeClass('active');
     }
 );
-
-/*
-$('.table-hoverable').click(
-    function () {
-       
-    }
-);*/
