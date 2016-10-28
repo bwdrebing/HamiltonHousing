@@ -7,6 +7,7 @@ from import_export.widgets import *
 
 import re
 
+# All the variations of building types to be removed to ensure uniformity
 HouseSyns = ['apts', 'apt', 'apartment', 'apartments', 'house', 'hall', 'estate', 'dorm', 'dormitory'] #what if Wally J? fix later...
 
 # -------------------------------------------------------------
@@ -102,12 +103,11 @@ class RoomAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     ordering = ['building']
     actions = [make_available, make_unavailable]
     
-    
+# Resource for importing buildings using an excel spreadsheet
+
 # -------------------------------------------------------------
 #   BUILDING ADMIN MODEL
 # -------------------------------------------------------------
-    
-# Resource for importing buildings using an excel spreadsheet
 class BuildingResource(resources.ModelResource):
     name = fields.Field(
         attribute = 'name', 
@@ -178,7 +178,7 @@ def make_unavailable(modeladmin, request, queryset):
     """Adds action to Building admin page - make buildings unavailable"""
     queryset.update(available=False)
    
-# MASS MAKE AVAILABLE ACTION FOR BUILDING ADMIN
+#Mass action for admin page
 def make_available(modeladmin, request, queryset):
     """Adds action to Building admin page - make buildings available"""
     queryset.update(available=True)    
@@ -195,8 +195,25 @@ class BuildingAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
     
 # Register models on Admin site
+
+# -------------------------------------------------------------
+#   TRANSACTION ADMIN MODEL
+# -------------------------------------------------------------
+
+class TransactionResource(resources.ModelResource):
+    
+    '''this is just the bare bones set up for exporting transactions
+    after we adjust this model we can set up export processing with
+    foreignkeys, nice titles, etc'''
+    
+    class Meta:
+        model = Transaction
+        
+class TransactionAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = TransactionResource
+        
 admin.site.register(LotteryNumber)
 admin.site.register(FloorPlan)
-admin.site.register(Transaction)
+admin.site.register(Transaction, TransactionAdmin)
 admin.site.register(Building, BuildingAdmin)    
 admin.site.register(Room, RoomAdmin)
