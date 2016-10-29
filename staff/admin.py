@@ -222,6 +222,7 @@ class TransactionAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         
 admin.site.register(LotteryNumber)
 admin.site.register(FloorPlan)
+admin.site.register(BlockTransaction)
 admin.site.register(Transaction, TransactionAdmin)
 admin.site.register(Building, BuildingAdmin)    
 admin.site.register(Room, RoomAdmin)

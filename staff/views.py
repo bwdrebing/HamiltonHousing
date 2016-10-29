@@ -1,16 +1,16 @@
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.urls import reverse
 
 from .models import LotteryNumber 
 from .models import Building
 from .models import Room
 from .models import Transaction
+from .models import BlockTransaction
+from .models import Resident
 
-from .forms import LotteryNumberForm
-from .forms import BuildingForm
-from .forms import StudentInfoForm
-from .forms import ReviewStudentInfoForm
+from .forms import *
 
 #Create your views here.
 def lotteryNumberInput(request):
@@ -19,10 +19,12 @@ def lotteryNumberInput(request):
         if form.is_valid():
             form.save()
 
+    #fixme: Change so lottery number doesn't load if there is none
     number = list(LotteryNumber.objects.all())[-1]
     form = LotteryNumberForm()
-    return render(request, 'staff/LotteryNumberInput.html', 
-            {'LotteryNumber': number,'form' : form})
+    return render(request, 
+                  'staff/LotteryNumberInput.html', 
+                  {'LotteryNumber': number,'form' : form})
 
 def RoomSelect(request):
     #Send a form to request a building name and room number
@@ -31,12 +33,31 @@ def RoomSelect(request):
     headerText = "Please enter student information to get started..."
 
     number = list(LotteryNumber.objects.all())[-1]
-    return render(request, 'staff/RoomSelect.html',
-            {'HeaderText' : headerText,
-                'Action' : '/staff/RoomSelect/StudentInfo',
-                'LotteryNumber' : number,
-                'rooms' : list(Room.objects.all()),
-                'form' : form})
+    
+    return render(request, 
+                  'staff/RoomSelect.html',
+                  {'HeaderText' : headerText,
+                   'Action': reverse('room-select-student-info'),
+                   'LotteryNumber' : number,
+                   'rooms' : list(Room.objects.all()),
+                   'form' : form})
+
+def suiteSelect(request):
+    """Select a suite as a living space - almost exactly room select"""
+    form = suiteInfoForm()
+    headerText = "Select the suite you are trying to fill..."
+    suites = Room.objects.filter(room_type = 'B').exclude(available = False) # get all block rooms
+    
+    number = list(LotteryNumber.objects.all())[-1]
+    
+    #fixme: Only render available rooms
+    return render(request,
+                  'staff/select/suiteSelect.html',
+                  {'headerText': headerText,
+                   'Action': reverse('suite-select-student-info'),
+                   'LotteryNumber': number,
+                   'form': form,
+                   'suites': suites})
 
 def ReviewRoom(request):
     #Allow the user to input a room number to review and edit
@@ -45,11 +66,12 @@ def ReviewRoom(request):
     headerText = "Please enter a building and a number to proceed"
 
     number = list(LotteryNumber.objects.all())[-1]
-    return render(request, 'staff/ReviewRoom.html',
-            {'HeaderText' : headerText,
-                'Action' : '/staff/ReviewRoom/ReviewStudentInfo',
-                'LotteryNumber' : number,
-                'form' : form})
+    return render(request, 
+                  'staff/ReviewRoom.html',
+                  {'HeaderText' : headerText,
+                   'Action' : '/staff/ReviewRoom/ReviewStudentInfo',
+                   'LotteryNumber' : number,
+                   'form' : form})
 
 def ReviewStudentInfo(request):
     if request.method == "POST":
@@ -70,11 +92,12 @@ def ReviewStudentInfo(request):
             form.init(room.id)
             number = list(LotteryNumber.objects.all())[-1]
 
-            return render(request, 'staff/ReviewStudentInfo.html',
-            {'HeaderText' : headerText, 
-                'Action' : '/staff/ReviewRoom/ConfirmSelection',
-                'LotteryNumber' : number, 
-                'form' : form})
+            return render(request, 
+                          'staff/ReviewStudentInfo.html',
+                          {'HeaderText' : headerText, 
+                           'Action' : '/staff/ReviewRoom/ConfirmSelection',
+                           'LotteryNumber' : number, 
+                           'form' : form})
 
 def StudentInfo(request):
     #Gather information about student and any roommates they might have
@@ -108,22 +131,23 @@ def StudentInfo(request):
 
             number = list(LotteryNumber.objects.all())[-1]
 
-            return render(request, 'staff/StudentInfo.html',
-            {'HeaderText' : headerText, 
-                'Action' : '/staff/RoomSelect/ConfirmSelection',
-                'LotteryNumber' : number, 
-                'Rooms' : roomsToRender,
-                'Forms' : formsToRender})
+            return render(request,
+                          'staff/StudentInfo.html',
+                          {'HeaderText' : headerText, 
+                           'Action' : '/staff/RoomSelect/ConfirmSelection',
+                           'LotteryNumber' : number, 
+                           'Rooms' : roomsToRender,
+                           'Forms' : formsToRender})
 
-def StudentInfoForBlock(request):
+def suiteStudentInfo(request):
     if request.method == "POST":
-        responseForm = BuildingForm(request.POST)
+        responseForm = suiteInfoForm(request.POST)
         if responseForm.is_valid():
             building = Building.objects.get(
-            name = responseForm.cleaned_data['name'])
+            name = responseForm.cleaned_data['building'])
 
             rooms = Room.objects.filter(building = building)
-            room = rooms.get(number = responseForm.cleaned_data['room_number'])
+            room = rooms.get(number = responseForm.cleaned_data['suite_number'])
 
             roomsToRender = [room]
 
@@ -131,17 +155,54 @@ def StudentInfoForBlock(request):
             baseForm.forBlock(room)
 
             formsToRender = [baseForm]
-
+            
+            headerText = "Placing student in  " + \
+                str(responseForm.cleaned_data['building']) + \
+                " " + str(responseForm.cleaned_data['suite_number'])
 
             number = list(LotteryNumber.objects.all())[-1]
 
-            return render(request, 'staff/StudentInfo.html',
-            {'HeaderText' : headerText, 
-                'Action' : '/staff/RoomSelect/ConfirmSelection',
-                'LotteryNumber' : number, 
-                'Rooms' : roomsToRender,
-                'Forms' : formsToRender})
+            return render(request, 
+                          'staff/StudentInfo.html',
+                          {'HeaderText' : headerText, 
+                           'Action' : reverse('suite-select-confirm'),
+                           'LotteryNumber' : number, 
+                           'Rooms' : roomsToRender,
+                           'Forms' : formsToRender})
+        
+        
+def suiteConfirm(request):
+       #This form will save the transaction based on info of previous form
+    #XXX:Need to be able to go back or decline the creation of transactions.
+    if request.method == "POST":
+        totalNumberOfStudents = int(request.POST['numberOfStudents'])
+        
+        transaction = BlockTransaction.objects.create(
+            block_number = request.POST['Number0'],
+            suite = Room.objects.get(id=request.POST['Room0'])
+        )
+        
+        for i in range(totalNumberOfStudents):
+            resident = Resident.objects.create(
+                gender = str(request.POST["Gender" + str(i)])
+            )
+            transaction.residents.add(resident)
+                
+        room = Room.objects.get(id=request.POST['Room' + str(i)])   
+        room.available = False
+        room.save()
+    
+        transaction.save()
 
+    number = list(LotteryNumber.objects.all())[-1]
+    
+    # todo: when select page is addded action should go there
+    return render(request, 
+                  'staff/ConfirmSelection.html',
+                  {'HeaderText' : "Confirm Suite Selection Details", 
+                   'Action' : reverse('home'),
+                   'LotteryNumber' : number, 
+                   'form' : None})
     
 def ConfirmSelection(request):
     #This form will save the transaction based on info of previous form
@@ -196,19 +257,16 @@ def ConfirmSelection(request):
                 room.save()
 
     number = list(LotteryNumber.objects.all())[-1]
-    return render(request, 'staff/ConfirmSelection.html',
-            {'HeaderText' : "Confirm this Room Selection Please", 
-                'Action' : '/staff/RoomSelect',
-                'LotteryNumber' : number, 
-                'form' : None})
+    return render(request, 
+                  'staff/ConfirmSelection.html',
+                  {'HeaderText' : "Confirm this Room Selection Please", 
+                   'Action' : '/staff/RoomSelect',
+                   'LotteryNumber' : number, 
+                   'form' : None})
 
 
 def home(request):
     number = list(LotteryNumber.objects.all())[-1]
-    return render(request, 'staff/home.html',
-                {'LotteryNumber' : number})
-
-def staffAdmin(request)
-    number = lis(LotteryNumber.objects.all())[-1]
-    return render(request, 'staff/edit.html',
-                {'LotteryNumber' : number})
+    return render(request, 
+                  'staff/home.html',
+                  {'LotteryNumber' : number})

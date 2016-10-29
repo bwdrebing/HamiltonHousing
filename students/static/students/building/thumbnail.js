@@ -1,5 +1,5 @@
 $('#thumbnails img').click(function(){
-    $('#fullFloorPlan').attr('src',$(this).attr('src'));
+    $('#fullFloorPlan').attr('src', $(this).attr('src'));
     $('#fullFloorPlan').attr('data-zoom-image', $(this).attr('src'));
     $('#floorPlanName').html($(this).attr('alt'));
 });
