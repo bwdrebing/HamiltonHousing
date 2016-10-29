@@ -264,6 +264,17 @@ def ConfirmSelection(request):
                    'LotteryNumber' : number, 
                    'form' : None})
 
+def edit(request):
+    # get next lottery number for header
+    nums = list(LotteryNumber.objects.all())
+    if (nums):
+        number = nums[-1]
+    else:
+        number = ""
+    return render(request,
+                  'staff/edit.html',
+                  {'LotteryNumber' : number})
+
 
 def home(request):
     number = list(LotteryNumber.objects.all())[-1]
