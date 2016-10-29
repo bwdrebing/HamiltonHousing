@@ -82,7 +82,25 @@ class RoomResource(resources.ModelResource):
                     if word.lower() in HouseSyns:
                         row[key] = row[key].replace(' '+ word, '', 1)
                         
-                        
+    def after_import_row(self, row, row_result, **kwargs):
+        
+        instanceBuilding = Building.objects.get(name = row['BUILDING'])
+        instance = Room.objects.filter(building = instanceBuilding).get(number = row['ROOM'])
+        if(row['ROOM TYPE'] == "S"):
+            instance.total_beds = 1
+        if(row['ROOM TYPE'] == "D"):
+            instance.total_beds = 2
+        if(row['ROOM TYPE'] == "T"):
+            instance.total_beds = 3
+        if(row['ROOM TYPE'] == "Q"):
+            instance.total_beds = 4
+        if(row['ROOM TYPE'] == "B"):
+            instance.total_beds = 6
+        
+        instance.available_beds = instance.total_beds
+        instance.available = True
+        instance.save()
+      
 # Action for admin page
 def make_available(modeladmin, request, queryset):
     """Adds action to Room admin page - make rooms available"""
