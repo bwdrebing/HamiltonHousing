@@ -207,3 +207,8 @@ def home(request):
     number = list(LotteryNumber.objects.all())[-1]
     return render(request, 'staff/home.html',
                 {'LotteryNumber' : number})
+
+def staffAdmin(request)
+    number = lis(LotteryNumber.objects.all())[-1]
+    return render(request, 'staff/edit.html',
+                {'LotteryNumber' : number})
