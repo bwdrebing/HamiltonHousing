@@ -19,6 +19,7 @@ def lotteryNumberInput(request):
         if form.is_valid():
             form.save()
 
+    #fixme: Change so lottery number doesn't load if there is none
     number = list(LotteryNumber.objects.all())[-1]
     form = LotteryNumberForm()
     return render(request, 
@@ -32,10 +33,11 @@ def RoomSelect(request):
     headerText = "Please enter student information to get started..."
 
     number = list(LotteryNumber.objects.all())[-1]
+    
     return render(request, 
                   'staff/RoomSelect.html',
                   {'HeaderText' : headerText,
-                   'Action': 'staff/StudentInfo',
+                   'Action': reverse('room-select-student-info'),
                    'LotteryNumber' : number,
                    'rooms' : list(Room.objects.all()),
                    'form' : form})
@@ -47,6 +49,8 @@ def suiteSelect(request):
     suites = Room.objects.filter(room_type = 'B').exclude(available = False) # get all block rooms
     
     number = list(LotteryNumber.objects.all())[-1]
+    
+    #fixme: Only render available rooms
     return render(request,
                   'staff/select/suiteSelect.html',
                   {'headerText': headerText,

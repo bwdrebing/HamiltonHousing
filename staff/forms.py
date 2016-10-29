@@ -53,11 +53,15 @@ class suiteInfoForm(forms.Form):
         
     
 class StudentInfoForm(forms.Form):
-    numberOfStudents = 0
+    
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
+        super(StudentInfoForm, self).__init__(*args, **kwargs)
+        self.numberOfStudents = 0      
 
     def forBlock(self, suite, prefix=""):
         self.numberOfStudents = suite.available_beds
-        self.fields[prefix + 'numberOfStudents'] = forms.IntegerField( 
+        self.fields[prefix + 'numberOfStudents'] = forms.IntegerField(
                 initial = self.numberOfStudents,
                 widget = forms.HiddenInput(),
         )
