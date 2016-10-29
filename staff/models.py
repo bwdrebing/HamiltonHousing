@@ -63,13 +63,12 @@ class Building(models.Model):
                             .exclude(available_beds = 0)
                             .filter(room_type = 'Q')
                             .count())
-    
         
     available_rooms = property(get_available_rooms)    
     available_singles = property(get_available_singles)   
     available_doubles = property(get_available_doubles)   
     available_triples = property(get_available_triples)   
-    available_quads = property(get_available_quads)  
+    available_quads = property(get_available_quads) 
     
     def __str__(self):
         return self.name
@@ -206,7 +205,7 @@ class Transaction(models.Model):
         on_delete=models.CASCADE,
         related_name = 'Puller_Room',
     )
-    Puller_Year = models.PositiveSmallIntegerField()
+    Puller_Year = models.PositiveSmallIntegerField(null=True, blank=True)
 
     FEMALE = 'F'
     MALE = 'M'
@@ -244,3 +243,46 @@ class Transaction(models.Model):
             toReturn += ' pulled #' + str(self.Pullee_Number)
 
         return toReturn
+    
+class BlockTransaction(models.Model):
+    """Store the block number, suite, and the genders of all students in the block"""
+    block_number = models.PositiveSmallIntegerField()
+    suite = models.ForeignKey(
+        'Room',
+        on_delete = models.CASCADE,
+    )
+    
+    residents = models.ManyToManyField(
+        'Resident', 
+        blank=True
+    )
+
+    def __str__(self):
+        return str(self.suite) + ' taken by block ' + str(self.block_number)
+
+class Resident(models.Model):
+    class_year = models.PositiveSmallIntegerField(null = True, blank = True)
+    lottery_number = models.PositiveSmallIntegerField(null = True, blank = True)
+    
+    FEMALE = 'F'
+    MALE = 'M'
+    EITHER = 'E'
+    
+    GENDER_CHOICES = (
+        (FEMALE, 'Female'),
+        (MALE, 'Male'),
+        (EITHER, 'Either'),
+    )
+
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default=EITHER)
+    
+    def __str__(self):
+        string = ""
+        if (self.class_year and self.lottery_number and self.gender):
+            string = "student(" + str(self.class_year) + ", " + \
+                     str(self.lottery_number) + ", " + str(self.gender) + ")"
+        elif (self.gender):
+            string = "student(" + str(self.gender) + ")"
+            
+        return string
+    
