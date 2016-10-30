@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Room Selection</title>
+    <title>Staff Edit Options</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/static/staff/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -33,35 +33,13 @@
 
   <body>
     {% include "staff/header.html" %}
-      
+
     <div class="container">
 
       <div class="starter-template">
-        <h1>Welcome to Room Selection</h1>
-	<p class="lead">{{ HeaderText }}</p>
-	<form method="POST" class="post-form form-horizontal" action="{{Action}}">{% csrf_token %}
-	{% for field in form %}
-        
-		<div class="form-group"> 
-            <label for="FormInput" class = "control-label">{{field.label}} </label>
-            {{field}}
-        </div>
-	{% endfor %}	
-	
-	</p>
-
-	<button type="submit" class="save btn btn-default">Next</button>
-
-<div class="progress">
-  <div class="progress-bar progress-bar-info progress-bar-striped" 
-       role="progressbar" aria-valuenow="0" aria-valuemin="0" 
-       aria-valuemax="100" style="width:0%">
-    <font color="black">0% Complete</font>
-  </div>
-</div>
-	</form>
+        <h1>Staff Admin Edit Options</h1>
+	<p class="lead">Select one of the options below</p>
       </div>
-
 
     </div><!-- /.container -->
 
@@ -73,12 +51,6 @@
     <script>window.jQuery || document.write('<script src="/static/staff/assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="/../static/staff/dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="/static/staff/assets/js/ie10-viewport-bug-workaround.js">
-    </script>
-    
-    <!-- Our own scripts -->
-    <script src="/static/staff/RoomSelect/buildingRoomsFilter.js"></script>
-    <script src="/static/staff/RoomSelect/addFormControlToInputs.js"></script>
-
-    </body>
+    <script src="/static/staff/assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
 </html>

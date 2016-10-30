@@ -38,9 +38,7 @@
 
       <div class="starter-template">
 
-	<button onclick="window.history.back();" 
-		id="myButton" 
-		class="float-left submit-button" >Back</button>
+
 	
         <h1>Welcome to Room Selection</h1>
 	<p class="lead">{{ HeaderText }}</p>
@@ -50,7 +48,10 @@
 	{% endfor %}	
 	
 	</p>
-	<button type="submit" class="save btn btn-default">Save</button>
+	<button onclick="window.history.back();" 
+		id="myButton" 
+		class="save btn btn-default" >Back</button>
+	<button type="submit" class="save btn btn-default">Confirm</button>
 	</form>
       </div>
 
