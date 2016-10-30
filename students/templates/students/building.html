@@ -158,8 +158,11 @@
                             <!-- Apartment rooms -->
                             {% for rm in apt_rooms %}
                                 <tr name="{{rm}}" class="{{floor}} apt-room" style="display: none;">
-                                  <td></td>
-                                  <td>{{rm.number}}</td>
+                                  <td>
+                                  </td>
+                                  <td>
+                                      {{rm.number}}
+                                  </td>
                                   <td>
                                       {% if rm.room_type == 'S' %}
                                         Single
@@ -175,20 +178,30 @@
                                         N/A
                                       {% endif %}
                                   </td>
-                                  <td>{{rm.available_beds}}</td>
                                   <td>
-                                      {% if rm.gender == 'F' %}
+                                      {{rm.available_beds}}
+                                    </td>
+                                  {% if show_gender %}
+                                    <td>
+                                    {% if rm.gender == 'F' %}
                                         Female
-                                      {% elif rm.gender == 'M' %}
+                                    {% elif rm.gender == 'M' %}
                                         Male
-                                      {% endif %}
-                                  </td>
-                                  <td>
+                                    {% endif %}
+                                    </td>
+                                  {% endif %}
+                                  {% if show_pull %}
+                                    <td>
                                     {% if rm.pull %}
                                       {{rm.pull}}
                                     {% endif %}
-                                  </td>
-                                  <td>{{rm.notes}}</td>
+                                    </td>
+                                  {% endif %}
+                                  {% if show_notes %}
+                                    <td>
+                                        {{rm.notes}}
+                                    </td>
+                                  {% endif %}
                                 </tr>
                             {% endfor %}
                         {% else %}

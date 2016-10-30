@@ -4,12 +4,12 @@ $("#fullFloorPlan").elevateZoom({
     cursor: 'crosshair',
     gallery:'thumbnail-gallery',  
     galleryActiveClass: 'active', 
-    imageCrossfade: true, 
-    loadingIcon: 'http://www.elevateweb.co.uk/spinner.gif'}); 
+    imageCrossfade: true,
+}); 
 
 //pass the images to Fancybox
 $("#fullFloorPlan").bind("click", function(e) {  
-  var ez =   $('#fullFloorPlan').data('elevateZoom');	
+    var ez = $('#fullFloorPlan').data('elevateZoom');	
 	$.fancybox(ez.getGalleryList());
-  return false;
+    return false;
 });
