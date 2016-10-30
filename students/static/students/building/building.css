@@ -3,36 +3,11 @@
      -moz-border-radius: 0 !important;
           border-radius: 0 !important;
 }*/
+
 * {
     -webkit-border-radius: 0 !important;
     -moz-border-radius: 0 !important;
     border-radius: 0 !important;
-}
-
-#page-title {
-    margin-bottom: 20px;
-}
-
-#sidebar-title {
-    margin-bottom: 18px;
-}
-
-.thumbnail-label {
-    top:0;
-    left:0;
-    position: absolute;
-}
-
-.thumb-div {
-    padding-right: 8px;
-    padding-left: 8px;
-}
-
-.thumbnail {
-    border-radius: 0;
-    position:relative;
-    text-align: center;
-    vertical-align: middle;
 }
 
 .stat-panel-heading .panel-title {
@@ -53,11 +28,36 @@
     background-color: #fcfcfc;
 }
 
-/* get rid of upper margin only when the floor plan/room panels are displaying next to each other */
-@media (min-width: 992px) {
-    
-#floorPlanName {
-    margin-top: 0px;
+/* -------------------------
+       Floor Plan Images
+   ------------------------- */
+
+.thumbnail-label {
+    top:0;
+    left:0;
+    position: absolute;
 }
 
+.thumb-div {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+.thumbnail {
+    border-radius: 0;
+    position:relative;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* get rid of upper margin only when the floor plan/room panels are displaying next to each other */
+@media (min-width: 992px) {  
+    #floorPlanName {
+        margin-top: 0px;
+    }
+}
+
+/*set a border on the images to prevent shifting*/
+ #thumbnail-gallery img {
+     border:2px solid white;
 }
