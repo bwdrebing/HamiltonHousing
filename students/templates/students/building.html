@@ -19,7 +19,7 @@
     <!--<link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">-->
 
     <!-- Custom styles for this template -->
-    <link href="/static/students/home/starter-template.css" rel="stylesheet">
+    <link href="/static/students/sidebar/sidebar.css" rel="stylesheet">
     <link href="/static/students/building_dashboard/dashboard.css" rel="stylesheet">
       
     <!-- CSS for nice select menus for Floor -->
@@ -47,7 +47,14 @@
         
       <div id="main">
           <div class="col-md-12">
-              <h1 id="page-title">{{current_building.name}}</h1>
+              <h1 id="page-title">
+                  {{current_building.name}}
+                  {% if current_building.closed_to == 'F' %}
+                  <span class="label label-info">Closed to Women</span>
+                  {% elif current_building.closed_to == 'M' %}
+                  <span class="label label-info">Closed to Men</span>
+                  {% endif %}
+              </h1>
               <div class="row">
                   
                    <!-- Types of Rooms -->
@@ -310,7 +317,7 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="/static/students/assets/js/ie10-viewport-bug-workaround.js"></script>
     <!-- Script for collapsable side navigation -->
-    <script src="/static/students/home/home-sidebar.js"></script>
+    <script src="/static/students/sidebar/sidebar.js"></script>
     <!-- Zoom JQuery Plugin -->
     <script src="/static/students/assets/js/zoom/jquery.elevateZoom-3.0.8.min.js" type="text/javascript"></script>
     <!-- Script for floor plan inner zoom -->
@@ -323,6 +330,6 @@
     <!-- Script for dropdown apartments -->
     <script src="/static/students/building/dropdown-table.js"></script>
     <!-- Script for filtering building sidebar -->
-    <script src="/static/students/building/sidebar-filter.js"></script>
+    <script src="/static/students/sidebar/sidebar-filter.js"></script>
   </body>
 </html>

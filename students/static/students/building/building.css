@@ -3,18 +3,11 @@
      -moz-border-radius: 0 !important;
           border-radius: 0 !important;
 }*/
+
 * {
     -webkit-border-radius: 0 !important;
     -moz-border-radius: 0 !important;
     border-radius: 0 !important;
-}
-
-#page-title {
-    margin-bottom: 20px;
-}
-
-#sidebar-title {
-    margin-bottom: 18px;
 }
 
 .stat-panel-heading .panel-title {
@@ -68,8 +61,3 @@
  #thumbnail-gallery img {
      border:2px solid white;
 }
- 
-/*Change the colour
-.active img {
-     border:2px solid #333 !important;
-}*/
