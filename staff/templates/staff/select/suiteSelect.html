@@ -40,43 +40,47 @@
             <h1>Suite Selection</h1>
             <p class="lead">{{headerText}}</p>
 
-            {% if suite %}
+            {% if suites %}
             <form method="POST" class="post-form form-horizontal" action="{{Action}}">{% csrf_token %}
                 <div class="form-group">
                     {% for field in form %}
-                        <div class="row container">
+                        <div class="container">
                             <p><strong>{{field.label}}</strong>  {{field}}</p>
                         </div>
                     {% endfor %}
                 </div>
-
-               <button type="submit" class="save btn btn-default">Next</button>
             </form>
+            <button type="submit" class="save btn btn-default bottom-button">Next</button>
           </div>
         
-          <div class="row bs-wizard" style="border-bottom:0;">
-                
-                <div class="col-xs-4 bs-wizard-step active"><!-- active -->
-                  <div class="text-center bs-wizard-stepnum">Step 1</div>
-                  <div class="progress"><div class="progress-bar"></div></div>
-                  <a href="#" class="bs-wizard-dot"></a>
-                  <div class="bs-wizard-info text-center">Suite information</div>
-                </div>
-                
-                <div class="col-xs-4 bs-wizard-step disabled">
-                  <div class="text-center bs-wizard-stepnum">Step 2</div>
-                  <div class="progress"><div class="progress-bar"></div></div>
-                  <a href="#" class="bs-wizard-dot"></a>
-                  <div class="bs-wizard-info text-center">Student information</div>
-                </div>
-                
-                <div class="col-xs-4 bs-wizard-step disabled">
-                  <div class="text-center bs-wizard-stepnum">Step 3</div>
-                  <div class="progress"><div class="progress-bar"></div></div>
-                  <a href="#" class="bs-wizard-dot"></a>
-                  <div class="bs-wizard-info text-center">Confirm</div>
-                </div>
-          </div>
+          <!-- Progress Bar -->
+          <div class="container">
+              <div class="row bs-wizard" style="border-bottom:0;">
+
+                    <div class="col-xs-4 bs-wizard-step active"><!-- active -->
+                      <div class="text-center bs-wizard-stepnum">Step 1</div>
+                      <div class="progress"><div class="progress-bar"></div></div>
+                      <a href="#" class="bs-wizard-dot"></a>
+                      <div class="bs-wizard-info text-center">Suite information</div>
+                    </div>
+
+                    <div class="col-xs-4 bs-wizard-step disabled">
+                      <div class="text-center bs-wizard-stepnum">Step 2</div>
+                      <div class="progress"><div class="progress-bar"></div></div>
+                      <a href="#" class="bs-wizard-dot"></a>
+                      <div class="bs-wizard-info text-center">Student information</div>
+                    </div>
+
+                    <div class="col-xs-4 bs-wizard-step disabled">
+                      <div class="text-center bs-wizard-stepnum">Step 3</div>
+                      <div class="progress"><div class="progress-bar"></div></div>
+                      <a href="#" class="bs-wizard-dot"></a>
+                      <div class="bs-wizard-info text-center">Confirm</div>
+                    </div>
+              </div>
+          </div><!--/progress-bar-->
+          
+          <!-- if no suites available for selection -->
           {% else %}
           <div class="container centered-block">
             <h4>Oops! There are currently no available suites.</h4>

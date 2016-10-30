@@ -117,9 +117,15 @@
                   <th>#</th>
                   <th>Type</th>
                   <th>Open Beds</th>
-                  <th>Gender</th>
-                  <th>Pulls</th>
-                  <th>Notes</th>
+                  {% if show_gender %}
+                    <th>Gender</th>
+                  {% endif %}
+                  {% if show_pull %}
+                    <th>Pulls</th>
+                  {% endif %}
+                  {% if show_notes %}
+                    <th>Notes</th>
+                  {% endif %}
                 </tr>
               </thead>
               <tbody class="room-list">
@@ -138,9 +144,15 @@
                               <td><strong>{{room}}</strong></td>
                               <td><strong>Apartment</strong></td>
                               <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
+                              {% if show_gender %}
+                                <td></td>
+                              {% endif %}
+                              {% if show_pull %}
+                                <td></td>
+                              {% endif %}
+                              {% if show_notes %}
+                                <td></td>
+                              {% endif %}
                             </tr>
                   
                             <!-- Apartment rooms -->
@@ -200,19 +212,27 @@
                               {% endif %}
                               </td>
                               <td>{{rm.available_beds}}</td>
-                              <td>
-                              {% if rm.gender == 'F' %}
-                                Female
-                              {% elif rm.gender == 'M' %}
-                                Male
+                              {% if show_gender %}
+                                <td>
+                                {% if rm.gender == 'F' %}
+                                    Female
+                                {% elif rm.gender == 'M' %}
+                                    Male
+                                {% endif %}
+                                </td>
                               {% endif %}
-                              </td>
-                              <td>
+                              {% if show_pull %}
+                                <td>
                                 {% if rm.pull %}
                                   {{rm.pull}}
                                 {% endif %}
-                              </td>
-                              <td>{{rm.notes}}</td>
+                                </td>
+                              {% endif %}
+                              {% if show_notes %}
+                                <td>
+                                    {{rm.notes}}
+                                </td>
+                              {% endif %}
                             </tr>
                             {% endfor %}
                         {% endif %}
@@ -240,7 +260,9 @@
             <h2 id="floorPlanName">{{ first_image.display_name }}</h2>
         
             <!-- floor plan image -->
-            <img id="fullFloorPlan" class="img-responsive floor-plan-img" src="{{first_image.image.url}}" data-zoom-image="{{first_image.image.url}}"/>
+            <div data-zoom="{{first_image.image.url}}" class="zoom">
+                <img id="fullFloorPlan" class="img-responsive floor-plan-img" src="{{first_image.image.url}}"/>
+            </div>
         {% endwith %}
         {% endif %}
         
@@ -281,7 +303,8 @@
     <!-- Script for collapsable side navigation -->
     <script src="/static/students/home/home-sidebar.js"></script>
     <!-- Script for Zoom JQuery Plugin -->
-    <script src="/static/students/assets/js/zoom/jquery.elevateZoom-3.0.8.min.js" type="text/javascript"></script>
+    <!--<script src="/static/students/assets/js/zoom/jquery.elevateZoom-3.0.8.min.js" type="text/javascript"></script>-->
+    <script src="/static/students/assets/js/mobile-zoom/jquery.imagezoom.js" type="text/javascript"></script>
     <!-- Script for floor plan inner zoom -->
     <script src="/static/students/building/zoom.js" type="text/javascript"></script> 
     <!-- Scripts for filtering by floor -->

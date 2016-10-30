@@ -125,7 +125,7 @@ make_all_beds_available.short_description = "Make all beds available for selecte
 
 class RoomAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = RoomResource
-    list_display = ['building', 'number', 'apartment_number', 'available_beds', 'gender', 'available']
+    list_display = ['building', 'number', 'room_type', 'apartment_number', 'available_beds', 'gender', 'available']
     ordering = ['building']
     actions = [make_available, make_unavailable, make_all_beds_available]
     
@@ -227,7 +227,6 @@ class BuildingAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 # -------------------------------------------------------------
 
 class TransactionResource(resources.ModelResource):
-    
     '''this is just the bare bones set up for exporting transactions
     after we adjust this model we can set up export processing with
     foreignkeys, nice titles, etc'''
