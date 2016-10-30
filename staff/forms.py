@@ -162,3 +162,34 @@ class ReviewStudentInfoForm(forms.Form):
                 choices = [('male', 'Male'), ('female', 'Female')],
                 initial = transaction_rooms[i].Pullee_Year
                 )
+            
+class editBuildingForm(forms.ModelForm):
+
+    buildingChoices = [(o.name, o.name) for o in list(Building.objects.all())]
+    buildingChoices.insert(0,('','-- Select a Building --')) 
+    
+    building = forms.ChoiceField(choices= buildingChoices)
+
+    class Meta:
+        model = Building
+        fields = ['building', 'available', 'closed_to','notes',]
+          
+class editRoomForm(forms.ModelForm):
+    name = forms.ChoiceField()
+    room_number = forms.ChoiceField()
+    
+    def __init__(self, *args, **kargs):
+        super(editRoomForm, self).__init__(*args, **kargs)
+        
+        buildingChoices = [(o.name, o.name) for o in list(Building.objects.all())]
+        buildingChoices.insert(0,('','-- Select a Building --')) 
+
+        rooms = list(Room.objects.filter(available=True).exclude(available_beds = 0))
+        roomChoices = [(o.number, o.building) for o in rooms]
+        
+        self.fields['name'].choices = buildingChoices 
+        self.fields['room_number'].choices = roomChoices
+
+    class Meta:
+        model = Room
+        fields = ['name', 'room_number', 'available', 'gender', 'available_beds', 'pull', 'notes']

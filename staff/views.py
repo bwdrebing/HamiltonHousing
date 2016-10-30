@@ -30,7 +30,7 @@ def RoomSelect(request):
     #Send a form to request a building name and room number
     #Redirect to the StudentInfo to render a new form
     form = BuildingForm()
-    headerText = "Please enter student information to get started..."
+    headerText = "Please enter room information to get started..."
 
     number = list(LotteryNumber.objects.all())[-1]
     
@@ -276,6 +276,51 @@ def edit(request):
                   {'LotteryNumber' : number})
 
 
+def editBuilding(request):
+    
+    # get next lottery number for header
+    nums = list(LotteryNumber.objects.all())
+    if (nums):
+        number = nums[-1]
+    else:
+        number = ""
+    if request.method == "POST":
+        #form = editBuildingForm(request.POST, instance = building)
+        current_building = Building.objects.get(name=request.POST["building"])
+        form = editBuildingForm(request.POST, instance = current_building)
+        if form.is_valid():
+            form.save()
+            return render(request,
+                          'staff/edit.html', 
+                          {'LotteryNumber': number,'form' : form})
+    form = editBuildingForm()
+    return render(request, 
+                  'staff/editBuilding.html', 
+                  {'LotteryNumber': number,'form' : form})
+
+def editRoom(request):
+    # get next lottery number for header
+    nums = list(LotteryNumber.objects.all())
+    if (nums):
+        number = nums[-1]
+    else:
+        number = ""
+    if request.method == "POST":
+        #form = editBuildingForm(request.POST, instance = building)
+        current_building = Building.objects.get(name=request.POST["building"])
+        current_number = Room.objects.get(name = request.POST["room_number"])
+        current_room = [current_building, current_number]
+        form = editRoomForm(request.POST, instance = current_room)
+        if form.is_valid():
+            form.save()
+            return render(request,
+                          'staff/edit.html', 
+                          {'LotteryNumber': number,'form' : form})
+    form = editRoomForm()
+    return render(request, 
+                  'staff/editRoom.html', 
+                  {'LotteryNumber': number,'form' : form})
+    
 def home(request):
     number = list(LotteryNumber.objects.all())[-1]
     return render(request, 
