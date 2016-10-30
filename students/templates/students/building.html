@@ -260,23 +260,21 @@
             <h2 id="floorPlanName">{{ first_image.display_name }}</h2>
         
             <!-- floor plan image -->
-            <div data-zoom="{{first_image.image.url}}" class="zoom">
-                <img id="fullFloorPlan" class="img-responsive floor-plan-img" src="{{first_image.image.url}}"/>
-            </div>
+            <img id="fullFloorPlan" class="img-responsive floor-plan-img" src="{{first_image.image.url}}" data-zoom-image="{{first_image.image.url}}"/>
         {% endwith %}
         {% endif %}
         
         <!-- floor plan thumbnail links -->
         {% if floor_images %}
-        <div class="row" id="thumbnails">
+        <div class="row">
             {% for floorplan in floor_images %}
-                <div class="col-xs-3 col-md-3 thumb-div">
+                <div class="col-xs-3 col-md-3 thumb-div" id="thumbnail-gallery">
                     {% if forloop.first %}
-                    <a class="active thumbnail">
+                    <a class="active thumbnail" data-image="{{floorplan.image.url}}" data-zoom-image="{{floorplan.image.url}}">
                     {% else %}
-                    <a class="thumbnail">
+                    <a class="thumbnail" data-image="{{floorplan.image.url}}" data-zoom-image="{{floorplan.image.url}}">
                     {% endif %}
-                        <img src="{{floorplan.image.url}}" class="floorplan-thumbnail" alt="{{floorplan.display_name}}"/>
+                        <img src="{{floorplan.image.url}}" class="floorplan-thumbnail" alt="{{floorplan.display_name}}" id="thumb{{forloop.counter0}}"/>
                         <div class="caption thumbnail-label">
                             {{floorplan.display_name}}
                         </div>
@@ -303,8 +301,7 @@
     <!-- Script for collapsable side navigation -->
     <script src="/static/students/home/home-sidebar.js"></script>
     <!-- Script for Zoom JQuery Plugin -->
-    <!--<script src="/static/students/assets/js/zoom/jquery.elevateZoom-3.0.8.min.js" type="text/javascript"></script>-->
-    <script src="/static/students/assets/js/mobile-zoom/jquery.imagezoom.js" type="text/javascript"></script>
+    <script src="/static/students/assets/js/zoom/jquery.elevateZoom-3.0.8.min.js" type="text/javascript"></script>
     <!-- Script for floor plan inner zoom -->
     <script src="/static/students/building/zoom.js" type="text/javascript"></script> 
     <!-- Scripts for filtering by floor -->
