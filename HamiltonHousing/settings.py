@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'staff',
     'students',
     'import_export',
+    'django_ajax',
 ]
 
 MIDDLEWARE_CLASSES = [
