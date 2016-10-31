@@ -3,6 +3,7 @@ from .models import LotteryNumber
 from .models import Building
 from .models import Room
 from .models import Transaction
+from django.contrib.auth.models import User
 
 class LotteryNumberForm(forms.ModelForm):
 
@@ -200,7 +201,6 @@ class ReviewStudentInfoForm(forms.Form):
                 )
             
 class editBuildingForm(forms.ModelForm):
-
     buildingChoices = [(o.name, o.name) for o in list(Building.objects.all())]
     buildingChoices.insert(0,('','-- Select a Building --')) 
     
@@ -229,3 +229,10 @@ class editRoomForm(forms.ModelForm):
     class Meta:
         model = Room
         fields = ['name', 'room_number', 'available', 'gender', 'available_beds', 'pull', 'notes']
+        
+class userForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password')
