@@ -13,6 +13,11 @@
 
     <!-- Bootstrap core CSS -->
     <link href="/static/staff/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!--- CSS for toggles -->  
+    <link href="/static/staff/jquery-toggles-master/css/toggles.css" rel="stylesheet">
+    <link href="/static/staff/jquery-toggles-master/css/toggles-full.css" rel="stylesheet">
+      
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <!--<link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">-->
@@ -71,24 +76,42 @@
                                 {% else %}
                                     <div class="tab-pane" id="{{forloop.counter}}a">
                                 {% endif %}
-                                {% for field in form.visible_fields %}
-                                    {% if  not forloop.first and not forloop.parentloop.first %}
-                                        <div class="form-group PullField{{forloop.parentloop.counter}}a">
+                                        
+                                {% if form.pullToggle != None %}
+                                        <div class='form-group'>
+                                            <label class="col-sm-4 control-label">
+                                                Do you want to pull someone into this room? </label>
+                                            <div class="col-sm-8">
+                                                {# {{form.pullToggle}} #}
+                                                <div class='toggle toggle-light'>
+                                            </div>
+                                        </div>
+                                        </div>
+                                {% endif %}
+                                        
+                                {% for student in form.studentFields %}
+                                    <h3 class="PullField">Resident {{forloop.counter}}</h3>
+                                    {% for field in student %}
+                                    
+                    
+                                    {% if not forloop.parentloop.parentloop.first %}
+                                        <div class="form-group PullField">
                                     {% else %}
                                         <div class="form-group">
                                     {% endif %}
                                     <label for="FormInput" class="col-sm-4 control-label"> 
-                                        {{field.label_tag}}
+                                        {{field.label}}
                                     </label>  
                                     <div class="col-sm-8">
                                         {{ field }}
                                     </div>
                                     </div>
                                 {% endfor %}
-
+                                {% endfor %}
+                                            
                                 {% for field in form.hidden_fields %}
                                         {{ field }}
-                                {% endfor %}                    
+                                {% endfor %}    
                                 </div> <!-- End tab-pane -->
                              <!-- End tab-content -->
                             {% endfor %}
@@ -121,7 +144,8 @@
     <script src="/static/staff/assets/js/ie10-viewport-bug-workaround.js"></script>
 
     <!-- Our Scripts -->
+    <script src='/static/staff/jquery-toggles-master/toggles.min.js' type='text/javascript'></script>
     <script src="/static/staff/RoomSelect/togglePullForm.js"></script>
     <script src="/static/staff/RoomSelect/addFormControlToInputs.js"></script>
-  </body>
+    </body>
 </html>

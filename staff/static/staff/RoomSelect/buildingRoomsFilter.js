@@ -5,7 +5,7 @@ $('#id_name').change(function () {
 	$('#id_room_number option.'+building.replace(/ /g, '.')).show();
 
 });
-$('#id_room_number option').each(function(index) {
+$('#id_room_number option').each(function(index) {   
 	var building = $(this).text();
 	$(this).addClass(building);
 	$(this).text($(this).val());

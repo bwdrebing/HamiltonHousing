@@ -29,7 +29,7 @@ def RoomSelect(request):
     #Send a form to request a building name and room number
     #Redirect to the StudentInfo to render a new form
     form = BuildingForm()
-    headerText = "Please enter student information to get started..."
+    headerText = "Select a Room"
 
     number = list(LotteryNumber.objects.all())[-1]
     
