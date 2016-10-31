@@ -85,6 +85,7 @@ class Building(models.Model):
     def __str__(self):
         return self.name
 
+    
 # returns a filepath for an image in the format MEDIA_ROOT/floorplan/building/floor/image
 def building_directory_path(instance, filename):
     return 'floorplan/' + instance.related_building.name + '/' + str(instance.floor) + '/' + filename
@@ -113,7 +114,54 @@ class FloorPlan(models.Model):
     
     def __str__(self):
         return str(self.related_building.name) + " " + str(self.display_name)
+    
+    
+class ApartmentManager(models.Manager):
+    def create_apartment(self, building, number, gender="E", notes=""):
+        apt = self.create(building = building, number = number, gender = gender, notes = notes)
+        return apt
 
+class Apartment(models.Model):
+    objects = ApartmentManager()
+    
+    # Building
+    building = models.ForeignKey(
+        'Building',
+        on_delete=models.CASCADE,
+    )
+    
+    # Apartment Number/Name 
+    number = models.CharField(max_length = 10)
+    
+    GENDER_CHOICES = (
+        ('F', 'Female'),
+        ('M', 'Male'),
+        ('E', 'Either'),
+    )
+    
+    gender = models.CharField(
+        max_length=1,
+        choices=GENDER_CHOICES,
+        default='E', # Either
+    )
+    
+    notes = models.TextField(blank=True, default='')
+    
+    def _get_available_beds(self):
+        available_beds = 0
+        rooms = (Room.objects.filter(building = self.building)
+                             .filter(available = True)
+                             .exclude(available_beds = 0))
+        for room in rooms:
+            available_beds += room.available_beds
+            
+        return available_beds
+    
+    available_beds = property(_get_available_beds)
+    
+    def __str__(self):
+        return str(self.building.name) + " " + str(self.number)
+    
     
 class Room(models.Model):
     # Building
@@ -155,14 +203,6 @@ class Room(models.Model):
         default='E', # Either
     )
     
-    # Room Pulled by this Room
-    #pull = models.ForeignKey(
-    #    'self',
-    #    on_delete=models.CASCADE,
-    #    blank=True,
-    #    null=True,
-    #)
-    
     pull = models.CharField(
         max_length = 5,
         default = '',
@@ -179,12 +219,12 @@ class Room(models.Model):
     available = models.BooleanField(default = False)
     
     # True if this room is part of an apartment
-    apartment_number = models.CharField(
-        max_length=5,
-        blank = True,
-        default = '',
-        help_text="If this room is part of an apartment, this is the apartment's number/name",
-        verbose_name = 'Apartment #'
+    apartment = models.ForeignKey(
+        'Apartment',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        help_text="If this room is part of an apartment, this is the apartment's number/name"
     )
     
     # Notes - SPECIFICS1 
@@ -297,4 +337,3 @@ class Resident(models.Model):
             string = "student(" + str(self.gender) + ")"
             
         return string
-    
