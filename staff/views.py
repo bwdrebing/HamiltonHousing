@@ -20,7 +20,12 @@ def lotteryNumberInput(request):
             form.save()
 
     #fixme: Change so lottery number doesn't load if there is none
-    number = list(LotteryNumber.objects.all())[-1]
+    number = list(LotteryNumber.objects.all())
+    if(number):
+        number = number[-1]
+    else:
+        number = ""
+        
     form = LotteryNumberForm()
     return render(request, 
                   'staff/LotteryNumberInput.html', 
@@ -33,7 +38,12 @@ def RoomSelect(request):
     
     headerText = "Please enter room information to get started..."
 
-    number = list(LotteryNumber.objects.all())[-1]
+    number = list(LotteryNumber.objects.all())
+    if(number):
+        number = number[-1]
+    else:
+        number = ""
+        
     
     return render(request, 
                   'staff/RoomSelect.html',
@@ -49,7 +59,12 @@ def suiteSelect(request):
     headerText = "Select the suite you are trying to fill..."
     suites = Room.objects.filter(room_type = 'B').exclude(available = False) # get all block rooms
     
-    number = list(LotteryNumber.objects.all())[-1]
+    number = list(LotteryNumber.objects.all())
+    if(number):
+        number = number[-1]
+    else:
+        number = ""
+        
     
     #fixme: Only render available rooms
     return render(request,
@@ -66,7 +81,12 @@ def ReviewRoom(request):
     form = BuildingForm()
     headerText = "Please enter a building and a number to proceed"
 
-    number = list(LotteryNumber.objects.all())[-1]
+    number = list(LotteryNumber.objects.all())
+    if(number):
+        number = number[-1]
+    else:
+        number = ""
+        
     return render(request, 
                   'staff/edit/transaction.html',
                   {'HeaderText' : headerText,
@@ -91,7 +111,12 @@ def ReviewStudentInfo(request):
            #Create a form with the room id 
             form = ReviewStudentInfoForm()
             form.init(room.id)
-            number = list(LotteryNumber.objects.all())[-1]
+            number = list(LotteryNumber.objects.all())
+            if(number):
+                number = number[-1]
+            else:
+                number = ""
+        
 
             return render(request, 
                           'staff/edit/transactionStudentInfo.html',
@@ -117,7 +142,7 @@ def StudentInfo(request):
             baseForm.forBaseRoom(room)
             
             formsToRender = [baseForm]
-            
+            print(room.pull)
             if(room.pull != '' and rooms.get(number = room.pull).available == True):
                 additionalForm = StudentInfoForm()
                 pullRoom = rooms.get(number = room.pull)
@@ -130,7 +155,12 @@ def StudentInfo(request):
                 " " + str(responseForm.cleaned_data['room_number'])
            
 
-            number = list(LotteryNumber.objects.all())[-1]
+            number = list(LotteryNumber.objects.all())
+            if(number):
+                number = number[-1]
+            else:
+                number = ""
+        
 
             return render(request,
                           'staff/StudentInfo.html',
@@ -161,7 +191,12 @@ def suiteStudentInfo(request):
                 str(responseForm.cleaned_data['building']) + \
                 " " + str(responseForm.cleaned_data['suite_number'])
 
-            number = list(LotteryNumber.objects.all())[-1]
+            number = list(LotteryNumber.objects.all())
+            if(number):
+                number = number[-1]
+            else:
+                number = ""
+        
 
             return render(request, 
                           'staff/StudentInfo.html',
@@ -195,7 +230,12 @@ def suiteConfirm(request):
     
         transaction.save()
 
-    number = list(LotteryNumber.objects.all())[-1]
+    number = list(LotteryNumber.objects.all())
+    if(number):
+        number = number[-1]
+    else:
+        number = ""
+        
     
     # todo: when select page is addded action should go there
     return render(request, 
@@ -257,7 +297,12 @@ def ConfirmSelection(request):
                     room.available = False
                 room.save()
 
-    number = list(LotteryNumber.objects.all())[-1]
+    number = list(LotteryNumber.objects.all())
+    if(number):
+        number = number[-1]
+    else:
+        number = ""
+        
     return render(request, 
                   'staff/ConfirmSelection.html',
                   {'HeaderText' : "Confirm this Room Selection Please", 
@@ -323,7 +368,12 @@ def editRoom(request):
                   {'LotteryNumber': number,'form' : form})
     
 def home(request):
-    number = list(LotteryNumber.objects.all())[-1]
+    number = list(LotteryNumber.objects.all())
+    if(number):
+        number = number[-1]
+    else:
+        number = ""
+        
     return render(request, 
                   'staff/home.html',
                   {'LotteryNumber' : number})

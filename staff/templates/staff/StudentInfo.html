@@ -111,17 +111,16 @@
                                 {% endfor %}
                                             
                                 {% for field in form.hidden_fields %}
-                                        {{ field }}
+                                        {{ field }}         
                                 {% endfor %}    
                                 </div> <!-- End tab-pane -->
                              <!-- End tab-content -->
 
-			           <button onclick="window.history.back();" 
-	      id="myButton" 
-	      class="save btn btn-default" >Back</button>
-
-      <button type="submit" class="save btn btn-default">Next</button>
                             {% endfor %}
+                                        
+                            <button onclick="window.history.back();" id="backButton" 
+	                           class="save btn btn-default" >Back</button>
+                            <button type="submit" class="save btn btn-default">Next</button>
                             </div>
                         </div>
                   </div>
@@ -177,5 +176,6 @@
     <script src='/static/staff/jquery-toggles-master/toggles.min.js' type='text/javascript'></script>
     <script src="/static/staff/RoomSelect/togglePullForm.js"></script>
     <script src="/static/staff/RoomSelect/addFormControlToInputs.js"></script>
+    <script src="/static/staff/RoomSelect/BackButtons.js"></script>
     </body>
 </html>
