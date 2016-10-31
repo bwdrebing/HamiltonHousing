@@ -28,11 +28,17 @@ def get_rooms_by_floor(rooms):
     
     # initialize dictionary to organize rooms by floor for filtering
     rooms_by_floor = collections.OrderedDict()
+    show_gender = False
+    show_pull = False
+    show_notes = False
         
     # loop through rooms to calculate building stats & organize rooms by floor
     for room in rooms:
         floor = room.floor
-        
+        show_gender = (show_gender or (room.gender != 'E'))
+        show_pull = (show_pull or room.pull)
+        show_notes = (show_notes or room.notes)
+            
         # if this room is in an apartment
         if room.apartment_number:
             
@@ -60,7 +66,7 @@ def get_rooms_by_floor(rooms):
             else:
                 rooms_by_floor[floor] = collections.OrderedDict([(room.number, [room])])
                 
-    return rooms_by_floor      
+    return (rooms_by_floor, show_gender, show_pull, show_notes)     
 
 # Building page view
 def building(request, building_name):
@@ -78,7 +84,7 @@ def building(request, building_name):
     # all the floor images associated with this building 
     floor_images = list(bldg.floor_plans.all().order_by('floor'))
     
-    rooms_by_floor = get_rooms_by_floor(rooms)
+    rooms_by_floor, show_gender, show_pull, show_notes = get_rooms_by_floor(rooms)
                
     # floors represented here are the keys in the dictionary
     floors = [ floor for floor in rooms_by_floor.keys() ]
@@ -96,6 +102,9 @@ def building(request, building_name):
                   'students/building.html', 
                   {'current_building': bldg,
                    'rooms_by_floor': rooms_by_floor, 
+                   'show_gender': show_gender,
+                   'show_pull': show_pull,
+                   'show_notes': show_notes,
                    'buildings': building_list,
                    'floors': floors,
                    'num_floors': num_floors,

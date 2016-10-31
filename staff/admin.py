@@ -82,7 +82,25 @@ class RoomResource(resources.ModelResource):
                     if word.lower() in HouseSyns:
                         row[key] = row[key].replace(' '+ word, '', 1)
                         
-                        
+    def after_import_row(self, row, row_result, **kwargs):
+        
+        instanceBuilding = Building.objects.get(name = row['BUILDING'])
+        instance = Room.objects.filter(building = instanceBuilding).get(number = row['ROOM'])
+        if(row['ROOM TYPE'] == "S"):
+            instance.total_beds = 1
+        if(row['ROOM TYPE'] == "D"):
+            instance.total_beds = 2
+        if(row['ROOM TYPE'] == "T"):
+            instance.total_beds = 3
+        if(row['ROOM TYPE'] == "Q"):
+            instance.total_beds = 4
+        if(row['ROOM TYPE'] == "B"):
+            instance.total_beds = 6
+        
+        instance.available_beds = instance.total_beds
+        instance.available = True
+        instance.save()
+      
 # Action for admin page
 def make_available(modeladmin, request, queryset):
     """Adds action to Room admin page - make rooms available"""
@@ -107,7 +125,7 @@ make_all_beds_available.short_description = "Make all beds available for selecte
 
 class RoomAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = RoomResource
-    list_display = ['building', 'number', 'apartment_number', 'available_beds', 'gender', 'available']
+    list_display = ['building', 'number', 'room_type', 'apartment_number', 'available_beds', 'gender', 'available']
     ordering = ['building']
     actions = [make_available, make_unavailable, make_all_beds_available]
     
@@ -209,7 +227,6 @@ class BuildingAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 # -------------------------------------------------------------
 
 class TransactionResource(resources.ModelResource):
-    
     '''this is just the bare bones set up for exporting transactions
     after we adjust this model we can set up export processing with
     foreignkeys, nice titles, etc'''
@@ -222,6 +239,7 @@ class TransactionAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         
 admin.site.register(LotteryNumber)
 admin.site.register(FloorPlan)
+admin.site.register(BlockTransaction)
 admin.site.register(Transaction, TransactionAdmin)
 admin.site.register(Building, BuildingAdmin)    
 admin.site.register(Room, RoomAdmin)

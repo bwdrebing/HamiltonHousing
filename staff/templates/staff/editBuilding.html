@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Review a Room</title>
+    <title>Edit Building</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/static/staff/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -19,9 +19,6 @@
 
     <!-- Custom styles for this template -->
     <link href="/static/staff/home/starter-template.css" rel="stylesheet">
-
-    <!-- Progress bar formatting -->
-    <link href="/static/staff/progressbar/progressbar.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -36,46 +33,18 @@
 
   <body>
     {% include "staff/header.html" %}
-   
-      
+
     <div class="container">
 
-      
-
       <div class="starter-template">
-        <h1>Review a Room</h1>
-	<p class="lead">{{ HeaderText }}</p>
-	<form method="POST" class="post-form" action="{{Action}}">{% csrf_token %}
+        <h1>Edit Building Information</h1>
+	<form method="POST" class="post-form">{% csrf_token %}
 	{{form.as_p}}
-	<button type="submit" class="save btn btn-default">Next</button>
+	<button type="submit" class="save btn btn-default">Save</button>
 	</form>
       </div>
 
-          <div class="row bs-wizard" style="border-bottom:0;">
-                
-                <div class="col-xs-4 bs-wizard-step active"><!-- active -->
-                  <div class="text-center bs-wizard-stepnum">Step 1</div>
-                  <div class="progress"><div class="progress-bar"></div></div>
-                  <a href="#" class="bs-wizard-dot"></a>
-                  <div class="bs-wizard-info text-center">Building Information</div>
-                </div>
-                
-                <div class="col-xs-4 bs-wizard-step disabled">
-                  <div class="text-center bs-wizard-stepnum">Step 2</div>
-                  <div class="progress"><div class="progress-bar"></div></div>
-                  <a href="#" class="bs-wizard-dot"></a>
-                  <div class="bs-wizard-info text-center">Transaction Information</div>
-                </div>
-                
-                <div class="col-xs-4 bs-wizard-step disabled">
-                  <div class="text-center bs-wizard-stepnum">Step 3</div>
-                  <div class="progress"><div class="progress-bar"></div></div>
-                  <a href="#" class="bs-wizard-dot"></a>
-                  <div class="bs-wizard-info text-center">Confirm</div>
-                </div>
-          </div>
-      
-      
+		
     </div><!-- /.container -->
 
 
@@ -86,10 +55,6 @@
     <script>window.jQuery || document.write('<script src="/static/staff/assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="/../static/staff/dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="/static/staff/assets/js/ie10-viewport-bug-workaround.js">
-    </script>
-      
-    <!-- Our own scripts -->
-    <script src="/static/staff/RoomSelect/buildingRoomsFilter.js"></script>
-    </body>
+    <script src="/static/staff/assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
 </html>

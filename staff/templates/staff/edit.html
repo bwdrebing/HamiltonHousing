@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Staff Edit Options</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/staff/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!--<link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">-->
+
+    <!-- Custom styles for this template -->
+    <link href="/static/staff/home/starter-template.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!--<script src="../../assets/js/ie-emulation-modes-warning.js"></script>-->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    {% include "staff/header.html" %}
+
+    <div class="container">
+
+    <!--
+      <div class="starter-template">
+        <h1>Staff Admin Edit Options</h1>
+	<p class="lead">Select one of the options below</p>
+      </div>
+        
+    <div class="panel-group">
+    <div class="panel panel-warning">
+        <div class="panel-heading">Edit Room</div>
+        <div class="panel-body">Use this to make changes to the details of a room.</div>
+    </div>
+      <div class="panel panel-warning">
+        <div class="panel-heading">Edit Building</div>
+        <div class="panel-body">Use this to make changes to the details of a building.</div>
+      </div>
+      <div class="panel panel-warning">
+        <div class="panel-heading">Edit Selection</div>
+        <div class="panel-body">Use this to make changes to the demographics in a specific room.</div>
+      </div>
+    </div>
+    -->
+    <div class="starter-template">
+        <h1>Staff Admin Edit Options</h1>
+	   <p class="lead">Select one of the options below</p>
+    </div>
+    <hr class="">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a href= "/staff/edit/room">
+                        <h3 class="">Edit Room</h3>
+                    </a>
+                </div>
+                <div class="panel-body">Use this to make changes to the details of a room.
+                    <br><br>Ex. Bundy 104 listed as a double instead of a single.</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a href = "/staff/edit/building">
+                        <h3 class="">Edit Building</h3>
+                    </a>
+                </div>
+                <div class="panel-body">Use this to make changes to the details of a building.
+                    <br><br>Ex. Saunders listed as having no singles.</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a href = "/staff/reviewroom">
+                            <h3 class="">Edit Selection</h3>
+                        </a>
+                    </div>
+                <div class="panel-body">Use this to make changes to the demographics in a specific room.
+                    <br><br>Ex. Marked occupant as Class of 2018 instead of Class of 2019.</div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <br class="">
+            <br class="">
+            <br class="">
+            <br class="">
+        </div>
+    </div>
+
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/static/staff/assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="/../static/staff/dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/static/staff/assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>

@@ -11,21 +11,46 @@ class LotteryNumberForm(forms.ModelForm):
         fields = ('number',)
 
 class BuildingForm(forms.Form):
-
     name = forms.ChoiceField()
     room_number = forms.ChoiceField()
     
     def __init__(self, *args, **kargs):
         super(BuildingForm, self).__init__(*args, **kargs)
+        
         buildingChoices = [(o.name, o.name) for o in list(Building.objects.all())]
         buildingChoices.insert(0,('','-- Select a Building --')) 
 
-        rooms = list(Room.objects.filter(available=True))
+        rooms = list(Room.objects.filter(available=True).exclude(available_beds = 0))
         roomChoices = [(o.number, o.building) for o in rooms]
         roomChoices.insert(0,('',''))
         
         self.fields['name'].choices = buildingChoices 
         self.fields['room_number'].choices = roomChoices
+        
+class suiteInfoForm(forms.Form):
+    """A form allowing a user to choose a building and room number that corresponds to a block"""
+    building = forms.ChoiceField()
+    suite_number = forms.ChoiceField()
+    
+    def __init__(self, *args, **kargs):
+        kargs.setdefault('label_suffix', '')
+        super(suiteInfoForm, self).__init__(*args, **kargs)
+        blocks = list(Room.objects.filter(available = True)
+                                  .exclude(available_beds = 0)
+                                  .filter(room_type = 'B'))
+        
+        suiteChoices = []
+        buildingChoices = []
+        
+        for block in blocks:
+            suiteChoices.append((block.number, block.building))
+            if (block.building.name, block.building.name) not in buildingChoices:
+                buildingChoices.append((block.building.name, block.building.name))
+    
+        buildingChoices.insert(0,('','-- Select a Building --')) 
+        
+        self.fields['building'].choices = buildingChoices 
+        self.fields['suite_number'].choices = suiteChoices
         
     
 class StudentInfoForm(forms.Form):
@@ -37,15 +62,14 @@ class StudentInfoForm(forms.Form):
         self.studentFields = []
         self.pullToggle = None
 
-    def forBlock(self,suite):
+    def forBlock(self, suite, prefix=""):
         self.numberOfStudents = suite.available_beds
         self.fields[prefix + 'numberOfStudents'] = forms.IntegerField(
                 initial = self.numberOfStudents,
                 widget = forms.HiddenInput(),
-                )
-        self.fields[prefix + 'Number' + str(i)] = forms.IntegerField(
-            label = 'Resident #' + str(i+1) + ' Lottery Number')
+        )
         
+        self.fields[prefix + 'Number0'] = forms.IntegerField(label = 'Block Lottery Number')
 
         for i in range(self.numberOfStudents):
             
@@ -71,6 +95,13 @@ class StudentInfoForm(forms.Form):
                 choices = [('M', 'Male'), ('F', 'Female')] 
                 )
             self.fields[prefix + 'Gender'+str(i)] = gender
+            
+            #Build field for the suite_number
+            self.fields[prefix + 'Suite_Number' + str(i)] = forms.CharField(
+                    disabled = True,
+                    initial = suite.number,
+                    widget = forms.HiddenInput()
+            )
 
     
     def forBaseRoom(self, room, prefix = ""):
@@ -167,3 +198,34 @@ class ReviewStudentInfoForm(forms.Form):
                 choices = [('male', 'Male'), ('female', 'Female')],
                 initial = transaction_rooms[i].Pullee_Year
                 )
+            
+class editBuildingForm(forms.ModelForm):
+
+    buildingChoices = [(o.name, o.name) for o in list(Building.objects.all())]
+    buildingChoices.insert(0,('','-- Select a Building --')) 
+    
+    building = forms.ChoiceField(choices= buildingChoices)
+
+    class Meta:
+        model = Building
+        fields = ['building', 'available', 'closed_to','notes',]
+          
+class editRoomForm(forms.ModelForm):
+    name = forms.ChoiceField()
+    room_number = forms.ChoiceField()
+    
+    def __init__(self, *args, **kargs):
+        super(editRoomForm, self).__init__(*args, **kargs)
+        
+        buildingChoices = [(o.name, o.name) for o in list(Building.objects.all())]
+        buildingChoices.insert(0,('','-- Select a Building --')) 
+
+        rooms = list(Room.objects.filter(available=True).exclude(available_beds = 0))
+        roomChoices = [(o.number, o.building) for o in rooms]
+        
+        self.fields['name'].choices = buildingChoices 
+        self.fields['room_number'].choices = roomChoices
+
+    class Meta:
+        model = Room
+        fields = ['name', 'room_number', 'available', 'gender', 'available_beds', 'pull', 'notes']

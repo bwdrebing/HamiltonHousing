@@ -25,6 +25,9 @@
     <!-- Custom styles for this template -->
     <link href="/static/staff/home/starter-template.css" rel="stylesheet">
 
+    <!-- Progress bar formatting -->
+    <link href="/static/staff/progressbar/progressbar.css" rel="stylesheet">
+
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <!--<script src="../../assets/js/ie-emulation-modes-warning.js"></script>-->
@@ -40,9 +43,7 @@
     {% include "staff/header.html" %}
     <div class="container">
       <div class="starter-template">
-	<button onclick="window.history.back();" 
-		id="myButton" 
-		class="float-left submit-button" >Back</button>
+
           <div class="container col-md-12">
               <form role="form" method="POST" class="post-form form-horizontal" action="{{Action}}">
                         {% csrf_token %}
@@ -52,7 +53,7 @@
                   <h1 class="panel-title">Input Student Information</h1>
                     <ul class="nav nav-pills">
                         {% for room in Rooms %}
-                            {% if forloop.counter0 == 0%}
+                            {% if forloop.counter0 == 0 %}
                             <li class="active">
                             {% else %}
                             <li>
@@ -62,7 +63,7 @@
                         {% endfor %}
                       <ul class="nav navbar-nav navbar-right">
                           <li>
-	                       <button type="submit" class="save btn btn-default">Save</button>
+	                      
                           </li>
                       </ul>
                         </ul>
@@ -114,6 +115,12 @@
                                 {% endfor %}    
                                 </div> <!-- End tab-pane -->
                              <!-- End tab-content -->
+
+			           <button onclick="window.history.back();" 
+	      id="myButton" 
+	      class="save btn btn-default" >Back</button>
+
+      <button type="submit" class="save btn btn-default">Next</button>
                             {% endfor %}
                             </div>
                         </div>
@@ -121,18 +128,41 @@
               </div>
           </div>
 
+
+
     </form>
     </div>
 
+          <div class="row bs-wizard" style="border-bottom:0;">
+                
+                <div class="col-xs-4 bs-wizard-step complete"><!-- active -->
+                  <div class="text-center bs-wizard-stepnum">Step 1</div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="#" class="bs-wizard-dot"></a>
+                  <div class="bs-wizard-info text-center">Building Information</div>
+                </div>
+                
+                <div class="col-xs-4 bs-wizard-step active">
+                  <div class="text-center bs-wizard-stepnum">Step 2</div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="#" class="bs-wizard-dot"></a>
+                  <div class="bs-wizard-info text-center">Student information</div>
+                </div>
+                
+                <div class="col-xs-4 bs-wizard-step disabled">
+                  <div class="text-center bs-wizard-stepnum">Step 3</div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="#" class="bs-wizard-dot"></a>
+                  <div class="bs-wizard-info text-center">Confirm</div>
+                </div>
+          </div>
+
+
+
     </div><!-- /.container -->
 
-	  <div class="progress">
-	    <div class="progress-bar progress-bar-info progress-bar-striped" 
-		 role="progressbar" aria-valuenow="50" aria-valuemin="0" 
-		 aria-valuemax="100" style="width:33%">
-	      <font color="black">33% Complete</font>
-	    </div>
-	  </div>
+
+      
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
