@@ -35,10 +35,8 @@ class RoomResource(resources.ModelResource):
         attribute = 'pull', 
         column_name = 'PULL', 
         default = '') 
-    apartment_number = fields.Field(
-        attribute = 'apartment_number', 
-        column_name = 'APARTMENT', 
-        default = '')
+    apartment = fields.Field(
+        column_name = 'APARTMENT')
     notes = fields.Field(
         attribute = 'notes', 
         column_name = 'SPECIFICS', 
@@ -51,7 +49,7 @@ class RoomResource(resources.ModelResource):
     class Meta:
         import_id_fields = ['building', 'number']
         model = Room
-        fields = ('building', 'number', 'room_type', 'gender', 'pull', 'notes', 'notes2',           'apartment_number')
+        fields = ('building', 'number', 'room_type', 'gender', 'pull', 'notes', 'notes2',                       'apartment')
         export_order = fields
         
     def before_import_row(self, row, **kwargs):
@@ -59,8 +57,8 @@ class RoomResource(resources.ModelResource):
         Override to add additional logic. Does nothing by default.
         """
         for key, value in row.items():
-            if (value):
-                row[key] = re.sub('[^A-Za-z0-9 ]+', '', value)
+            if isinstance(value, str):
+                row[key] = re.sub('[^A-Za-z0-9 ]+', '', row[key])
             if (value == "DOUBLE"):
                 row[key] = 'D'
             if (value == "SINGLE"):
@@ -82,8 +80,22 @@ class RoomResource(resources.ModelResource):
                     if word.lower() in HouseSyns:
                         row[key] = row[key].replace(' '+ word, '', 1)
                         
-    def after_import_row(self, row, row_result, **kwargs):
-        
+        # if this room is in an apartment
+        if (row['APARTMENT']):
+            
+            # check if the apartment already exists, otherwise make it
+            bldg = Building.objects.get(name = row['BUILDING'])    
+            print(bldg)
+            apt = (Apartment.objects.filter(building = bldg)
+                                    .filter(number = row['APARTMENT']))    
+
+            if (not apt):
+                apt = Apartment.objects.create_apartment(bldg, row['APARTMENT'])
+                
+            row['APARTMENT'] = (Apartment.objects.filter(building = bldg)
+                                                 .get(number = row['APARTMENT']))  
+
+    def after_import_row(self, row, row_result, **kwargs):   
         instanceBuilding = Building.objects.get(name = row['BUILDING'])
         instance = Room.objects.filter(building = instanceBuilding).get(number = row['ROOM'])
         if(row['ROOM TYPE'] == "S"):
@@ -99,6 +111,11 @@ class RoomResource(resources.ModelResource):
         
         instance.available_beds = instance.total_beds
         instance.available = True
+        
+        # add apartment if it exists
+        if (row['APARTMENT']):
+            instance.apartment = row['APARTMENT']
+            
         instance.save()
       
 # Action for admin page
@@ -125,7 +142,7 @@ make_all_beds_available.short_description = "Make all beds available for selecte
 
 class RoomAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = RoomResource
-    list_display = ['building', 'number', 'room_type', 'apartment_number', 'available_beds', 'gender', 'available']
+    list_display = ['building', 'number', 'room_type', 'apartment', 'available_beds', 'gender',                       'available']
     ordering = ['building']
     actions = [make_available, make_unavailable, make_all_beds_available]
     
@@ -243,3 +260,4 @@ admin.site.register(BlockTransaction)
 admin.site.register(Transaction, TransactionAdmin)
 admin.site.register(Building, BuildingAdmin)    
 admin.site.register(Room, RoomAdmin)
+admin.site.register(Apartment)

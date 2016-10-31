@@ -40,21 +40,21 @@ def get_rooms_by_floor(rooms):
         show_notes = (show_notes or room.notes)
             
         # if this room is in an apartment
-        if room.apartment_number:
+        if room.apartment:
             
             # if the floor is already a key
             if floor in rooms_by_floor:
                 
                 # if this specific apt has been initialized as a key
-                if room.apartment_number in rooms_by_floor[floor]:
-                    rooms_by_floor[floor][room.apartment_number].append(room)
+                if room.apartment.number in rooms_by_floor[floor]:
+                    rooms_by_floor[floor][room.apartment.number].append(room)
                     
                 # if this specific apt has not been initialized
                 else:
-                    rooms_by_floor[floor][room.apartment_number] = [room]
+                    rooms_by_floor[floor][room.apartment.number] = [room]
                     
             else:
-                rooms_by_floor[floor] = collections.OrderedDict([(room.apartment_number,
+                rooms_by_floor[floor] = collections.OrderedDict([(room.apartment.number,
                                                                 [room])])
                                                                 
         else:

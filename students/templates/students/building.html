@@ -146,21 +146,33 @@
                   
                         <!-- An apartment dropdown -->
                         {% if apt_rooms|length > 1 %}
-                            <tr name="{{room}}" class="{{floor}} table-dropdown table-hoverable">
+                            {% with first_room=apt_rooms|first %}
+                            {% with apt=first_room.apartment %}
+                            <tr name="{{apt.name}}" class="{{floor}} table-dropdown table-hoverable">
                               <td><span class="glyphicon glyphicon-menu-down"></span></td>
-                              <td><strong>{{room}}</strong></td>
+                              <td><strong>{{apt.number}}</strong></td>
                               <td><strong>Apartment</strong></td>
-                              <td></td>
+                              <td>{{apt.available_beds}}</td>
                               {% if show_gender %}
-                                <td></td>
+                                <td>
+                                    {% if apt.gender == 'F' %}
+                                        Female
+                                    {% elif apt.gender == 'M' %}
+                                        Male
+                                    {% endif %}
+                                </td>
                               {% endif %}
                               {% if show_pull %}
                                 <td></td>
                               {% endif %}
                               {% if show_notes %}
-                                <td></td>
+                                <td>
+                                    {{apt.notes}}
+                                </td>
                               {% endif %}
                             </tr>
+                            {% endwith %}
+                            {% endwith %}
                   
                             <!-- Apartment rooms -->
                             {% for rm in apt_rooms %}
