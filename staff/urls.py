@@ -14,5 +14,7 @@ urlpatterns = [
     url(r'^reviewroom/reviewstudentinfo$', views.ReviewStudentInfo, name='review-room-student-info'),
     url(r'^reviewroom/confirmselection$', views.ConfirmSelection, name='review-room-confirm'),
     url(r'^edit$', views.edit, name='edit'),
+    url(r'^edit/building$', views.editBuilding, name = 'edit-building'),
+    url(r'^edit/room$', views.editRoom, name = 'edit-room'),
     url(r'^$', views.home, name='home'),
 ]

@@ -20,7 +20,19 @@ class Building(models.Model):
     total_fivepulls = models.PositiveSmallIntegerField(default=0)
     total_sixpulls = models.PositiveSmallIntegerField(default=0)
     total_beds = models.PositiveSmallIntegerField(default=0)
-    gender_blocked = models.BooleanField(default=False)
+    
+    #Gender Blocking Choices, can be closed to men, closed to women, or none
+    GENDER_CHOICES = (
+        ('F', 'Female'),
+        ('M', 'Male'),
+        ('N', 'None'),
+    )
+    
+    closed_to = models.CharField(
+        max_length=1,
+        choices=GENDER_CHOICES,
+        default='N', # None
+    )
     
     # ManyToManyField allows for a list-like collection of associated models (i think)
     floor_plans = models.ManyToManyField(
