@@ -149,7 +149,7 @@ class Apartment(models.Model):
     
     def _get_available_beds(self):
         available_beds = 0
-        rooms = (Room.objects.filter(building = self.building)
+        rooms = (Room.objects.filter(apartment = self)
                              .filter(available = True)
                              .exclude(available_beds = 0))
         for room in rooms:

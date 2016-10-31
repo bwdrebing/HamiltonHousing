@@ -68,9 +68,9 @@ def ReviewRoom(request):
 
     number = list(LotteryNumber.objects.all())[-1]
     return render(request, 
-                  'staff/ReviewRoom.html',
+                  'staff/edit/transaction.html',
                   {'HeaderText' : headerText,
-                   'Action' : '/staff/ReviewRoom/ReviewStudentInfo',
+                   'Action' : reverse('review-room-student-info'),
                    'LotteryNumber' : number,
                    'form' : form})
 
@@ -94,9 +94,9 @@ def ReviewStudentInfo(request):
             number = list(LotteryNumber.objects.all())[-1]
 
             return render(request, 
-                          'staff/ReviewStudentInfo.html',
+                          'staff/edit/transactionStudentInfo.html',
                           {'HeaderText' : headerText, 
-                           'Action' : '/staff/ReviewRoom/ConfirmSelection',
+                           'Action' : reverse('review-room-confirm'),
                            'LotteryNumber' : number, 
                            'form' : form})
 
@@ -135,7 +135,7 @@ def StudentInfo(request):
             return render(request,
                           'staff/StudentInfo.html',
                           {'HeaderText' : headerText, 
-                           'Action' : '/staff/RoomSelect/ConfirmSelection',
+                           'Action' : reverse('room-select-confirm'),
                            'LotteryNumber' : number, 
                            'Rooms' : roomsToRender,
                            'Forms' : formsToRender})
@@ -261,7 +261,7 @@ def ConfirmSelection(request):
     return render(request, 
                   'staff/ConfirmSelection.html',
                   {'HeaderText' : "Confirm this Room Selection Please", 
-                   'Action' : '/staff/RoomSelect',
+                   'Action' : reverse('room-select'),
                    'LotteryNumber' : number, 
                    'form' : None})
 
@@ -273,7 +273,7 @@ def edit(request):
     else:
         number = ""
     return render(request,
-                  'staff/edit.html',
+                  'staff/edit/edit.html',
                   {'LotteryNumber' : number})
 
 
@@ -296,7 +296,7 @@ def editBuilding(request):
                           {'LotteryNumber': number,'form' : form})
     form = editBuildingForm()
     return render(request, 
-                  'staff/editBuilding.html', 
+                  'staff/edit/building.html', 
                   {'LotteryNumber': number,'form' : form})
 
 def editRoom(request):
@@ -319,7 +319,7 @@ def editRoom(request):
                           {'LotteryNumber': number,'form' : form})
     form = editRoomForm()
     return render(request, 
-                  'staff/editRoom.html', 
+                  'staff/edit/room.html', 
                   {'LotteryNumber': number,'form' : form})
     
 def home(request):
