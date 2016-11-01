@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     url(r'^lotterynumber$', views.lotteryNumberInput, name='loto-num'),
+    url(r'select$', views.select, name='select'),
     url(r'select/suite$', views.suiteSelect, name='suite-select'),
     url(r'select/suite/studentinfo$', views.suiteStudentInfo, name='suite-select-student-info'),
     url(r'select/suite/confirm$', views.suiteConfirm, name='suite-select-confirm'),

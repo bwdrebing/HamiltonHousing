@@ -335,6 +335,20 @@ def edit(request):
                   {'LotteryNumber' : number})
 
 @login_required
+def select(request):
+    """A landing page for staff users to see descriptions of the two models they can place selections-
+    rooms and suites"""
+    # get next lottery number for header
+    nums = list(LotteryNumber.objects.all())
+    if (nums):
+        number = nums[-1]
+    else:
+        number = ""
+    return render(request,
+                  'staff/select/select.html',
+                  {'LotteryNumber' : number})
+
+@login_required
 def editBuilding(request):
     """Displays a form that allows user to edit certain building attributes (closed to women, men, etc.)"""
     # get next lottery number for header

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -32,20 +33,19 @@
   </head>
 
   <body>
-    {% include "staff/header.html" %}
-
-    <div class="container">
-
-      <div class="starter-template">
-        <h1>Welcome to the Lottery Staff Homepage</h1>
-	<p class="lead">Select one of the options above to start</p>
-              <hr class="">
+    {% include "staff/header.html" %}    
+<div class="container">
+    <div class="starter-template">
+        <h1>Staff Admin Select Options</h1>
+	   <p class="lead">Choose one of the options below</p>
+    </div>
+    <hr class="">
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-info">
-                <div class="panel-heading">
-                    <a href= "/staff/edit">
-                        <h3 class="">Edit Options</h3>
+                <div class="panel-heading text-center">
+                    <a href= "/staff/select/room">
+                        <h3 class="">Select Room</h3>
                     </a>
                 </div>
                 <div class="panel-body">Description goes here</div>
@@ -53,9 +53,9 @@
         </div>
         <div class="col-md-6">
             <div class="panel panel-info">
-                <div class="panel-heading">
-                    <a href = "/staff/select">
-                        <h3 class="">Select Options</h3>
+                <div class="panel-heading text-center">
+                    <a href = "/staff/select/suite">
+                        <h3 class="">Select Suite</h3>
                     </a>
                 </div>
                 <div class="panel-body">Description goes here</div>
@@ -70,18 +70,6 @@
             <br class="">
         </div>
     </div>
-      </div>
 
     </div><!-- /.container -->
 
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="/static/staff/assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="/../static/staff/dist/js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="/static/staff/assets/js/ie10-viewport-bug-workaround.js"></script>
-  </body>
-</html>
