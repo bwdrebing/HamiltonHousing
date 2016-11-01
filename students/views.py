@@ -41,6 +41,8 @@ def get_rooms_by_floor(rooms):
             
         # if this room is in an apartment
         if room.apartment:
+            show_gender = (show_gender or (room.apartment.gender != 'E'))
+            show_notes = (show_notes or room.apartment.notes)
             
             # if the floor is already a key
             if floor in rooms_by_floor:

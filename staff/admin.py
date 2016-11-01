@@ -221,7 +221,7 @@ def make_unavailable(modeladmin, request, queryset):
     """Adds action to Building admin page - make buildings unavailable"""
     queryset.update(available=False)
    
-#Mass action for admin page
+# Mass action for admin page
 def make_available(modeladmin, request, queryset):
     """Adds action to Building admin page - make buildings available"""
     queryset.update(available=True)    
@@ -232,7 +232,7 @@ make_available.short_description = "Mark selected buildings as available"
         
 class BuildingAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = BuildingResource
-    list_display = ['name', 'total_rooms', 'available']
+    list_display = ['name', 'total_rooms', 'closed_to', 'available']
     ordering = ['name']
     actions = [make_available, make_unavailable]
 

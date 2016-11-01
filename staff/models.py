@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-# Create your models here.
 class LotteryNumber(models.Model):
     number = models.PositiveSmallIntegerField()
 
@@ -149,7 +148,7 @@ class Apartment(models.Model):
     
     def _get_available_beds(self):
         available_beds = 0
-        rooms = (Room.objects.filter(building = self.building)
+        rooms = (Room.objects.filter(apartment = self)
                              .filter(available = True)
                              .exclude(available_beds = 0))
         for room in rooms:
