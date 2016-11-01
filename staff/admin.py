@@ -143,6 +143,7 @@ make_all_beds_available.short_description = "Make all beds available for selecte
 class RoomAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = RoomResource
     list_display = ['building', 'number', 'room_type', 'apartment', 'available_beds', 'gender',                       'available']
+    list_filter = ('gender', 'apartment', 'building')
     ordering = ['building']
     actions = [make_available, make_unavailable, make_all_beds_available]
     
@@ -234,6 +235,9 @@ class BuildingAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = BuildingResource
     list_display = ['name', 'total_rooms', 'closed_to', 'available']
     ordering = ['name']
+    
+    # fixme: add more options? what are good filtering options
+    list_filter = ('closed_to', )
     actions = [make_available, make_unavailable]
 
     
