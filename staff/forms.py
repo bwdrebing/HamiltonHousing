@@ -230,9 +230,9 @@ class editRoomForm(forms.ModelForm):
         model = Room
         fields = ['name', 'room_number', 'available', 'gender', 'available_beds', 'pull', 'notes']
         
-class userForm(forms.ModelForm):
+class userLoginForm(forms.Form):
+    username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput())
-
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'password')
+    
+    def __init__(self, *args, **kargs):
+        super(userLoginForm, self).__init__(*args, **kargs)

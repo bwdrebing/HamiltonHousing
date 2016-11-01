@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^edit$', views.edit, name='edit'),
     url(r'^edit/building$', views.editBuilding, name = 'edit-building'),
     url(r'^edit/room$', views.editRoom, name = 'edit-room'),
-    url(r'^register$', views.userRegistration, name = 'register'),
+    url(r'^login', views.userLogin, name='login'),
+    url(r'^logout$', views.userLogout, name='logout'),
     url(r'^$', views.home, name='home'),
 ]

@@ -17,14 +17,29 @@
             ></li>
           </ul>
     	  <ul class="nav navbar-nav navbar-right">
+            <li>
+               {% if user.is_authenticated %}
+                <p class="navbar-text">Logged in as <strong>{{user.username}}</strong></p>
+               {% endif %}
+            </li>
+            <li>
+               {% if user.is_authenticated %}
+                      <button type="button" class="btn btn-default navbar-btn" onclick="window.location='{% url 'logout' %}'" id="logout-button">
+                          Logout
+                      </button>
+               {% endif %}
+              </li>
               <li>
                   <a>
                     {% if LotteryNumber %}
                         Next Up: {{ LotteryNumber }}
                     {% endif %} 
                   </a>
+                  {# <a href="{% url 'login' %}">Login</a> #}
               </li>
+            
 	      </ul>
+       
     	</div><!--/.nav-collapse -->
     </div>
 </nav>
