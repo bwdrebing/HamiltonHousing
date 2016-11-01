@@ -47,7 +47,7 @@ def RoomSelect(request):
         
     
     return render(request, 
-                  'staff/RoomSelect.html',
+                  'staff/select/room.html',
                   {'HeaderText' : headerText,
                    'Action': reverse('room-select-student-info'),
                    'LotteryNumber' : number,
@@ -69,7 +69,7 @@ def suiteSelect(request):
     
     #fixme: Only render available rooms
     return render(request,
-                  'staff/select/suiteSelect.html',
+                  'staff/select/suite.html',
                   {'headerText': headerText,
                    'Action': reverse('suite-select-student-info'),
                    'LotteryNumber': number,
@@ -118,7 +118,6 @@ def ReviewStudentInfo(request):
             else:
                 number = ""
         
-
             return render(request, 
                           'staff/edit/transactionStudentInfo.html',
                           {'HeaderText' : headerText, 
@@ -164,7 +163,7 @@ def StudentInfo(request):
         
 
             return render(request,
-                          'staff/StudentInfo.html',
+                          'staff/select/studentInfo.html',
                           {'HeaderText' : headerText, 
                            'Action' : reverse('room-select-confirm'),
                            'LotteryNumber' : number, 
@@ -199,9 +198,8 @@ def suiteStudentInfo(request):
             else:
                 number = ""
         
-
             return render(request, 
-                          'staff/StudentInfo.html',
+                          'staff/select/studentInfo.html',
                           {'HeaderText' : headerText, 
                            'Action' : reverse('suite-select-confirm'),
                            'LotteryNumber' : number, 
@@ -241,7 +239,7 @@ def suiteConfirm(request):
     
     # todo: when select page is addded action should go there
     return render(request, 
-                  'staff/ConfirmSelection.html',
+                  'staff/confirmSelection.html',
                   {'HeaderText' : "Confirm Suite Selection Details", 
                    'Action' : reverse('home'),
                    'LotteryNumber' : number, 

@@ -253,6 +253,10 @@ class TransactionResource(resources.ModelResource):
         
 class TransactionAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = TransactionResource
+    
+class ApartmentAdmin(admin.ModelAdmin):
+    list_display = ['building', 'number', 'gender']
+    ordering = ['building', 'number']
         
 admin.site.register(LotteryNumber)
 admin.site.register(FloorPlan)
@@ -260,4 +264,4 @@ admin.site.register(BlockTransaction)
 admin.site.register(Transaction, TransactionAdmin)
 admin.site.register(Building, BuildingAdmin)    
 admin.site.register(Room, RoomAdmin)
-admin.site.register(Apartment)
+admin.site.register(Apartment, ApartmentAdmin)
