@@ -41,16 +41,24 @@
 
       <div class="starter-template">
         <h1>Welcome to Room Selection</h1>
-	<p class="lead">{{ HeaderText }}</p>
 	<form method="POST" class="post-form form-horizontal" action="{{Action}}">{% csrf_token %}
-	{% for field in form %}
-        
-		<div class="form-group"> 
-            <label for="FormInput" class = "control-label">{{field.label}} </label>
-            {{field}}
-        </div>
-	{% endfor %}	
 	
+    <div class="panel panel-default">
+        <div class="panel-heading">
+	        <h1 class="panel-title">{{HeaderText}}</h1>
+        </div>
+        <div class="panel-body">
+            {% for field in form %}
+            <div class="form-group">
+            <label for="FormInput" class = "col-sm-4 control-label">{{field.label}} </label>
+
+            <div class="col-sm-8">
+                {{field}}
+            </div>
+            </div>
+	        {% endfor %}
+        </div>
+	</div>
 	</p>
 
 	<button type="submit" class="save btn btn-default">Next</button>
