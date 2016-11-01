@@ -1,10 +1,23 @@
-$("#id_Show_Pull").change(function (){
-    var parentId = $(this).parent().parent().parent().attr('id');
-	if($("#id_Show_Pull:checked").val()){
-		$(".PullField" + parentId).show();	
-		$(".PullField" + parentId + " :input").prop('required',true);
-	} else {
-		$(".PullField" + parentId + " :input").prop('required',false);
-		$(".PullField" + parentId).hide();	
-	}
-})
+$('.toggle').toggles({
+    drag: false,
+    click: true,
+    text: {
+        on: "Yes",
+        off: "No"
+    },
+    on: true,
+});
+
+$('.toggle').on('toggle',function(e,active){
+    //Find the parent tab of the toggle...   
+    var parent = $(this).parent().parent().parent();
+    
+    //Show/Hide the form groups and then set the inputs to required or not.
+    if(active){
+        parent.children('.PullField').show();
+        parent.children('.PullField').find('input').prop('required', true);
+    } else {
+        parent.children('.PullField').hide();
+        parent.children('.PullField').find('input').prop('required', false);
+    }   
+});

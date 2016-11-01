@@ -7,27 +7,39 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Staff</a>
+          <a class="navbar-brand" href="{% url 'home' %}">Staff</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            {% url 'room-select' as select_room_url %}
-            {% url 'loto-num' as loto_num_url %}
-            {% url 'review-room' as review_room_url %}
-            <li><a href="{{select_room_url}}">Room Selection</a></li>
-            <li><a href="{{loto_num_url}}">Number Input</a></li>
-            <li><a href="{{review_room_url}}">Review a Room</a
+            <li><a href="{% url 'room-select' %}">Room Selection</a></li>
+            <li><a href="{% url 'loto-num' %}">Number Input</a></li>
+            <li><a href="{% url 'review-room' %}">Review a Room</a
             ></li>
           </ul>
     	  <ul class="nav navbar-nav navbar-right">
+            <li>
+               {% if user.is_authenticated %}
+                <p class="navbar-text">Logged in as <strong>{{user.username}}</strong></p>
+               {% endif %}
+            </li>
+            <li>
+               {% if user.is_authenticated %}
+                      <button type="button" class="btn btn-default navbar-btn" onclick="window.location='{% url 'logout' %}'" id="logout-button">
+                          Logout
+                      </button>
+               {% endif %}
+              </li>
               <li>
                   <a>
                     {% if LotteryNumber %}
                         Next Up: {{ LotteryNumber }}
                     {% endif %} 
                   </a>
+                  {# <a href="{% url 'login' %}">Login</a> #}
               </li>
+            
 	      </ul>
+       
     	</div><!--/.nav-collapse -->
     </div>
 </nav>

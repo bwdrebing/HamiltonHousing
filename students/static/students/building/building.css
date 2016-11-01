@@ -3,13 +3,13 @@
      -moz-border-radius: 0 !important;
           border-radius: 0 !important;
 }*/
-
+/*
 * {
     -webkit-border-radius: 0 !important;
     -moz-border-radius: 0 !important;
     border-radius: 0 !important;
 }
-
+*/
 .stat-panel-heading .panel-title {
     text-transform: uppercase;
     font-family: "Ideal Sans SSm A", "Ideal Sans SSm B", "Ideal Sans", sans-serif;
@@ -18,6 +18,10 @@
     line-height: 1.2;
     font-size: 1.25rem;
     color: #686e78;
+}
+
+#page-title {
+    margin-bottom: 20px;   
 }
 
 .table-responsive {

@@ -143,6 +143,7 @@ make_all_beds_available.short_description = "Make all beds available for selecte
 class RoomAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = RoomResource
     list_display = ['building', 'number', 'room_type', 'apartment', 'available_beds', 'gender',                       'available']
+    list_filter = ('gender', 'apartment', 'building')
     ordering = ['building']
     actions = [make_available, make_unavailable, make_all_beds_available]
     
@@ -221,7 +222,7 @@ def make_unavailable(modeladmin, request, queryset):
     """Adds action to Building admin page - make buildings unavailable"""
     queryset.update(available=False)
    
-#Mass action for admin page
+# Mass action for admin page
 def make_available(modeladmin, request, queryset):
     """Adds action to Building admin page - make buildings available"""
     queryset.update(available=True)    
@@ -232,8 +233,11 @@ make_available.short_description = "Mark selected buildings as available"
         
 class BuildingAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = BuildingResource
-    list_display = ['name', 'total_rooms', 'available']
+    list_display = ['name', 'total_rooms', 'closed_to', 'available']
     ordering = ['name']
+    
+    # fixme: add more options? what are good filtering options
+    list_filter = ('closed_to', )
     actions = [make_available, make_unavailable]
 
     
@@ -253,6 +257,10 @@ class TransactionResource(resources.ModelResource):
         
 class TransactionAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = TransactionResource
+    
+class ApartmentAdmin(admin.ModelAdmin):
+    list_display = ['building', 'number', 'gender']
+    ordering = ['building', 'number']
         
 admin.site.register(LotteryNumber)
 admin.site.register(FloorPlan)
@@ -260,4 +268,4 @@ admin.site.register(BlockTransaction)
 admin.site.register(Transaction, TransactionAdmin)
 admin.site.register(Building, BuildingAdmin)    
 admin.site.register(Room, RoomAdmin)
-admin.site.register(Apartment)
+admin.site.register(Apartment, ApartmentAdmin)

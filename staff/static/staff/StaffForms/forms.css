@@ -1,0 +1,17 @@
+body {
+    text-align: center;
+}
+
+label {
+    font-size: 125%;
+}
+
+.form-control {
+    font-size: 150%;
+    height: 150%;
+
+}
+
+.form-btn {
+    font-size: 150%;
+}
