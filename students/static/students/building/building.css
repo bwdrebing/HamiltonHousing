@@ -27,10 +27,6 @@
     background-color: #fc4a1a;   
 }
 
-.building-stats {
-    margin-bottom: 20px;
-}
-
 /* panels */
 .panel {
     background-color: #F7C331;
@@ -101,6 +97,18 @@
     padding-right: 15px;
     padding-top: 15px;
     padding-bottom: 5px;
+}
+
+.floor-selector {
+    border-radius: 0px;
+    border: 1px solid;
+    border-color: lightgray;
+}
+
+.dropdown-toggle {
+    border-radius: 0px;
+    border: none;
+    padding-bottom: 10px;
 }
 
 /* -------------------------
