@@ -55,7 +55,7 @@
                   <span class="label building-label">Closed to Men</span>
                   {% endif %}
               </h1>
-              <div class="row">
+              <div class="row building-stats">
                   
                    <!-- Types of Rooms -->
                    <div class="container col-md-6">
@@ -91,6 +91,19 @@
                                 {{building.notes}}
                             </div>
                        </div>
+                  </div>
+                  {% endif %}
+                  
+                  {% if floor_images %}
+                  <!-- Link to floor plan images if small screen -->
+                  <div class="container col-md-6 hidden-md hidden-lg">
+                    <a href="#floorPlans" class="nodecor" id="floorPlanViewButton">
+                      <div class="panel-green panel-default nodecor">
+                            <div class="stat-panel-heading-green nodecor">
+                                <h3 class="panel-title-green nodecor" id="floorPlanViewText"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> View Floor Plans <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></h3>
+                            </div>
+                       </div>
+                    </a>
                   </div>
                   {% endif %}
                 
@@ -289,20 +302,19 @@
     {% endif %}
         
     <!-- second half of screen (floor plans) -->
+    {% if floor_images %}
+    <a name="floorPlans"></a>
     <div class="col-md-6 col-xs-12">
         
         <!-- large floor image -->
-        {% if floor_images %}
         {% with first_image=floor_images|first %}
             <h2 id="floorPlanName">{{ first_image.display_name }}</h2>
         
             <!-- floor plan image -->
             <img id="fullFloorPlan" class="img-responsive floor-plan-img" src="{{first_image.image.url}}" data-zoom-image="{{first_image.image.url}}"/>
         {% endwith %}
-        {% endif %}
         
         <!-- floor plan thumbnail links -->
-        {% if floor_images %}
         <div class="row">
             {% for floorplan in floor_images %}
                 <div class="col-xs-3 col-md-3 thumb-div" id="thumbnail-gallery">
@@ -319,9 +331,9 @@
                 </div>
             {% endfor %}
         </div>
-        {% endif %}
-
     </div><!--/floor plans-->
+    {% endif %}
+        
     </div><!--/row-offcanvas -->
 
 
