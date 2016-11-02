@@ -6,12 +6,19 @@
         </div>
         <ul class="nav nav-pills nav-stacked" id="building-sidebar">
             {% for building in buildings %}
-                {% url 'building-view' building.name as building_url %}
                 {% if building.available_rooms > 0 %}
                     {% if building.name == current_building.name %}
-                       <li class="active"><a href="{{building_url}}">{{building}}</a></li>
+                       <li class="active">
+                           <a href="{% url 'building-view' building.name %}" class="sidebar-link">
+                            {{building}}
+                           </a>
+                        </li>
                     {% else %}
-                        <li class="#"><a href="{{building_url}}">{{building}}</a></li>
+                        <li>
+                            <a href="{% url 'building-view' building.name %}" class="sidebar-link">
+                                {{building}}
+                            </a>
+                        </li>
                     {% endif %}
                 {% endif %}
              {% endfor %}

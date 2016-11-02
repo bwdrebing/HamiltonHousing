@@ -50,17 +50,17 @@
               <h1 id="page-title">
                   {{current_building.name}} 
                   {% if current_building.closed_to == 'F' %}
-                  <span class="label label-warning">Closed to Women</span>
+                  <span class="label building-label">Closed to Women</span>
                   {% elif current_building.closed_to == 'M' %}
-                  <span class="label label-warning">Closed to Men</span>
+                  <span class="label building-label">Closed to Men</span>
                   {% endif %}
               </h1>
               <div class="row">
                   
                    <!-- Types of Rooms -->
                    <div class="container col-md-6">
-                      <div class="panel panel-default stat-panel-heading">
-                            <div class="panel-heading">
+                      <div class="panel panel-default">
+                            <div class="stat-panel-heading">
                                 <h3 class="panel-title">Types of Rooms</h3>
                             </div>
                             <div class="panel-body">
@@ -238,7 +238,12 @@
                               {% elif rm.room_type == 'Q' %}
                                 Quad
                               {% elif rm.room_type == 'B' %}
-                                Block
+                                {# fixme: if morris say apartment not suite #}
+                                {% if currrent_building.name == "Morris" %}
+                                  Apartment
+                                {% else %}
+                                  Suite
+                                {% endif %}
                               {% else %}
                                 N/A
                               {% endif %}
