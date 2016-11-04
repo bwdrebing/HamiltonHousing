@@ -12,8 +12,8 @@ body {
 
 #sidebar {
   width: inherit;
-  min-width: 220px;
-  max-width: 220px;
+  min-width: 250px;
+  max-width: 250px;
   background-color: dimgray;
   float: left;
   height:100%;
@@ -82,12 +82,12 @@ body {
     -webkit-transition: all 0.25s ease-out;
     -moz-transition: all 0.25s ease-out;
     transition: all 0.25s ease-out;
-    width:calc(100% + 220px);
+    width:calc(100% + 250px);
   }
     
   .row-offcanvas-left
   {
-    left: -220px;
+    left: -250px;
   }
 
   .row-offcanvas-left.active {

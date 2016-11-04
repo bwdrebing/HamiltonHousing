@@ -261,6 +261,9 @@ class TransactionAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 class ApartmentAdmin(admin.ModelAdmin):
     list_display = ['building', 'number', 'gender']
     ordering = ['building', 'number']
+    
+class PageContentAdmin(admin.ModelAdmin):
+    list_display = ['name', 'lottery_name', 'header_text', 'updated', 'active']
         
 admin.site.register(LotteryNumber)
 admin.site.register(FloorPlan)
@@ -269,3 +272,4 @@ admin.site.register(Transaction, TransactionAdmin)
 admin.site.register(Building, BuildingAdmin)    
 admin.site.register(Room, RoomAdmin)
 admin.site.register(Apartment, ApartmentAdmin)
+admin.site.register(PageContent, PageContentAdmin)

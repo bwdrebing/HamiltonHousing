@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Building
 from .models import Room
 from .models import LotteryNumber
+from .models import PageContent
 import collections                  # for the ordered dictionary
 
 # Home page view
@@ -14,7 +15,11 @@ def home(request):
         number = nums[-1]
     else:
         number = ""
+        
+    pageContent = PageContent.objects.filter(active=True).latest()
+        
     return render(request, 'students/home.html', {'buildings': buildings,
+                                                  'pageContent': pageContent,
                                                   'LotteryNumber': number})
 
 
@@ -101,4 +106,20 @@ def building(request, building_name):
                    'floors': floors,
                    'buildings': building_list,
                    'floor_images': floor_images,
+                   'LotteryNumber': number})
+
+def contact(request):
+    building_list = (Building.objects.exclude(available = False)
+                                     .order_by('name'))
+    
+     # get next lottery number for header
+    nums = list(LotteryNumber.objects.all())
+    if (nums):
+        number = nums[-1]
+    else:
+        number = ""
+        
+    return render(request, 
+                  'students/contact.html', 
+                  {'buildings': building_list,
                    'LotteryNumber': number})

@@ -27,6 +27,6 @@ urlpatterns = [
     url(r'^logout$', views.userLogout, name='logout'),
     
     # home
-    url(r'^home$', views.home, name='home'),
-    url(r'^$', views.home, name='home'),
+    url(r'^home$', views.home, name='staff-home'),
+    url(r'^$', views.home, name='staff-home'),
 ]

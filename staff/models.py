@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from datetime import datetime
 
 class LotteryNumber(models.Model):
     number = models.PositiveSmallIntegerField()
@@ -358,3 +359,55 @@ class Resident(models.Model):
             string = "student(" + str(self.gender) + ")"
             
         return string
+    
+class PageContent(models.Model):
+    name = models.CharField(
+        max_length=50,
+        default="General Lottery page content"
+    )
+    
+    header_text = models.CharField(
+        max_length=50,
+        default="Let the search begin",
+        help_text="This text will be displayed on the students home page as a page title",
+        verbose_name="Home page main text"
+    )
+    
+    header_subtext = models.TextField(
+        default="Select a building from the left sidebar to view room availability by building",
+        help_text="This text will be displayed on the home page below the title in a smaller font",
+        verbose_name="Home page lead text"
+    )
+        
+    header_block_text = models.TextField(
+        default="", 
+        blank=True,
+        help_text="This text will be displayed as a paragraph below the page title and subtitle",
+        verbose_name="Home page block text"
+    )
+  
+    lottery_name = models.CharField(
+        max_length=25,
+        default="General Lottery",
+        help_text="This is the name of the current lotter; it will display on the home page"
+    )
+    
+    lottery_text = models.TextField(
+        default='The General Lottery provides students an opportunity to select all other housing options not chosen in the Blocking, Co-Op and Substance-Free lotteries or otherwise pre-assigned. You do not need to sign up for the General Lottery. For more information about the lottery visit the <a href="https://www.hamilton.edu/offices/residentiallife/lottery/general-lottery">Office of Residential Life website</a>.',
+        help_text="This is a description of the logistics of the this lottery"
+    )
+    
+    contact = models.TextField(
+        default='For questions or comments about the use of this website, please fill out our <a href="{% url \'contact\' %}">contact form</a>.\n\nQuestions pertaining to the lottery and the lottery process should be directed to Ashley Place, assistant director of Residential Life, at <a href="mailto:aplace@hamilton.edu">aplace@hamilton.edu</a>.',
+        help_text="This is a block of text explaining who to contact with any immediate questions."
+    )
+    
+    active = models.BooleanField(default=True)
+    
+    updated = models.DateTimeField(auto_now=True, blank=True)
+    
+    class Meta:
+        get_latest_by = "updated"
+    
+    def __str__(self):
+        return self.name

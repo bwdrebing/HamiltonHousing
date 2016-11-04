@@ -18,12 +18,8 @@
     <!--<link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">-->
 
     <!-- Custom styles for this template - sidebar, etc. -->
-    <link href="/static/students/home/home.css" rel="stylesheet">
     <link href="/static/students/sidebar/sidebar.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <!--<script src="../../assets/js/ie-emulation-modes-warning.js"></script>-->
+    <link href="/static/students/home/home.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -34,22 +30,60 @@
 
   <body>
     {% include "students/header.html" %}
+      
     <div class="row-offcanvas row-offcanvas-left">
       {% include "students/sidebar.html" %}
     
       <div id="main">
           <div class="container">
               <div class="container col-md-12" id="home-jumbotron">
-                    <h1>Welcome to the Subfree Lottery</h1>
-                    <p class="lead">Select a building from the left navigation to view room availability by dorm</p>
+                    <h1>
+                        {{pageContent.header_text}}
+                    </h1>
+                    <p class="lead">
+                        {{ pageContent.header_subtext|linebreaksbr }}
+                    </p>
+                    <hr class="yellow-line">
               </div>
-              <div class="col-md-12">
-                  <div class="container">
-                        <a class="twitter-timeline"
-                        href="https://twitter.com/HamiltonResLife">
-                        Tweets by @HamiltonResLife
-                        </a>
+              
+              <div class="panel-group" id="landing-panel-group">
+                  <div class="col-md-6 container">
+                      <div class="landing-panel panel">
+                        <div class="landing-panel-heading container col-md-12" data-toggle="collapse" data-target="#lottery-info-panel" style="clear: both;">
+                            <h3 class="landing-panel-title" style="float: left;">Lottery Logistics</h3>
+                            <h3 class="landing-panel-title" style="float: right;"><span class="glyphicon glyphicon-plus"></span></h3>
+                        </div>
+                        <div id="lottery-info-panel" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <h4>
+                                    {{ pageContent.lottery_name }}
+                                </h4>
+                                {{ pageContent.lottery_text|linebreaksbr }} 
+                            </div>
+                        </div>
+                      </div>
                   </div>
+
+                  <div class="col-md-6 container">
+                      <div class="landing-panel panel">
+                        <div class="landing-panel-heading container col-md-12" data-toggle="collapse" data-target="#contact-info-panel" style="clear: both;">
+                            <h3 class="landing-panel-title" style="float: left;">Contact</h3>
+                            <h3 class="landing-panel-title" style="float: right;"><span class="glyphicon glyphicon-plus"></span></h3>
+                        </div>
+                        <div id="contact-info-panel" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                For questions or comments about the use of this website, please fill out our <a href="{% url 'contact' %}">contact form</a>.<br><br>
+                                {{ pageContent.contact|linebreaksbr }}
+                            </div>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+              
+              <div class="col-md-12">
+                    <a class="twitter-timeline" href="https://twitter.com/HamiltonResLife">
+                        Tweets by @HamiltonResLife
+                    </a>
               </div>
           </div>
       </div>

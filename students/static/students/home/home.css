@@ -1,4 +1,40 @@
 #home-jumbotron {
-    padding-bottom: 30px;
+    padding-bottom: 10px;
     padding-top: 10px;
+}
+
+.landing-panel-title {
+    border-radius: 0;
+    border: none;
+    margin: 0px;
+}
+
+.landing-panel {
+    border-radius: 0;
+    color: black;
+    border: none;
+    background-color: lightgray;
+    margin-bottom: 20px;
+}
+
+.landing-panel-heading {
+    background-color: lightgray;
+    border-radius: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.yellow-line {
+    border-color: #fbbd19;
+    margin-bottom: 30px;
+}
+
+.landing-panel-heading:hover {
+    color: darkgray;
+    
+    /* apparently different browsers use different names */
+    cursor: pointer; 
+    cursor: hand;
 }
