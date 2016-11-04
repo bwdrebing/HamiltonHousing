@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Staff Homepage</title>
+    <title>Select</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/static/staff/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -33,43 +33,70 @@
   </head>
 
   <body>
-    {% include "staff/header.html" %}    
-<div class="container">
-    <div class="starter-template">
-        <h1>Staff Admin Select Options</h1>
-	   <p class="lead">Choose one of the options below</p>
-    </div>
-    <hr class="">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="panel panel-info">
-                <div class="panel-heading text-center">
-                    <a href= "/staff/select/room">
-                        <h3 class="">Select Room</h3>
-                    </a>
-                </div>
-                <div class="panel-body">Description goes here</div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="panel panel-info">
-                <div class="panel-heading text-center">
-                    <a href = "/staff/select/suite">
-                        <h3 class="">Select Suite</h3>
-                    </a>
-                </div>
-                <div class="panel-body">Description goes here</div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <br class="">
-            <br class="">
-            <br class="">
-            <br class="">
-        </div>
-    </div>
-
+      {% include "staff/header.html" %}    
+      
+      <div class="container">
+          <div class="starter-template">
+              <h1>Selection</h1>
+              <p class="lead">Place a student in a room, suite, or apartment.</p>
+              <hr class="yellow-line">
+          
+              <div class="row">
+                  <div class="col-md-6">
+                      <a href="{% url 'room-select' %}" class="nodecor">
+                        <div class="landing-panel panel panel-info ">
+                            <div class="landing-panel-heading">
+                                <h3 class="landing-panel-title">Select a room</h3>
+                            </div>
+                            <div class="panel-body">
+                                Place students in a room.<br><br>
+                                For example, place a student in Macintosh 201, a double, with his/her friend.
+                            </div>
+                        </div>
+                      </a>
+                  </div>
+                  <div class="col-md-6">
+                      <a href="{% url 'suite-select' %}" class="nodecor">
+                        <div class="landing-panel panel panel-info">
+                            <div class="landing-panel-heading">
+                                <h3 class="landing-panel-title">Select a suite</h3>
+                            </div>
+                            <div class="panel-body">
+                                Place students in a suite. For use during the blocking lottery.<br><br> 
+                                For example, place Block 10 in Babbitt 30.
+                            </div>
+                        </div>
+                      </a>
+                  </div>
+                  <div class="col-md-6">
+                      <a href="{% url 'select' %}" class="nodecor">
+                        <div class="landing-panel panel panel-info">
+                            <div class="landing-panel-heading">
+                                <h3 class="landing-panel-title">Select an apartment</h3>
+                            </div>
+                            <div class="panel-body">
+                                Place students in an apartment (a room that pulls more than one other room).<br><br>
+                                For example, place a student and that student's friends in Anderson Road A, an apartment comprised of 4 rooms.
+                            </div>
+                        </div>
+                      </a>
+                  </div>
+              </div>
+          </div><!-- /.starter-template -->
     </div><!-- /.container -->
+      
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/static/staff/assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="/../static/staff/dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/static/staff/assets/js/ie10-viewport-bug-workaround.js"></script>
 
+    <!-- Our Scripts -->
+    <script src='/static/staff/jquery-toggles-master/toggles.min.js' type='text/javascript'></script>
+    <script src="/static/staff/RoomSelect/togglePullForm.js"></script>
+    <script src="/static/staff/RoomSelect/addFormControlToInputs.js"></script>
+    </body>
+</html>

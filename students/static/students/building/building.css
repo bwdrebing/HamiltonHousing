@@ -24,12 +24,12 @@
 }
 
 .building-label {
-    background-color: #fc4a1a;   
+    background-color: #F24C4E;   
 }
 
 /* panels */
 .panel {
-    background-color: #F7C331;
+    background-color: #fbbd19;
     border: none;
     border-radius: 0;
     color: white;
@@ -45,11 +45,11 @@
     color: white;
     border-radius: 0;
     border: none;
-    border-color: #F7C331; 
+    border-color: #fbbd19; 
 }
 
 .stat-panel-heading {
-    background-color: #F7C331;
+    background-color: #fbbd19;
     border: none;
     border-radius: 0;
     color: white;
@@ -60,7 +60,7 @@
 }
 
 .panel-green {
-    background-color: #01ABAA;
+    background-color: #1B7B34;
     border: none;
     border-radius: 0;
     color: white;
@@ -89,7 +89,7 @@
 }
 
 .stat-panel-heading-green {
-    background-color: #01ABAA;
+    background-color: #1B7B34;
     border: none;
     border-radius: 0;
     color: white;
@@ -99,7 +99,7 @@
     padding-bottom: 5px;
 }
 
-.floor-selector {
+.room-filter {
     border-radius: 0px;
     border: 1px solid;
     border-color: lightgray;
@@ -108,7 +108,10 @@
 .dropdown-toggle {
     border-radius: 0px;
     border: none;
-    padding-bottom: 10px;
+}
+
+.bootstrap-select {
+   margin-bottom: 10px;
 }
 
 /* -------------------------

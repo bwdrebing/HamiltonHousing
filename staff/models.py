@@ -156,7 +156,29 @@ class Apartment(models.Model):
             
         return available_beds
     
+    def _get_room_types(self):
+        room_types = ""
+        rooms = (Room.objects.filter(apartment = self)
+                             .filter(available = True)
+                             .exclude(available_beds = 0))
+        for room in rooms:
+            room_types += " type" + room.room_type
+            
+        return room_types
+    
+    def _get_floors(self):
+        floors = ""
+        rooms = (Room.objects.filter(apartment = self)
+                             .filter(available = True)
+                             .exclude(available_beds = 0))
+        for room in rooms:
+            floors += " floor" + room.floor
+            
+        return floors
+    
     available_beds = property(_get_available_beds)
+    room_types = property(_get_room_types)
+    floors = property(_get_floors)
     
     def __str__(self):
         return str(self.building.name) + " " + str(self.number)

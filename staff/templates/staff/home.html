@@ -35,42 +35,39 @@
     {% include "staff/header.html" %}
 
     <div class="container">
-
       <div class="starter-template">
-        <h1>Welcome to the Lottery Staff Homepage</h1>
-	<p class="lead">Select one of the options above to start</p>
-              <hr class="">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <a href= "/staff/edit">
-                        <h3 class="">Edit Options</h3>
-                    </a>
-                </div>
-                <div class="panel-body">Description goes here</div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <a href = "/staff/select">
-                        <h3 class="">Select Options</h3>
-                    </a>
-                </div>
-                <div class="panel-body">Description goes here</div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <br class="">
-            <br class="">
-            <br class="">
-            <br class="">
-        </div>
-    </div>
-      </div>
+          <h1>Welcome to the Lottery Staff Homepage</h1>
+          <p class="lead">Select one of the options above to start</p>
+          <hr class="yellow-line">
+          
+           <div class="row">
+                  <div class="col-md-6">
+                      <a href="{% url 'edit' %}" class="nodecor">
+                        <div class="landing-panel panel panel-info ">
+                            <div class="landing-panel-heading">
+                                <h3 class="landing-panel-title">Editing</h3>
+                            </div>
+                            <div class="panel-body">
+                                Edit a record for a previous placement or change details about a building or room.<br><br>
+                                For example, make McIntosh closed to women, add notes to a room, or change where a student was placed.
+                            </div>
+                        </div>
+                      </a>
+                  </div>
+                  <div class="col-md-6">
+                      <a href="{% url 'select' %}" class="nodecor">
+                        <div class="landing-panel panel panel-info">
+                            <div class="landing-panel-heading">
+                                <h3 class="landing-panel-title">Selection</h3>
+                            </div>
+                            <div class="panel-body">
+                                Place students in a room, apartment, or suite.<br><br> 
+                                For example, place Block 10 in Babbitt 30, place a student in a single in Minor, or place students in a Griffin Road Apartment.
+                            </div>
+                        </div>
+                      </a>
+                  </div>
+          </div>
 
     </div><!-- /.container -->
 

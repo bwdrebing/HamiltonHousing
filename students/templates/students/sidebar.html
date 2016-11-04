@@ -1,20 +1,19 @@
 <div id="sidebar" class="sidebar-offcanvas">
     <div class="col-md-12">
-        <h3 id="sidebar-title">Open Buildings</h3>
         <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search" onkeyup="buildingFilter(this)" />
+            <input type="text" class="form-control sidebar-search" placeholder="Search Buildings" onkeyup="buildingFilter(this)" />
         </div>
         <ul class="nav nav-pills nav-stacked" id="building-sidebar">
             {% for building in buildings %}
                 {% if building.available_rooms > 0 %}
                     {% if building.name == current_building.name %}
-                       <li class="active">
+                       <li class="active sidebar-nav-item">
                            <a href="{% url 'building-view' building.name %}" class="sidebar-link">
                             {{building}}
                            </a>
                         </li>
                     {% else %}
-                        <li>
+                        <li class="sidebar-nav-item">
                             <a href="{% url 'building-view' building.name %}" class="sidebar-link">
                                 {{building}}
                             </a>

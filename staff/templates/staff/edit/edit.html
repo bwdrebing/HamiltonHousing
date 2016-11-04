@@ -58,55 +58,52 @@
     </div>
     -->
     <div class="starter-template">
-        <h1>Staff Admin Edit Options</h1>
-	   <p class="lead">Select one of the options below</p>
-    </div>
-    <hr class="">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <a href= "/staff/edit/room">
-                        <h3 class="">Edit Room</h3>
-                    </a>
-                </div>
-                <div class="panel-body">Use this to make changes to the details of a room.
-                    <br><br>Ex. Bundy 104 listed as a double instead of a single.</div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="panel panel-info">
-                
-                <div class="panel-heading">
-                    <a href = "/staff/edit/building" class="btn-block">
-                        <h3 class="">Edit Building</h3>  
-                    </a>
-                </div>
-                
-                <div class="panel-body">Use this to make changes to the details of a building.
-                    <br><br>Ex. Saunders listed as having no singles.</div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <a href = "/staff/reviewroom">
-                            <h3 class="">Edit Selection</h3>
-                        </a>
+        <h1>Editing</h1>
+        <p class="lead">Edit a record for a previous placement or change details about a building or room.</p>
+        <hr class="yellow-line">
+        
+        <div class="row">
+              <div class="col-md-6">
+                  <a href="{% url 'edit-room' %}" class="nodecor">
+                    <div class="landing-panel panel">
+                        <div class="landing-panel-heading">
+                            <h3 class="landing-panel-title">Edit a room</h3>
+                        </div>
+                        <div class="panel-body">
+                            Use this to make changes to the details of a room.<br><br>
+                            For example, Bundy 104 is listed as a double instead of a single.
+                        </div>
                     </div>
-                <div class="panel-body">Use this to make changes to the demographics in a specific room.
-                    <br><br>Ex. Marked occupant as Class of 2018 instead of Class of 2019.</div>
-            </div>
+                  </a>
+              </div>
+            
+              <div class="col-md-6">
+                  <a href="{% url 'edit-building' %}" class="nodecor">
+                    <div class="landing-panel panel panel-info">
+                        <div class="landing-panel-heading">
+                            <h3 class="landing-panel-title">Edit a building</h3>
+                        </div>
+                        <div class="panel-body">
+                            Use this to make changes to the details of a building.<br><br>
+                            For example, Saunders is now closed to women.
+                        </div>
+                    </div>
+                  </a>
+              </div>
+              <div class="col-md-6">
+                  <a href="{% url 'review-room' %}" class="nodecor">
+                    <div class="landing-panel panel panel-info">
+                        <div class="landing-panel-heading">
+                            <h3 class="landing-panel-title">Edit a selection</h3>
+                        </div>
+                        <div class="panel-body">
+                            Use this to make changes to the demographics in a specific room.<br><br>
+                            For example, when placed, an occupant was marked as Class of 2018 instead of Class of 2019.
+                        </div>
+                    </div>
+                  </a>
+              </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <br class="">
-            <br class="">
-            <br class="">
-            <br class="">
-        </div>
-    </div>
 
     </div><!-- /.container -->
 

@@ -23,6 +23,6 @@ from staff import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^staff/', include('staff.urls')),
-    url(r'^students/', include('students.urls')),
+    url(r'^', include('students.urls')),
     url(r'accounts/login/$', views.userLogin)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -48,85 +48,75 @@
           <div class="container col-md-12">
               <form role="form" method="POST" class="post-form form-horizontal" action="{{Action}}">
                         {% csrf_token %}
-              <div class="panel panel-default">
-                    
-                  <div class="panel-heading">
-                  <h1 class="panel-title">Input Student Information</h1>
-                    <ul class="nav nav-pills">
-                        {% for room in Rooms %}
-                            {% if forloop.counter0 == 0 %}
-                            <li class="active">
-                            {% else %}
-                            <li>
-                            {% endif %}
-                            <a  href="#{{forloop.counter}}a" data-toggle="tab">{{room}}</a>
-                        </li>
-                        {% endfor %}
-                      <ul class="nav navbar-nav navbar-right">
-                          <li>
-	                      
-                          </li>
-                      </ul>
-                        </ul>
-                          
-                </div>
-                  <div class="panel-body">
-                        <div class="tab-content clearfix">
-                            {% for form in Forms %}
-                                {% if forloop.first %}
-                                    <div class="tab-pane active" id="{{forloop.counter}}a">
-                                {% else %}
-                                    <div class="tab-pane" id="{{forloop.counter}}a">
-                                {% endif %}
-                                        
-                                {% if form.pullToggle != None %}
+                  <h1 class="text-center">Input Student Information</h1>
+                  <div class="panel panel-default">
+                      <div class="panel-body">
+                            <ul class="nav nav-tabs">
+                                {% for room in Rooms %}
+                                    {% if forloop.counter0 == 0 %}
+                                    <li class="active">
+                                    {% else %}
+                                    <li>
+                                    {% endif %}
+                                    <a  href="#{{forloop.counter}}a" data-toggle="tab">{{room}}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            <div class="tab-content clearfix">
+                                {% for form in Forms %}
+                                    {% if forloop.first %}
+                                        <div class="tab-pane active" id="{{forloop.counter}}a">
+                                    {% else %}
+                                        <div class="tab-pane" id="{{forloop.counter}}a">
+                                    {% endif %}
+
+                                    {% if form.pullToggle != None %}
                                         <div class='form-group'>
                                             <label class="col-sm-4 control-label">
-                                                Do you want to pull someone into this room? </label>
+                                                Do you want to pull someone into this room? 
+                                            </label>
                                             <div class="col-sm-8">
                                                 {# {{form.pullToggle}} #}
-                                                <div class='toggle toggle-light'>
+                                                <div class='toggle toggle-light'></div>
                                             </div>
                                         </div>
-                                        </div>
-                                {% endif %}
-                                        
-                                {% for student in form.studentFields %}
-                                    <h3 class="PullField">Resident {{forloop.counter}}</h3>
-                                    {% for field in student %}
-                                    
-                    
-                                    {% if not forloop.parentloop.parentloop.first %}
-                                        <div class="form-group PullField">
-                                    {% else %}
-                                        <div class="form-group">
                                     {% endif %}
-                                    <label for="FormInput" class="col-sm-4 control-label"> 
-                                        {{field.label}}
-                                    </label>  
-                                    <div class="col-sm-8">
-                                        {{ field }}
-                                    </div>
-                                    </div>
-                                {% endfor %}
-                                {% endfor %}
-                                            
-                                {% for field in form.hidden_fields %}
-                                        {{ field }}         
-                                {% endfor %}    
-                                </div> <!-- End tab-pane -->
-                             <!-- End tab-content -->
 
-                            {% endfor %}
-                                        
-                            <button onclick="window.history.back();" id="backButton" 
-	                           class="save btn btn-default form-btn" >Back</button>
-                            <button type="submit" class="save btn btn-default form-btn">Next</button>
+                                    {% for student in form.studentFields %}
+                                        <h3 class="PullField">Resident {{forloop.counter}}</h3>
+                                        {% for field in student %}
+
+                                        {% if not forloop.parentloop.parentloop.first %}
+                                            <div class="form-group PullField">
+                                        {% else %}
+                                            <div class="form-group">
+                                        {% endif %}
+                                        <label for="FormInput" class="col-sm-4 control-label"> 
+                                            {{field.label}}
+                                        </label>  
+                                        <div class="col-sm-8">
+                                            {{ field }}
+                                        </div>
+                                        </div>
+                                    {% endfor %}
+                                    {% endfor %}
+
+                                    {% for field in form.hidden_fields %}
+                                        {{ field }}         
+                                    {% endfor %}    
+                                    </div> <!-- End tab-pane -->
+                                 <!-- End tab-content -->
+
+                                {% endfor %}
+
+                                <button onclick="window.history.back();" id="backButton" 
+                                   class="save btn btn-default form-btn" >Back</button>
+                                <button type="submit" class="save btn btn-default form-btn">Next</button>
+                                </div>
                             </div>
-                        </div>
+                      </div>
                   </div>
               </div>
-          </div>
 
 
 
@@ -177,6 +167,5 @@
     <script src='/static/staff/jquery-toggles-master/toggles.min.js' type='text/javascript'></script>
     <script src="/static/staff/RoomSelect/togglePullForm.js"></script>
     <script src="/static/staff/RoomSelect/addFormControlToInputs.js"></script>
-    <script src="/static/staff/RoomSelect/BackButtons.js"></script>
     </body>
 </html>

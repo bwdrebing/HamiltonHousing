@@ -207,7 +207,7 @@ def suiteStudentInfo(request):
                 number = ""
         
             return render(request, 
-                          'staff/select/studentInfo.html',
+                          'staff/select/suiteStudentInfo.html',
                           {'HeaderText' : headerText, 
                            'Action' : reverse('suite-select-confirm'),
                            'LotteryNumber' : number, 
