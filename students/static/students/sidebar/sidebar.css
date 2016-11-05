@@ -32,18 +32,31 @@ body {
     border-radius: 0;
 }
 
-.sidebar-nav-item.active > .sidebar-link {
+.sidebar-nav-item.active > .sidebar-link,
+.sidebar-nav-item.active > .sidebar-link:hover,
+.sidebar-nav-item.active > .sidebar-link:focus,
+.sidebar-nav-item.active > .sidebar-link:active
+{
     background-color: lightgray;
     color: black;
     border-radius: 0;
 }
 
-.sidebar-nav-item.active > .sidebar-link:hover {
-    background-color: lightgray;
+.sidebar-nav-item.all-rooms {
+    background-color: black;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.sidebar-nav-item.all-rooms > a:hover,
+.sidebar-nav-item.all-rooms > a:active,
+.sidebar-nav-item.all-rooms > a:focus {
+    background-color: #fbbd19;
     color: black;
     border-radius: 0;
 }
-        
+
 #main {
     height: 100%;
     overflow: auto;
@@ -54,7 +67,6 @@ body {
     border: 1px solid;
     border-color: dimgray;
     border-radius: 0;
-    margin-top: 20px;
     background-color: #f1f1f1;
 }
 

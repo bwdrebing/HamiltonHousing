@@ -363,18 +363,19 @@ class Resident(models.Model):
 class PageContent(models.Model):
     name = models.CharField(
         max_length=50,
-        default="General Lottery page content"
+        default="",
+        help_text="This is a name for this entry - it will not be displayed anywhere on the webiste"
     )
     
     header_text = models.CharField(
         max_length=50,
-        default="Let the search begin!",
+        default="",
         help_text="This text will be displayed on the students home page as a page title",
         verbose_name="Home page main text"
     )
     
     header_subtext = models.TextField(
-        default="Select a building from the left sidebar to view room availability by building",
+        default="",
         help_text="This text will be displayed on the home page below the title in a smaller font",
         verbose_name="Home page lead text"
     )
@@ -388,17 +389,17 @@ class PageContent(models.Model):
   
     lottery_name = models.CharField(
         max_length=25,
-        default="General Lottery",
-        help_text="This is the name of the current lotter; it will display on the home page"
+        default="",
+        help_text="This is the name of the current lottery; it will display on the home page"
     )
     
     lottery_text = models.TextField(
-        default='The General Lottery provides students an opportunity to select all other housing options not chosen in the Blocking, Co-Op and Substance-Free lotteries or otherwise pre-assigned. You do not need to sign up for the General Lottery. For more information about the lottery visit the <a href="https://www.hamilton.edu/offices/residentiallife/lottery/general-lottery">Office of Residential Life website</a>.',
+        default='',
         help_text="This is a description of the logistics of the this lottery"
     )
     
     contact = models.TextField(
-        default='Questions pertaining to the lottery and the lottery process should be directed to Ashley Place, assistant director of Residential Life, at <a href="mailto:aplace@hamilton.edu">aplace@hamilton.edu</a>.',
+        default='',
         help_text="This is a block of text explaining who to contact with any immediate questions."
     )
     

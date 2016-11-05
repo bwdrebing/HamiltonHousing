@@ -49,7 +49,7 @@
       <div id="main">
           <div class="container-fluid">
               <h1 id="page-title">
-                  {{current_building.name}} <small>
+                  {{current_building.name}} <small style="vertical-align: middle">
                   {% if current_building.closed_to == 'F' %}
                   <span class="label building-label">Closed to Women</span>
                   {% elif current_building.closed_to == 'M' %}
@@ -151,6 +151,15 @@
         </select>
         {% endif %}
           
+        <!-- filter by floor dropdown available if there are rooms left -->
+       {% if genders|length > 1 %}
+        <select id="genderFilter" class="selectpicker room-filter">
+            <option name="all" value="all">All Genders</option>
+            <option name="genderF" value="genderF">Female</option>
+            <option name="genderM" value="genderM">Male</option>
+        </select>
+        {% endif %}
+          
         <!-- table of all open rooms -->
         {% if rooms %}
         <div class="table-responsive">
@@ -183,10 +192,9 @@
                 {% for roomNum, apt_rooms in rooms.items %}
     
                     <!-- An apartment dropdown -->
-                    {% if apt_rooms|length > 1 %}
-                        {% with first_room=apt_rooms|first %}
+                    {% with first_room=apt_rooms|first %}
+                    {% if first_room.apartment %}
                         {% with apt=first_room.apartment %}
-                        {# fixme: apartments should filter based on the rooms they contain #}
                         <tr name="{{apt.name}}" class="{{apt.floors}}{{apt.room_types}} table-dropdown table-hoverable">
                             <td><span class="glyphicon glyphicon-menu-down"></span></td>
                             <td><strong>{{apt.number}}</strong></td>
@@ -275,7 +283,6 @@
                             </tr>
                         {% endfor %}
                         {% endwith %}
-                        {% endwith %}
                   
                         <!-- Regular room -->
                         {% else %}
@@ -337,6 +344,7 @@
                             </tr>
                             {% endfor %}
                         {% endif %}
+                        {% endwith %}
                 {% endfor %}
               </tbody>
             </table>

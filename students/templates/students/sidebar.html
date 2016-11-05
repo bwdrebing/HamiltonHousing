@@ -1,9 +1,17 @@
 <div id="sidebar" class="sidebar-offcanvas">
-    <div class="col-md-12">
+    <div class="container-fluid">
+        <ul class="nav nav-pills nav-stack">
+            <li class="sidebar-nav-item all-rooms">
+                <a href="{% url 'all-rooms' %}" class="sidebar-link all-rooms-link">
+                    <strong>View all rooms</strong><span class="glyphicon glyphicon-chevron-right" style="float: right;"></span>
+                </a>
+            </li>
+        </ul>
         <div class="form-group">
             <input type="text" class="form-control sidebar-search" placeholder="Search Buildings" onkeyup="buildingFilter(this)" />
         </div>
         <ul class="nav nav-pills nav-stacked" id="building-sidebar">
+            
             {% for building in buildings %}
                 {% if building.available_rooms > 0 %}
                     {% if building.name == current_building.name %}
