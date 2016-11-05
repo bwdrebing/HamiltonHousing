@@ -20,6 +20,7 @@
     <!-- Custom styles for this template - sidebar, etc. -->
     <link href="/static/students/sidebar/sidebar.css" rel="stylesheet">
     <link href="/static/students/home/home.css" rel="stylesheet">
+    <link href="/static/students/header/header.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -35,8 +36,8 @@
       {% include "students/sidebar.html" %}
     
       <div id="main">
-          <div class="container">
-              <div class="container col-md-12" id="home-jumbotron">
+          <div class="container-fluid">
+              <div class="col-md-12" id="home-jumbotron">
                     <h1>
                         {{pageContent.header_text}}
                     </h1>
@@ -46,37 +47,36 @@
                     <hr class="yellow-line">
               </div>
               
-              <div class="panel-group" id="landing-panel-group">
-                  <div class="col-md-6 container">
-                      <div class="landing-panel panel">
-                        <div class="landing-panel-heading container col-md-12" data-toggle="collapse" data-target="#lottery-info-panel" style="clear: both;">
-                            <h3 class="landing-panel-title" style="float: left;">Lottery Logistics</h3>
-                            <h3 class="landing-panel-title" style="float: right;"><span class="glyphicon glyphicon-plus"></span></h3>
+              
+              <div class="col-md-6">
+                  <div class="landing-panel panel">
+                    <div class="landing-panel-heading container-fluid" data-toggle="collapse" data-target="#lottery-info-panel" style="clear: both;">
+                        <h3 class="landing-panel-title" style="float: left;">Lottery Logistics</h3>
+                        <h3 class="landing-panel-title" style="float: right;"><span class="glyphicon glyphicon-plus"></span></h3>
+                    </div>
+                    <div id="lottery-info-panel" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <h4 class="h4-panel">
+                                {{ pageContent.lottery_name }}
+                            </h4>
+                            {{ pageContent.lottery_text|linebreaksbr }} 
                         </div>
-                        <div id="lottery-info-panel" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                <h4>
-                                    {{ pageContent.lottery_name }}
-                                </h4>
-                                {{ pageContent.lottery_text|linebreaksbr }} 
-                            </div>
-                        </div>
-                      </div>
+                    </div>
                   </div>
+              </div>
 
-                  <div class="col-md-6 container">
-                      <div class="landing-panel panel">
-                        <div class="landing-panel-heading container col-md-12" data-toggle="collapse" data-target="#contact-info-panel" style="clear: both;">
-                            <h3 class="landing-panel-title" style="float: left;">Contact</h3>
-                            <h3 class="landing-panel-title" style="float: right;"><span class="glyphicon glyphicon-plus"></span></h3>
+              <div class="col-md-6">
+                  <div class="landing-panel panel">
+                    <div class="landing-panel-heading container-fluid" data-toggle="collapse" data-target="#contact-info-panel" style="clear: both;">
+                        <h3 class="landing-panel-title" style="float: left;">Contact</h3>
+                        <h3 class="landing-panel-title" style="float: right;"><span class="glyphicon glyphicon-plus"></span></h3>
+                    </div>
+                    <div id="contact-info-panel" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            For questions or comments about the use of this website, please fill out our <a href="{% url 'contact' %}">contact form</a>.<br><br>
+                            {{ pageContent.contact|linebreaksbr }}
                         </div>
-                        <div id="contact-info-panel" class="panel-collapse collapse">
-                            <div class="panel-body">
-                                For questions or comments about the use of this website, please fill out our <a href="{% url 'contact' %}">contact form</a>.<br><br>
-                                {{ pageContent.contact|linebreaksbr }}
-                            </div>
-                        </div>
-                      </div>
+                    </div>
                   </div>
               </div>
               

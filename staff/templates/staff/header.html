@@ -42,9 +42,9 @@
             </li>
             <li>
                {% if user.is_authenticated %}
-                      <button type="button" class="btn btn-default navbar-btn" onclick="window.location='{% url 'logout' %}'" id="logout-button">
-                          Logout
-                      </button>
+                    <button type="button" class="btn btn-default navbar-btn" onclick="window.location='{% url 'logout' %}'" id="logout-button">
+                        Logout
+                    </button>
                {% endif %}
               </li>
               <li>

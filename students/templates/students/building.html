@@ -47,19 +47,20 @@
       {% include "students/sidebar.html" %}
         
       <div id="main">
-          <div class="col-md-12">
+          <div class="container-fluid">
               <h1 id="page-title">
-                  {{current_building.name}} 
+                  {{current_building.name}} <small>
                   {% if current_building.closed_to == 'F' %}
                   <span class="label building-label">Closed to Women</span>
                   {% elif current_building.closed_to == 'M' %}
                   <span class="label building-label">Closed to Men</span>
                   {% endif %}
+                  </small>
               </h1>
               <div class="row building-stats">
                   
                    <!-- Types of Rooms -->
-                   <div class="container col-md-6">
+                   <div class="col-md-6">
                       <div class="panel panel-default">
                             <div class="stat-panel-heading">
                                 <h3 class="panel-title">Types of Rooms</h3>
@@ -83,7 +84,7 @@
                   
                    <!-- Building Notes -->
                   {% if building.notes %}
-                   <div class="container col-md-12">
+                   <div class="col-md-12">
                       <div class="panel panel-default stat-panel-heading">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Notes</h3>
@@ -97,7 +98,7 @@
                   
                   {% if floor_images %}
                   <!-- Link to floor plan images if small screen -->
-                  <div class="container col-md-6 hidden-md hidden-lg">
+                  <div class="col-md-6 hidden-md hidden-lg">
                     <a href="#floorPlans" class="nodecor" id="floorPlanViewButton">
                       <div class="panel panel-green panel-default nodecor">
                             <div class="stat-panel-heading-green nodecor">
@@ -219,7 +220,7 @@
                   
                         <!-- Apartment rooms -->
                         {% for rm in apt_rooms %}
-                            <tr name="{{rm}}" class="apt-room" style="display: none;">
+                            <tr name="{{rm}}" class="{{apt.floors}}{{apt.room_types}} apt-room" style="display: none;">
                                 <td>
                                 </td>
                                 <td>

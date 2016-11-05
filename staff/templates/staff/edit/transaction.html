@@ -19,6 +19,7 @@
 
     <!-- Custom styles for this template -->
     <link href="/static/staff/home/starter-template.css" rel="stylesheet">
+    <link href="/static/staff/home/header.css" rel="stylesheet">
 
     <!-- Progress bar formatting -->
     <link href="/static/staff/progressbar/progressbar.css" rel="stylesheet">
@@ -38,45 +39,48 @@
     {% include "staff/header.html" %}
    
       
-    <div class="container">
-
-      
-
-      <div class="starter-template">
+    <div class="container-fluid">
+        <div class="starter-template">
         <h1>Review a Room</h1>
-	<p class="lead">{{ HeaderText }}</p>
-	<form method="POST" class="post-form" action="{{Action}}">{% csrf_token %}
-	{{form.as_p}}
-	<button type="submit" class="save btn btn-default">Next</button>
-	</form>
-      </div>
+            <p class="lead">
+                {{ HeaderText }}
+            </p>
+            <form method="POST" class="post-form" action="{{Action}}">
+                {% csrf_token %}
+                
+                {{form.as_p}}
+                
+                <button type="submit" class="save btn btn-default">
+                    Next
+                </button>
+            </form>
+        </div>
+        
+        <div class="row bs-wizard" style="border-bottom:0;">
+            <div class="col-xs-4 bs-wizard-step active"><!-- active -->
+              <div class="text-center bs-wizard-stepnum">Step 1</div>
+              <div class="progress"><div class="progress-bar"></div></div>
+              <a href="#" class="bs-wizard-dot"></a>
+              <div class="bs-wizard-info text-center">Building Information</div>
+            </div>
 
-          <div class="row bs-wizard" style="border-bottom:0;">
-                
-                <div class="col-xs-4 bs-wizard-step active"><!-- active -->
-                  <div class="text-center bs-wizard-stepnum">Step 1</div>
-                  <div class="progress"><div class="progress-bar"></div></div>
-                  <a href="#" class="bs-wizard-dot"></a>
-                  <div class="bs-wizard-info text-center">Building Information</div>
-                </div>
-                
-                <div class="col-xs-4 bs-wizard-step disabled">
-                  <div class="text-center bs-wizard-stepnum">Step 2</div>
-                  <div class="progress"><div class="progress-bar"></div></div>
-                  <a href="#" class="bs-wizard-dot"></a>
-                  <div class="bs-wizard-info text-center">Transaction Information</div>
-                </div>
-                
-                <div class="col-xs-4 bs-wizard-step disabled">
-                  <div class="text-center bs-wizard-stepnum">Step 3</div>
-                  <div class="progress"><div class="progress-bar"></div></div>
-                  <a href="#" class="bs-wizard-dot"></a>
-                  <div class="bs-wizard-info text-center">Confirm</div>
-                </div>
-          </div>
+            <div class="col-xs-4 bs-wizard-step disabled">
+              <div class="text-center bs-wizard-stepnum">Step 2</div>
+              <div class="progress"><div class="progress-bar"></div></div>
+              <a href="#" class="bs-wizard-dot"></a>
+              <div class="bs-wizard-info text-center">Transaction Information</div>
+            </div>
+
+            <div class="col-xs-4 bs-wizard-step disabled">
+              <div class="text-center bs-wizard-stepnum">Step 3</div>
+              <div class="progress"><div class="progress-bar"></div></div>
+              <a href="#" class="bs-wizard-dot"></a>
+              <div class="bs-wizard-info text-center">Confirm</div>
+            </div>
+        </div>
       
       
-    </div><!-- /.container -->
+    </div><!-- /.container-fluid -->
 
 
     <!-- Bootstrap core JavaScript

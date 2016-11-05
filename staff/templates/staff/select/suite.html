@@ -19,6 +19,7 @@
 
     <!-- Custom styles for this template -->
     <link href="/static/staff/home/starter-template.css" rel="stylesheet">
+    <link href="/static/staff/home/header.css" rel="stylesheet">
     <link href="/static/staff/select/block/style.css" rel="stylesheet">
     <link href="/static/staff/StaffForms/forms.css" rel="stylesheet">
       
@@ -35,7 +36,7 @@
   <body>
     {% include "staff/header.html" %}
       
-      <div class="container">
+      <div class="container-fluid">
 
           <div class="starter-template">
             <h1>Suite Selection</h1>
@@ -88,7 +89,7 @@
               <h5>Do you need to <a href="{% url 'review-room' %}">edit</a> an existing transaction?</h5>
           {% endif %}
 
-    </div><!-- /.container -->
+    </div><!-- /.container-fluid -->
 
 
     <!-- Bootstrap core JavaScript

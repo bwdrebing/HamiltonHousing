@@ -368,7 +368,7 @@ class PageContent(models.Model):
     
     header_text = models.CharField(
         max_length=50,
-        default="Let the search begin",
+        default="Let the search begin!",
         help_text="This text will be displayed on the students home page as a page title",
         verbose_name="Home page main text"
     )
@@ -398,7 +398,7 @@ class PageContent(models.Model):
     )
     
     contact = models.TextField(
-        default='For questions or comments about the use of this website, please fill out our <a href="{% url \'contact\' %}">contact form</a>.\n\nQuestions pertaining to the lottery and the lottery process should be directed to Ashley Place, assistant director of Residential Life, at <a href="mailto:aplace@hamilton.edu">aplace@hamilton.edu</a>.',
+        default='Questions pertaining to the lottery and the lottery process should be directed to Ashley Place, assistant director of Residential Life, at <a href="mailto:aplace@hamilton.edu">aplace@hamilton.edu</a>.',
         help_text="This is a block of text explaining who to contact with any immediate questions."
     )
     

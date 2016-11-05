@@ -25,6 +25,7 @@
 
     <!-- Custom styles for this template -->
     <link href="/static/staff/home/starter-template.css" rel="stylesheet">
+    <link href="/static/staff/home/header.css" rel="stylesheet">
 
     <!-- Progress bar formatting -->
     <link href="/static/staff/progressbar/progressbar.css" rel="stylesheet">
@@ -42,10 +43,10 @@
 
   <body>
     {% include "staff/header.html" %}
-    <div class="container">
+    <div class="container-fluid">
       <div class="starter-template">
 
-          <div class="container col-md-12">
+          <div class="col-md-12">
               <form role="form" method="POST" class="post-form form-horizontal" action="{{Action}}">
                         {% csrf_token %}
                   <h1 class="text-center">Input Student Information</h1>
@@ -117,9 +118,6 @@
                       </div>
                   </div>
               </div>
-
-
-
     </form>
     </div>
 
@@ -146,13 +144,8 @@
                   <div class="bs-wizard-info text-center">Confirm</div>
                 </div>
           </div>
-
-
-
-    </div><!-- /.container -->
-
-
-      
+    </div><!-- /.container-fluid -->
+        
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
