@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Staff Homepage</title>
+    <title>Staff - Home</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/static/staff/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -20,10 +20,6 @@
     <!-- Custom styles for this template -->
     <link href="/static/staff/home/starter-template.css" rel="stylesheet">
     <link href="/static/staff/home/header.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <!--<script src="../../assets/js/ie-emulation-modes-warning.js"></script>-->
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -54,6 +50,27 @@
           <hr class="yellow-line">
           
            <div class="row">
+               
+               <!-- Select description panel -->
+               <div class="col-md-6">
+                  <a href="{% url 'select' %}" class="nodecor">
+                    <div class="landing-panel panel">
+                        <div class="landing-panel-heading">
+                            <h3 class="landing-panel-title">Selection</h3>
+                        </div>
+                        <div class="panel-body">
+                            {% if pageContent %}
+                                {{ pageContent.select_text|linebreaksbr }} 
+                            {% else %}
+                                Place students in a room, apartment, or suite.<br><br> 
+                                For example, place Block 10 in Babbitt 30, place a student in a single in Minor, or place students in a Griffin Road Apartment.
+                            {% endif %}
+                        </div>
+                    </div>
+                  </a>
+              </div>
+               
+               <!-- Edit description panel -->
               <div class="col-md-6">
                   <a href="{% url 'edit' %}" class="nodecor">
                     <div class="landing-panel panel">
@@ -71,25 +88,10 @@
                     </div>
                   </a>
               </div>
-              <div class="col-md-6">
-                  <a href="{% url 'select' %}" class="nodecor">
-                    <div class="landing-panel panel">
-                        <div class="landing-panel-heading">
-                            <h3 class="landing-panel-title">Selection</h3>
-                        </div>
-                        <div class="panel-body">
-                            {% if pageContent %}
-                                {{ pageContent.select_text|linebreaksbr }} 
-                            {% else %}
-                                Place students in a room, apartment, or suite.<br><br> 
-                                For example, place Block 10 in Babbitt 30, place a student in a single in Minor, or place students in a Griffin Road Apartment.
-                            {% endif %}
-                        </div>
-                    </div>
-                  </a>
-              </div>
-          </div>
+          </div><!--/.row-->
+          
           <div class="row">
+              <!-- Lottery number input description panel -->
               <div class="col-md-6">
                   <a href="{% url 'loto-num' %}" class="nodecor">
                     <div class="landing-panel panel">
@@ -107,6 +109,8 @@
                     </div>
                   </a>
               </div>
+              
+              <!-- Contact panel -->
               <div class="col-md-6">
                   <div class="landing-panel landing-panel-yellow panel">
                       <div class="landing-panel-heading landing-panel-heading-yellow">
@@ -123,7 +127,7 @@
                       </div>
                   </div>
               </div>
-          </div>
+          </div><!--/.row-->
             
 
     </div><!-- /.container-fluid -->

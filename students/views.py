@@ -130,26 +130,15 @@ def all_rooms_with_filters(rooms):
     
     # initialize dictionary to organize rooms by floor for filtering
     rooms_dict = collections.OrderedDict()
-    show_gender = False
-    show_pull = False
     room_types = []
-    floors = []
         
     # loop through rooms to calculate building stats & organize rooms by floor
     for room in rooms:
-        floor = room.floor
-        show_gender = (show_gender or (room.gender != 'E'))
-        show_pull = (show_pull or room.pull)
-        
-        if floor not in floors:
-            floors.append(floor)
-        
         if room.room_type not in room_types:
             room_types.append(room.room_type)
             
         # if this room is in an apartment
         if room.apartment:
-            show_gender = (show_gender or (room.apartment.gender != 'E'))
             
             # if the apartment is already in the dict
             if str(room.apartment) in rooms_dict:
@@ -162,7 +151,7 @@ def all_rooms_with_filters(rooms):
         else:
             rooms_dict[str(room)] = [room]
                 
-    return (rooms_dict, show_gender, show_pull, room_types, floors)  
+    return (rooms_dict, room_types)  
 
 def allRooms(request):
     building_list = (Building.objects.exclude(available = False)
@@ -172,7 +161,7 @@ def allRooms(request):
                              .exclude(available_beds = 0)
                              .order_by('building', 'number'))
     
-    rooms, show_gender, show_pull, room_types, floors = all_rooms_with_filters(rooms)
+    rooms, room_types = all_rooms_with_filters(rooms)
     
     # get next lottery number for header
     nums = list(LotteryNumber.objects.all())
@@ -186,10 +175,7 @@ def allRooms(request):
                   {'buildings': building_list,
                    'current_page': 'all-rooms',
                    'rooms': rooms,
-                   'show_gender': show_gender,
-                   'show_pull': show_pull,
                    'room_types': room_types,
-                   'floors': floors,
                    'LotteryNumber': number})
 
 def contact(request):
