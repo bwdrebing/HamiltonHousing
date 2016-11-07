@@ -423,7 +423,7 @@ def userLogin(request):
                 if user.is_active:
                     # We'll send the user back to the homepage.
                     login(request, user)
-                    return HttpResponseRedirect(reverse('home'))
+                    return HttpResponseRedirect(reverse('staff-home'))
                 else:
                     # An inactive account was used - no logging in!
                     # fixme: make this better (httpresponse)
@@ -443,7 +443,7 @@ def userLogin(request):
                           {'LotteryNumber' : number,
                            'login_form': login_form})
     else:
-        return HttpResponseRedirect(reverse('home'))
+        return HttpResponseRedirect(reverse('staff-home'))
     
 @login_required
 def userLogout(request):
@@ -451,7 +451,7 @@ def userLogout(request):
     logout(request)
 
     # Take the user back to the homepage.
-    return HttpResponseRedirect(reverse('home'))
+    return HttpResponseRedirect(reverse('staff-home'))
     
 @login_required
 def home(request):
