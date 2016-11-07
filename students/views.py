@@ -2,8 +2,16 @@ from django.shortcuts import render
 from .models import Building
 from .models import Room
 from .models import LotteryNumber
-from .models import PageContent
+from .models import StudentPageContent
 import collections                  # for the ordered dictionary
+
+from .forms import ContactForm
+
+# for contact view (emailing)
+from django.core.mail import EmailMessage
+from django.shortcuts import redirect
+from django.template import Context
+from django.template.loader import get_template
 
 # Home page view
 def home(request):
@@ -16,7 +24,7 @@ def home(request):
     else:
         number = ""
         
-    pageContent = PageContent.objects.filter(active=True)
+    pageContent = StudentPageContent.objects.filter(active=True)
     if (pageContent):
         pageContent = pageContent.latest()
     else:
@@ -122,26 +130,15 @@ def all_rooms_with_filters(rooms):
     
     # initialize dictionary to organize rooms by floor for filtering
     rooms_dict = collections.OrderedDict()
-    show_gender = False
-    show_pull = False
     room_types = []
-    floors = []
         
     # loop through rooms to calculate building stats & organize rooms by floor
     for room in rooms:
-        floor = room.floor
-        show_gender = (show_gender or (room.gender != 'E'))
-        show_pull = (show_pull or room.pull)
-        
-        if floor not in floors:
-            floors.append(floor)
-        
         if room.room_type not in room_types:
             room_types.append(room.room_type)
             
         # if this room is in an apartment
         if room.apartment:
-            show_gender = (show_gender or (room.apartment.gender != 'E'))
             
             # if the apartment is already in the dict
             if str(room.apartment) in rooms_dict:
@@ -154,7 +151,7 @@ def all_rooms_with_filters(rooms):
         else:
             rooms_dict[str(room)] = [room]
                 
-    return (rooms_dict, show_gender, show_pull, room_types, floors)  
+    return (rooms_dict, room_types)  
 
 def allRooms(request):
     building_list = (Building.objects.exclude(available = False)
@@ -162,9 +159,9 @@ def allRooms(request):
     
     rooms = list(Room.objects.exclude(available = False)
                              .exclude(available_beds = 0)
-                             .order_by('number'))
+                             .order_by('building', 'number'))
     
-    rooms, show_gender, show_pull, room_types, floors = all_rooms_with_filters(rooms)
+    rooms, room_types = all_rooms_with_filters(rooms)
     
     # get next lottery number for header
     nums = list(LotteryNumber.objects.all())
@@ -176,11 +173,9 @@ def allRooms(request):
     return render(request, 
                   'students/all.html', 
                   {'buildings': building_list,
+                   'current_page': 'all-rooms',
                    'rooms': rooms,
-                   'show_gender': show_gender,
-                   'show_pull': show_pull,
                    'room_types': room_types,
-                   'floors': floors,
                    'LotteryNumber': number})
 
 def contact(request):
@@ -193,8 +188,46 @@ def contact(request):
         number = nums[-1]
     else:
         number = ""
+
+    contact_form = ContactForm()
+    submitted = False
+    
+    if request.method == 'POST':
+        contact_form = ContactForm(data=request.POST)
+
+        if contact_form.is_valid():
+            contact_name = request.POST.get('contact_name', '')
+            
+            contact_email = request.POST.get('contact_email', '')
+            
+            form_content = request.POST.get('content', '')
+
+            # Email the profile with the contact information
+            template = get_template('students/contact_template.txt')
+            
+            context = Context({
+                'contact_name': contact_name,
+                'contact_email': contact_email,
+                'form_content': form_content,
+            })
+            
+            content = template.render(context)
+
+            email = EmailMessage(
+                "New contact form submission",
+                content,
+                "Your website" +'',
+                ['youremail@gmail.com'],
+                headers = {'Reply-To': contact_email }
+            )
+            
+            email.send()
+            
+            submitted = True
         
     return render(request, 
                   'students/contact.html', 
                   {'buildings': building_list,
-                   'LotteryNumber': number})
+                   'LotteryNumber': number,
+                   'contact_form': contact_form,
+                   'submitted': submitted})

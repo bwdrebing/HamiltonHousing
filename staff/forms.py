@@ -69,7 +69,7 @@ class StudentInfoForm(forms.Form):
                 widget = forms.HiddenInput(),
         )
         
-        self.fields[prefix + 'Number0'] = forms.IntegerField(label = 'Block Lottery Number')
+        self.fields[prefix + 'blockNumber'] = forms.IntegerField(label = 'Block Lottery Number')
         
         #Build field for the room number
         numForm = forms.CharField(

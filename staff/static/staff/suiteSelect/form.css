@@ -1,0 +1,16 @@
+.form-container {
+    margin-bottom: 40px;
+}
+
+.list-group {
+   margin-top: 10px;
+}
+
+.resident-header {
+    text-transform: uppercase;
+    font-family: sans-serif;
+    font-weight: 300;
+    letter-spacing: 1.2px;
+    line-height: 1.7;
+    font-size: 1.5rem;
+}

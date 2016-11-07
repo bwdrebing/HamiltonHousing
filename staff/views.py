@@ -12,6 +12,7 @@ from .models import Room
 from .models import Transaction
 from .models import BlockTransaction
 from .models import Resident
+from .models import StaffPageContent
 
 from .forms import *
 
@@ -148,6 +149,7 @@ def StudentInfo(request):
             baseForm = StudentInfoForm()
             baseForm.forBaseRoom(room)
             
+            
             formsToRender = [baseForm]
             print(room.pull)
             if(room.pull != '' and rooms.get(number = room.pull).available == True):
@@ -223,8 +225,8 @@ def suiteConfirm(request):
         totalNumberOfStudents = int(request.POST['numberOfStudents'])
         
         transaction = BlockTransaction.objects.create(
-            block_number = request.POST['Number0'],
-            suite = Room.objects.get(id=request.POST['Room0'])
+            block_number = request.POST['blockNumber'],
+            suite = Room.objects.get(id=request.POST['Suite'])
         )
         
         for i in range(totalNumberOfStudents):
@@ -233,7 +235,7 @@ def suiteConfirm(request):
             )
             transaction.residents.add(resident)
                 
-        room = Room.objects.get(id=request.POST['Room' + str(i)])   
+        room = Room.objects.get(id=request.POST['Suite'])   
         room.available = False
         room.save()
     
@@ -250,7 +252,8 @@ def suiteConfirm(request):
     return render(request, 
                   'staff/confirmSelection.html',
                   {'HeaderText' : "Confirm Suite Selection Details", 
-                   'Action' : reverse('home'),
+
+                   'Action' : reverse('select'),
                    'LotteryNumber' : number, 
                    'form' : None})
 
@@ -422,7 +425,7 @@ def userLogin(request):
                 if user.is_active:
                     # We'll send the user back to the homepage.
                     login(request, user)
-                    return HttpResponseRedirect(reverse('home'))
+                    return HttpResponseRedirect(reverse('staff-home'))
                 else:
                     # An inactive account was used - no logging in!
                     # fixme: make this better (httpresponse)
@@ -438,11 +441,11 @@ def userLogin(request):
         else:
             login_form = userLoginForm()
             return render(request,
-                          'staff/login.html',
+                          'staff/Login.html',
                           {'LotteryNumber' : number,
                            'login_form': login_form})
     else:
-        return HttpResponseRedirect(reverse('home'))
+        return HttpResponseRedirect(reverse('staff-home'))
     
 @login_required
 def userLogout(request):
@@ -450,7 +453,7 @@ def userLogout(request):
     logout(request)
 
     # Take the user back to the homepage.
-    return HttpResponseRedirect(reverse('home'))
+    return HttpResponseRedirect(reverse('staff-home'))
     
 @login_required
 def home(request):
@@ -461,6 +464,13 @@ def home(request):
     else:
         number = ""
         
+    pageContent = StaffPageContent.objects.filter(active=True)
+    if (pageContent):
+        pageContent = pageContent.latest()
+    else:
+        pageContent = ""
+        
     return render(request, 
                   'staff/home.html',
-                  {'LotteryNumber' : number})
+                  {'LotteryNumber' : number,
+                   'pageContent': pageContent})

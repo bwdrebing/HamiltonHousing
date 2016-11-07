@@ -18,8 +18,6 @@
     <link href="/static/staff/jquery-toggles-master/css/toggles.css" rel="stylesheet">
     <link href="/static/staff/jquery-toggles-master/css/toggles-full.css" rel="stylesheet">
       
-    <!-- CSS for forms-->
-    <link href="/static/staff/StaffForms/forms.css" rel="stylesheet">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <!--<link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">-->
 
@@ -29,10 +27,7 @@
 
     <!-- Progress bar formatting -->
     <link href="/static/staff/progressbar/progressbar.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <!--<script src="../../assets/js/ie-emulation-modes-warning.js"></script>-->
+    <link href="/static/staff/suiteSelect/form.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -43,83 +38,75 @@
 
   <body>
     {% include "staff/header.html" %}
-    <div class="container-fluid">
+    <div class="container-fluid" id="main">
       <div class="starter-template">
-          <form role="form" method="POST" class="post-form form-horizontal" action="{{Action}}">
+          <div class="col-md-2 hidden-xs hidden-sm"></div>
+          <div class="col-md-8 container-fluid form-container">
+                <h1>Student Information</h1>
+                <p class="lead">Enter student information for each room in the selected suite.</p>
+                <form role="form" method="POST" class="post-form form-horizontal" action="{{Action}}">
               
-              {% csrf_token %}
-              
-              <h1 class="text-center">Student Information</h1>
-              
-              <div class="panel panel-default">
-                  <div class="panel-body">
-                      <!-- Navigation Tabs (for rooms -->
-                        <ul class="nav nav-tabs">
-                            {% for room in Rooms %}
-                                {% if forloop.counter0 == 0 %}
-                                    <li class="active">
-                                {% else %}
-                                    <li>
-                                {% endif %}
-                                    <a  href="#{{forloop.counter}}a" data-toggle="tab">
-                                        {{room}}
-                                    </a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                      
-                        <!-- Tab content -->
-                        <div class="tab-content clearfix">
-                            <!-- for each room -->
-                            {% for form in Forms %}
-                                <div class="tab-pane active">
-                                        
-                                <!-- Student information fields -->
-                                {% for student in form.studentFields %}
-                                <div class="form-section">
-                                    <h3 class="PullField form-section-title">
-                                        Resident {{forloop.counter}}
-                                    </h3>
-                                        
-                                    {% for field in student %}
-                                        {% if not forloop.parentloop.parentloop.first %}
-                                            <div class="form-group PullField">
-                                        {% else %}
-                                            <div class="form-group">
-                                        {% endif %}
-                                          
-                                            <label for="FormInput" class="col-sm-3 control-label text-right"> 
-                                                {{field.label}}
-                                            </label>  
-                                            <div class="col-sm-9">
-                                                {{ field }}
-                                            </div>
-                                            
-                                        </div>
-                                    {% endfor %}
-                                    <hr>
+                    {% csrf_token %}
+                    
+                    {% for form in Forms %}
+                        <div class="list-group">
+                            
+                            <!-- block number -->
+                            <div class="list-group-item">
+                                <div class="container-fluid">
+                                    <div class="form-group form-group-lg">
+                                        <label for="FormInput" class="control-label">
+                                            {{form.blockNumber.label}}
+                                        </label>
+
+                                        {{ form.blockNumber }}
+                                    </div>
                                 </div>
-                                {% endfor %}
-                                           
-                                <!-- Hidden fields -->
-                                {% for field in form.hidden_fields %}
-                                    {{ field }}         
-                                {% endfor %}    
-                                </div> <!-- End tab-pane -->
+                            </div>
+                            <!-- Student information fields -->
+                            {% for student in form.studentFields %}
+                                <div class="list-group-item">
+                                    <div class="container-fluid">
+                                        <h4 class="PullField text-center resident-header">
+                                            Resident {{forloop.counter}}
+                                        </h4>
+
+                                        {% for field in student %}
+                                            {% if not forloop.parentloop.parentloop.first %}
+                                                <div class="form-group form-group-lg PullField">
+                                            {% else %}
+                                                <div class="form-group form-group-lg">
+                                            {% endif %}
+
+                                                <label for="FormInput" class="control-label"> 
+                                                    {{field.label}}
+                                                </label>  
+                                                {{ field }}
+                                            </div><!--/form-group-->
+                                        {% endfor %}
+
+                                    </div><!--/container-fluid-->
+                                </div><!--/list-group-item-->
                             {% endfor %}
-                                        
-                            <button onclick="window.history.back();" id="backButton" class="save btn btn-default form-btn" >
-                                Back
-                            </button>
-                                        
-                            <button type="submit" class="save btn btn-default form-btn">
-                                Next
-                            </button>
-                        </div><!-- End tab-content -->
-                    </div><!-- End panel body -->
-                </div><!-- End panel -->
-            </form>
-        </div><!-- End starter-template -->
+                        </div><!--/list-group-->
+
+                        <!-- Hidden fields -->
+                        {% for field in form.hidden_fields %}
+                            {{ field }}         
+                        {% endfor %}   
+                    {% endfor %}
+
+                    <button onclick="window.history.back();" id="backButton" class="save btn btn-lg btn-default">
+                        Back
+                    </button>
+
+                    <button type="submit" class="save btn btn-default btn-primary btn-lg preview">
+                        Next
+                    </button>
+                </form>
+            </div><!-- End starter-template -->
+        <div class="col-md-2 hidden-xs hidden-sm"></div>
+        </div>
 
         <!-- Progress Bar -->
         <div class="row bs-wizard" style="border-bottom:0;">
