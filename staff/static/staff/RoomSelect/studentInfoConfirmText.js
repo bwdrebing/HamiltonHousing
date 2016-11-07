@@ -30,6 +30,6 @@ var textFunction = function() {
         text = text + '</tr>';
         });
     
-    text += "</table";
+    text += "</table>";
     return text;
 }
