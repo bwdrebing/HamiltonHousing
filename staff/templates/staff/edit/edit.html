@@ -35,7 +35,7 @@
   <body>
     {% include "staff/header.html" %}
       
-    <div class="container-fluid">
+    <div class="container-fluid" id="main">
         <div class="starter-template">
             <h1>Editing</h1>
             <p class="lead">Edit a record for a previous placement or change details about a building or room.</p>
@@ -69,6 +69,9 @@
                         </div>
                       </a>
                   </div>
+            </div>
+            
+            <div class="row">
                   <div class="col-md-6">
                       <a href="{% url 'review-room' %}" class="nodecor">
                         <div class="landing-panel panel panel-info">

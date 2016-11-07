@@ -105,6 +105,12 @@
     border-color: lightgray;
 }
 
+.room-list-filter {
+    border-radius: 0px;
+    border: 1px solid;
+    border-color: lightgray;
+}
+
 .dropdown-toggle {
     border-radius: 0px;
     border: none;
@@ -112,6 +118,11 @@
 
 .bootstrap-select {
    margin-bottom: 10px;
+}
+
+.table-parent {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* -------------------------

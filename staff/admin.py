@@ -49,7 +49,7 @@ class RoomResource(resources.ModelResource):
     class Meta:
         import_id_fields = ['building', 'number']
         model = Room
-        fields = ('building', 'number', 'room_type', 'gender', 'pull', 'notes', 'notes2', 'apartment')
+        fields = ('building', 'number', 'room_type', 'gender', 'pull', 'notes', 'notes2',                       'apartment')
         export_order = fields
         
     def before_import_row(self, row, **kwargs):
@@ -118,8 +118,18 @@ class RoomResource(resources.ModelResource):
             
         instance.save()
         
-        #def after_import(dataset, result, using_transactions, dry_run, **kwargs):
+        """ Would like to add this but not sure if it will break room select
+        
+        def after_import(dataset, result, using_transactions, dry_run, **kwargs):
         # fixme: make after import to add pulls
+        for row in dataset:
+            if row['pull']:
+                bldg = Building.objects.get(name = row['BUILDING'])
+                room = Room.objects.filter(building = bldg).get(number = row['ROOM'])
+                pull = Room.objects.filter(building = bldg).get(number = row['PULL'])
+                if (pull):
+                    room.pull = pull
+                    room.save()"""
         
       
 # Action for admin page
@@ -280,9 +290,8 @@ def make_contents_available(modeladmin, request, queryset):
 make_contents_unavailable.short_description = "Mark selected contents as unavailable"
 make_contents_available.short_description = "Mark selected contents as available"
     
-class PageContentAdmin(admin.ModelAdmin):
+class StaffPageContentAdmin(admin.ModelAdmin):
     list_display = ['name', 'lottery_name', 'header_text', 'updated', 'active']
-    
     actions = [make_contents_available, make_contents_unavailable]
         
 admin.site.register(LotteryNumber)
@@ -292,4 +301,4 @@ admin.site.register(Transaction, TransactionAdmin)
 admin.site.register(Building, BuildingAdmin)    
 admin.site.register(Room, RoomAdmin)
 admin.site.register(Apartment, ApartmentAdmin)
-admin.site.register(PageContent, PageContentAdmin)
+admin.site.register(StaffPageContent, StaffPageContentAdmin)

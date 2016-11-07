@@ -2,10 +2,14 @@ body {
   padding-top: 50px;
 }
 
+#main {
+    padding-bottom: 40px;
+}
+
 .starter-template {
     padding-top: 15px;
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .landing-panel-title {
@@ -27,6 +31,10 @@ body {
     background-color: lightgray;
 }
 
+.landing-panel-yellow {
+    background-color: #fbbd19;
+}
+
 .landing-panel-heading {
     background-color: lightgray;
     border-radius: 0;
@@ -36,19 +44,23 @@ body {
     padding-bottom: 5px;
 }
 
-.nodecor:hover {
+.landing-panel-heading-yellow {
+    background-color: #fbbd19;
+}
+
+.landing-panel-yellow > .panel-body > a {
+    color: dimgray;
+}
+
+.nodecor:hover,
+.nodecor:active,
+.nodecor:focus {
     text-decoration: none;
 }
 
-.nodecor:active {
-    text-decoration: none;
-}
-
-a > .panel:hover {
-    color: darkgray;
-}
-
-a > .panel:active {
+a > .panel:hover,
+a > .panel:active,
+a > .panel:focus {
     color: darkgray;
 }
 
