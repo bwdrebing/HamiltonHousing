@@ -149,6 +149,7 @@ def StudentInfo(request):
             baseForm = StudentInfoForm()
             baseForm.forBaseRoom(room)
             
+            
             formsToRender = [baseForm]
             print(room.pull)
             if(room.pull != '' and rooms.get(number = room.pull).available == True):
@@ -251,6 +252,7 @@ def suiteConfirm(request):
     return render(request, 
                   'staff/confirmSelection.html',
                   {'HeaderText' : "Confirm Suite Selection Details", 
+
                    'Action' : reverse('select'),
                    'LotteryNumber' : number, 
                    'form' : None})
@@ -439,7 +441,7 @@ def userLogin(request):
         else:
             login_form = userLoginForm()
             return render(request,
-                          'staff/login.html',
+                          'staff/Login.html',
                           {'LotteryNumber' : number,
                            'login_form': login_form})
     else:
