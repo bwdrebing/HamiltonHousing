@@ -2,8 +2,16 @@ from django.shortcuts import render
 from .models import Building
 from .models import Room
 from .models import LotteryNumber
-from .models import PageContent
+from .models import StudentPageContent
 import collections                  # for the ordered dictionary
+
+from .forms import ContactForm
+
+# for contact view (emailing)
+from django.core.mail import EmailMessage
+from django.shortcuts import redirect
+from django.template import Context
+from django.template.loader import get_template
 
 # Home page view
 def home(request):
@@ -16,7 +24,7 @@ def home(request):
     else:
         number = ""
         
-    pageContent = PageContent.objects.filter(active=True)
+    pageContent = StudentPageContent.objects.filter(active=True)
     if (pageContent):
         pageContent = pageContent.latest()
     else:
@@ -162,7 +170,7 @@ def allRooms(request):
     
     rooms = list(Room.objects.exclude(available = False)
                              .exclude(available_beds = 0)
-                             .order_by('number'))
+                             .order_by('building', 'number'))
     
     rooms, show_gender, show_pull, room_types, floors = all_rooms_with_filters(rooms)
     
@@ -176,6 +184,7 @@ def allRooms(request):
     return render(request, 
                   'students/all.html', 
                   {'buildings': building_list,
+                   'current_page': 'all-rooms',
                    'rooms': rooms,
                    'show_gender': show_gender,
                    'show_pull': show_pull,
@@ -193,8 +202,46 @@ def contact(request):
         number = nums[-1]
     else:
         number = ""
+
+    contact_form = ContactForm()
+    submitted = False
+    
+    if request.method == 'POST':
+        contact_form = ContactForm(data=request.POST)
+
+        if contact_form.is_valid():
+            contact_name = request.POST.get('contact_name', '')
+            
+            contact_email = request.POST.get('contact_email', '')
+            
+            form_content = request.POST.get('content', '')
+
+            # Email the profile with the contact information
+            template = get_template('students/contact_template.txt')
+            
+            context = Context({
+                'contact_name': contact_name,
+                'contact_email': contact_email,
+                'form_content': form_content,
+            })
+            
+            content = template.render(context)
+
+            email = EmailMessage(
+                "New contact form submission",
+                content,
+                "Your website" +'',
+                ['youremail@gmail.com'],
+                headers = {'Reply-To': contact_email }
+            )
+            
+            email.send()
+            
+            submitted = True
         
     return render(request, 
                   'students/contact.html', 
                   {'buildings': building_list,
-                   'LotteryNumber': number})
+                   'LotteryNumber': number,
+                   'contact_form': contact_form,
+                   'submitted': submitted})

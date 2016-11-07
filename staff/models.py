@@ -92,13 +92,11 @@ def building_directory_path(instance, filename):
     
 class FloorPlan(models.Model):
     # the building this floor plan is from
-    related_building = models.ForeignKey(
-        'Building',
-        on_delete=models.CASCADE,
-        null=True,
-        verbose_name = 'building' # the name that the user inputting data will see
-    )
-   
+    related_building = models.CharField(
+        max_length = 100,
+        default = "",
+        verbose_name="Building name")
+    
     floor = models.PositiveSmallIntegerField()
 
     # user input display name for floor plan (to be display on website)
@@ -113,7 +111,7 @@ class FloorPlan(models.Model):
     )
     
     def __str__(self):
-        return str(self.related_building.name) + " " + str(self.display_name)
+        return str(self.related_building) + " " + str(self.display_name)
     
     
 class ApartmentManager(models.Manager):
@@ -360,17 +358,17 @@ class Resident(models.Model):
             
         return string
     
-class PageContent(models.Model):
+class StaffPageContent(models.Model):
     name = models.CharField(
         max_length=50,
         default="",
-        help_text="This is a name for this entry - it will not be displayed anywhere on the webiste"
+        help_text="This is a name for this entry - it will not be displayed"
     )
     
     header_text = models.CharField(
         max_length=50,
         default="",
-        help_text="This text will be displayed on the students home page as a page title",
+        help_text="This text will be displayed on the home page as a page title",
         verbose_name="Home page main text"
     )
     
@@ -379,28 +377,32 @@ class PageContent(models.Model):
         help_text="This text will be displayed on the home page below the title in a smaller font",
         verbose_name="Home page lead text"
     )
-        
-    header_block_text = models.TextField(
-        default="", 
-        blank=True,
-        help_text="This text will be displayed as a paragraph below the page title and subtitle",
-        verbose_name="Home page block text"
-    )
   
     lottery_name = models.CharField(
         max_length=25,
         default="",
-        help_text="This is the name of the current lottery; it will display on the home page"
-    )
-    
-    lottery_text = models.TextField(
-        default='',
-        help_text="This is a description of the logistics of the this lottery"
+        help_text="This is the name of the current lottery"
     )
     
     contact = models.TextField(
         default='',
-        help_text="This is a block of text explaining who to contact with any immediate questions."
+        help_text="This is a block of text explaining who to contact with any immediate questions"
+    )
+    
+    edit_text = models.TextField(
+        default='',
+        help_text="This is a text description of the usage of editing options"
+    )
+    
+    select_text = models.TextField(
+        default='',
+        help_text="This is a text description of the usage of selection options"
+    )
+    
+    loto_num_text = models.TextField(
+        default='',
+        help_text="This is a text description of the usage of the lottery number input form",
+        verbose_name="Number input text"
     )
     
     active = models.BooleanField(default=True)

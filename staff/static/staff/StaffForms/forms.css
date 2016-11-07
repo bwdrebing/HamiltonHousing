@@ -2,6 +2,10 @@ body {
     text-align: center;
 }
 
+h1 {
+    margin-bottom: 20px;
+}
+/*
 label {
     font-size: 125%;
 }
@@ -15,3 +19,16 @@ label {
 .form-btn {
     font-size: 150%;
 }
+
+.form-section {
+    margin-bottom: 20px;
+}
+
+.form-section-title {
+    text-transform: uppercase;
+    padding-bottom: 15px;
+    font-family: sans-serif;
+    font-weight: 200;
+    letter-spacing: 1.2px;
+    font-size: 2rem;
+}*/

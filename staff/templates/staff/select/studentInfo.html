@@ -46,7 +46,7 @@
 
   <body>
     {% include "staff/header.html" %}
-    <div class="container-fluid">
+    <div class="container-fluid" id="main">
       <div class="starter-template">
 
           <div class="col-md-12">
@@ -98,8 +98,8 @@
                                 {% endif %}
                                         
                                 {% for student in form.studentFields %}
+                                    <div class='Student'>
                                     <h3 class="PullField">Resident {{forloop.counter}}</h3>
-                                        <div class='Student'>
                                     {% for field in student %}
                                     
                                         {% if not forloop.parentloop.parentloop.first %}

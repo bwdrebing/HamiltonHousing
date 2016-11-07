@@ -20,11 +20,11 @@
     <!-- Custom styles for this template -->
     <link href="/static/staff/home/starter-template.css" rel="stylesheet">
     <link href="/static/staff/home/header.css" rel="stylesheet">
-    <link href="/static/staff/select/block/style.css" rel="stylesheet">
-    <link href="/static/staff/StaffForms/forms.css" rel="stylesheet">
+    <!--<link href="/static/staff/StaffForms/forms.css" rel="stylesheet">-->
       
     <!-- Progress bar formatting -->
     <link href="/static/staff/progressbar/progressbar.css" rel="stylesheet">
+    <link href="/static/staff/suiteSelect/form.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -36,23 +36,27 @@
   <body>
     {% include "staff/header.html" %}
       
-      <div class="container-fluid">
-
+      <div class="container-fluid" id="main">
           <div class="starter-template">
-            <h1>Suite Selection</h1>
-            <p class="lead">{{headerText}}</p>
+              <div class="col-md-2 hidden-xs hidden-sm"></div>
+              <div class="container-fluid col-md-8 form-container">
+                <h1>Suite Selection</h1>
+                <p class="lead">{{headerText}}</p>
 
-            {% if suites %}
-            <form method="POST" class="post-form form-horizontal" action="{{Action}}">{% csrf_token %}
-                <div class="form-group">
-                    {% for field in form %}
-                        <div class="container">
-                            <p><strong>{{field.label}}</strong>  {{field}}</p>
-                        </div>
-                    {% endfor %}
-                </div>
-                <button type="submit" class="save btn btn-default form-btn">Next</button>
-            </form>
+                {% if suites %}
+                <form method="POST" class="post-form form-horizontal" action="{{Action}}">{% csrf_token %}
+                    <div class="container-fluid">
+                        {% for field in form %}
+                            <div class="form-group form-group-lg">
+                                <label for="FormInput" class="control-label">{{field.label}}</label>
+                                <div>{{field}}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button type="submit" class="save btn btn-default btn-lg">Next</button>
+                </form>
+              </div>
+               <div class="col-md-2 hidden-xs hidden-sm"></div>
           </div>
         
           <!-- Progress Bar -->
@@ -63,14 +67,14 @@
                       <div class="text-center bs-wizard-stepnum">Step 1</div>
                       <div class="progress"><div class="progress-bar"></div></div>
                       <a href="#" class="bs-wizard-dot"></a>
-                      <div class="bs-wizard-info text-center">Suite information</div>
+                      <div class="bs-wizard-info text-center">Suite info</div>
                     </div>
 
                     <div class="col-xs-4 bs-wizard-step disabled">
                       <div class="text-center bs-wizard-stepnum">Step 2</div>
                       <div class="progress"><div class="progress-bar"></div></div>
                       <a href="#" class="bs-wizard-dot"></a>
-                      <div class="bs-wizard-info text-center">Student information</div>
+                      <div class="bs-wizard-info text-center">Student info</div>
                     </div>
 
                     <div class="col-xs-4 bs-wizard-step disabled">
@@ -99,8 +103,9 @@
     <script>window.jQuery || document.write('<script src="/static/staff/assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="/../static/staff/dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="/static/staff/suite-select/buildingRoomsFilter.js"></script>
+    <script src="/static/staff/suiteSelect/buildingRoomsFilter.js"></script>
     <script src="/static/staff/RoomSelect/togglePullForm.js"></script>
+    <script src="/static/staff/RoomSelect/addFormControlToInputs.js"></script>
     <script src="/static/staff/assets/js/ie10-viewport-bug-workaround.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
   </body>

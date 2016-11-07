@@ -1,25 +1,9 @@
-{% load staticfiles %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+{% extends "students/base.html" %}
 
-    <title>{{current_building.name}}</title>
+{% block title %}{{ current_building.name }}{% endblock title %}
 
-    <!-- Bootstrap core CSS -->
-    <link href="/static/students/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <!--<link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">-->
-
+{% block custom-css %} 
     <!-- Custom styles for this template -->
-    <link href="/static/students/sidebar/sidebar.css" rel="stylesheet">
     <link href="/static/students/building_dashboard/dashboard.css" rel="stylesheet">
       
     <!-- CSS for nice select menus for Floor -->
@@ -27,90 +11,73 @@
       
     <!-- CSS for this page -->
     <link rel="stylesheet" href="/static/students/building/building.css">
-    <link rel="stylesheet" href="/static/students/header/header.css">
+{% endblock %}
 
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <!--<script src="../../assets/js/ie-emulation-modes-warning.js"></script>-->
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-
-  <body>
-    {% include "students/header.html" %}
-
-    <div class="row-offcanvas row-offcanvas-left">
-      {% include "students/sidebar.html" %}
-        
-      <div id="main">
-          <div class="container-fluid">
-              <h1 id="page-title">
-                  {{current_building.name}} <small style="vertical-align: middle">
-                  {% if current_building.closed_to == 'F' %}
-                  <span class="label building-label">Closed to Women</span>
-                  {% elif current_building.closed_to == 'M' %}
-                  <span class="label building-label">Closed to Men</span>
-                  {% endif %}
-                  </small>
-              </h1>
-              <div class="row building-stats">
+{% block content %}
+    <div class="container-fluid">
+        <h1 id="page-title">
+            {{current_building.name}} <small style="vertical-align: middle">
+                {% if current_building.closed_to == 'F' %}
+                    <span class="label building-label">Closed to Women</span>
+                {% elif current_building.closed_to == 'M' %}
+                    <span class="label building-label">Closed to Men</span>
+                {% endif %}
+                </small>
+        </h1>
+        <div class="row building-stats">
                   
-                   <!-- Types of Rooms -->
-                   <div class="col-md-6">
-                      <div class="panel panel-default">
-                            <div class="stat-panel-heading">
-                                <h3 class="panel-title">Types of Rooms</h3>
-                            </div>
-                            <div class="panel-body">
-                                {% if current_building.total_singles != 0 %}
-                                    <strong>{{current_building.available_singles}}</strong> / {{current_building.total_singles}} Singles<br>
-                                {% endif %}
-                                {% if current_building.total_doubles != 0 %}
-                                    <strong>{{current_building.available_doubles}}</strong> / {{current_building.total_doubles}} Doubles<br>
-                                {% endif %}
-                                {% if current_building.total_triples != 0 %}
-                                    <strong>{{current_building.total_triples}}</strong> / {{current_building.total_triples}} Triples<br>
-                                {% endif %}
-                                {% if current_building.total_quads != 0 %}
-                                    <strong>{{current_building.total_quads}}</strong> / {{current_building.total_quads}} Quads<br>
-                                {% endif %}
-                            </div>
-                       </div>
-                  </div>
+            <!-- Types of Rooms -->
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="stat-panel-heading">
+                        <h3 class="panel-title">Types of Rooms</h3>
+                    </div>
+                    <div class="panel-body">
+                        {% if current_building.total_singles != 0 %}
+                            <strong>{{current_building.available_singles}}</strong> / {{current_building.total_singles}} Singles<br>
+                        {% endif %}
+                        {% if current_building.total_doubles != 0 %}
+                            <strong>{{current_building.available_doubles}}</strong> / {{current_building.total_doubles}} Doubles<br>
+                        {% endif %}
+                        {% if current_building.total_triples != 0 %}
+                            <strong>{{current_building.total_triples}}</strong> / {{current_building.total_triples}} Triples<br>
+                        {% endif %}
+                        {% if current_building.total_quads != 0 %}
+                            <strong>{{current_building.total_quads}}</strong> / {{current_building.total_quads}} Quads<br>
+                        {% endif %}
+                    </div>
+               </div>
+            </div>
                   
-                   <!-- Building Notes -->
-                  {% if building.notes %}
-                   <div class="col-md-12">
-                      <div class="panel panel-default stat-panel-heading">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Notes</h3>
-                            </div>
-                            <div class="panel-body">
-                                {{building.notes}}
-                            </div>
-                       </div>
-                  </div>
-                  {% endif %}
-                  
-                  {% if floor_images %}
-                  <!-- Link to floor plan images if small screen -->
-                  <div class="col-md-6 hidden-md hidden-lg">
-                    <a href="#floorPlans" class="nodecor" id="floorPlanViewButton">
-                      <div class="panel panel-green panel-default nodecor">
-                            <div class="stat-panel-heading-green nodecor">
-                                <h3 class="panel-title-green nodecor" id="floorPlanViewText"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> View Floor Plans <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></h3>
-                            </div>
-                       </div>
-                    </a>
-                  </div>
-                  {% endif %}
-                
-              </div><!--/row-->
-          </div><!--/col-md-12
+            <!-- Building Notes -->
+            {% if building.notes %}
+             <div class="col-md-12">
+                <div class="panel panel-default stat-panel-heading">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Notes</h3>
+                    </div>
+                    <div class="panel-body">
+                        {{building.notes}}
+                    </div>
+                </div>
+             </div>
+            {% endif %}
+
+            {% if floor_images %}
+            <!-- Link to floor plan images if small screen -->
+            <div class="col-md-6 hidden-md hidden-lg">
+               <a href="#floorPlans" class="nodecor" id="floorPlanViewButton">
+                   <div class="panel panel-green panel-default nodecor">
+                       <div class="stat-panel-heading-green nodecor">
+                           <h3 class="panel-title-green nodecor" id="floorPlanViewText"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> View Floor Plans <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></h3>
+                        </div>
+                   </div>
+                </a>
+             </div>
+            {% endif %}
+
+          </div><!--/row-->
+      </div><!--/container-fluid-->
           
       <!-- first half of page - room list -->
       {% if floor_images %}
@@ -302,8 +269,7 @@
                                 {% elif rm.room_type == 'Q' %}
                                     Quad
                                 {% elif rm.room_type == 'B' %}
-                                    {# fixme: if morris say apartment not suite #}
-                                    {% if currrent_building.name == "Morris" %}
+                                    {% if rm.building.name == "Morris" %}
                                       Apartment
                                     {% else %}
                                       Suite
@@ -396,29 +362,25 @@
     {% endif %}
     </div><!--/row-offcanvas -->
 
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="/static/students/assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="/../static/students/dist/js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="/static/students/assets/js/ie10-viewport-bug-workaround.js"></script>
-    <!-- Script for collapsable side navigation -->
-    <script src="/static/students/sidebar/sidebar.js"></script>
+{% endblock content %}
+          
+{% block custom-js %}
     <!-- Zoom JQuery Plugin -->
     <script src="/static/students/assets/js/zoom/jquery.elevateZoom-3.0.8.min.js" type="text/javascript"></script>
+          
     <!-- Script for floor plan inner zoom -->
     <script src="/static/students/building/zoom.js" type="text/javascript"></script> 
+          
     <!-- Bootstrap Select plugin for filtering by floor -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
-    <script src="/static/students/building/filters.js"></script>
+    <script src="/static/students/building/filters.js" type="text/javascript"></script>
+          
     <!-- Script for floor plan thumbnail click function -->
-    <script src="/static/students/building/thumbnail.js"></script>
+    <script src="/static/students/building/thumbnail.js" type="text/javascript"></script>
+          
     <!-- Script for dropdown apartments -->
-    <script src="/static/students/building/dropdown-table.js"></script>
+    <script src="/static/students/building/dropdown-table.js" type="text/javascript"></script>
+          
     <!-- Script for filtering building sidebar -->
-    <script src="/static/students/sidebar/sidebar-filter.js"></script>
-  </body>
-</html>
+    <script src="/static/students/sidebar/sidebar-filter.js" type="text/javascript"></script>
+{% endblock custom-js %}

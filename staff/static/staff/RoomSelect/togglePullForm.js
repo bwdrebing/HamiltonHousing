@@ -10,14 +10,14 @@ $('.toggle').toggles({
 
 $('.toggle').on('toggle',function(e,active){
     //Find the parent tab of the toggle...   
-    var parent = $(this).parent().parent().parent();
+    var parent = $(this).parents('.tab-pane');
     
     //Show/Hide the form groups and then set the inputs to required or not.
     if(active){
-        parent.children('.PullField').show();
-        parent.children('.PullField').find('input').prop('required', true);
+        parent.find('.PullField').show();
+        parent.find('.PullField').find('input').prop('required', true);
     } else {
-        parent.children('.PullField').hide();
-        parent.children('.PullField').find('input').prop('required', false);
+        parent.find('.PullField').hide();
+        parent.find('.PullField').find('input').prop('required', false);
     }   
 });

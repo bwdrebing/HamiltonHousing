@@ -12,6 +12,7 @@ from .models import Room
 from .models import Transaction
 from .models import BlockTransaction
 from .models import Resident
+from .models import StaffPageContent
 
 from .forms import *
 
@@ -224,8 +225,8 @@ def suiteConfirm(request):
         totalNumberOfStudents = int(request.POST['numberOfStudents'])
         
         transaction = BlockTransaction.objects.create(
-            block_number = request.POST['Number0'],
-            suite = Room.objects.get(id=request.POST['Room0'])
+            block_number = request.POST['blockNumber'],
+            suite = Room.objects.get(id=request.POST['Suite'])
         )
         
         for i in range(totalNumberOfStudents):
@@ -234,7 +235,7 @@ def suiteConfirm(request):
             )
             transaction.residents.add(resident)
                 
-        room = Room.objects.get(id=request.POST['Room' + str(i)])   
+        room = Room.objects.get(id=request.POST['Suite'])   
         room.available = False
         room.save()
     
@@ -251,7 +252,8 @@ def suiteConfirm(request):
     return render(request, 
                   'staff/confirmSelection.html',
                   {'HeaderText' : "Confirm Suite Selection Details", 
-                   'Action' : reverse('staff-home'),
+
+                   'Action' : reverse('select'),
                    'LotteryNumber' : number, 
                    'form' : None})
 
@@ -462,6 +464,13 @@ def home(request):
     else:
         number = ""
         
+    pageContent = StaffPageContent.objects.filter(active=True)
+    if (pageContent):
+        pageContent = pageContent.latest()
+    else:
+        pageContent = ""
+        
     return render(request, 
                   'staff/home.html',
-                  {'LotteryNumber' : number})
+                  {'LotteryNumber' : number,
+                   'pageContent': pageContent})

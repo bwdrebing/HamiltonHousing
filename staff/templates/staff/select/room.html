@@ -42,55 +42,59 @@
   <body>
     {% include "staff/header.html" %}
       
-    <div class="container-fluid">
+    <div class="container-fluid" id="main">
 
       <div class="starter-template">
-        <h1>Welcome to Room Selection</h1>
-        <form method="POST" class="post-form form-horizontal" action="{{Action}}">{% csrf_token %}
+        <h1>Room Selection</h1>
+          <div class="container-fluid">
+            <form method="POST" class="post-form form-horizontal" action="{{Action}}">{% csrf_token %}
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h1 class="panel-title">{{HeaderText}}</h1>
-                </div>
-                <div class="panel-body">
-                    {% for field in form %}
-                    <div class="form-group">
-                    <label for="FormInput" class = "col-sm-4 control-label">{{field.label}} </label>
+              {% comment %}  <div class="panel panel-default">
+                    <div class="panel-body">{% endcomment %}
+                        <div class="col-md-2"></div>
+                        <div class="col-md-8">
+                        {% for field in form %}
+                        <div class="form-group form-group-lg">
+                            <label for="FormInput" class="col-sm-3 control-label">{{field.label}}</label>
 
-                    <div class="col-sm-8">
-                        {{field}}
-                    </div>
-                    </div>
-                    {% endfor %}
-                    <button type="submit" class="save btn btn-default form-btn">Next</button>
-                </div>
-            </div>
-        </form>
+                            <div class="col-sm-9">
+                                {{field}}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <button type="submit" class="save btn btn-default btn-lg">Next</button>
+                        </div>
+                        <div class="col-md-2"></div>
+                        
+                   {% comment %} </div>
+                </div>{% endcomment %}
+            </form>
+          </div>
       </div>
 
-          <div class="row bs-wizard" style="border-bottom:0;">
-                
-                <div class="col-xs-4 bs-wizard-step active"><!-- active -->
-                  <div class="text-center bs-wizard-stepnum">Step 1</div>
-                  <div class="progress"><div class="progress-bar"></div></div>
-                  <a href="#" class="bs-wizard-dot"></a>
-                  <div class="bs-wizard-info text-center">Building Information</div>
+      <div class="row bs-wizard" style="border-bottom:0;">
+
+            <div class="col-xs-4 bs-wizard-step active"><!-- active -->
+              <div class="text-center bs-wizard-stepnum">Step 1</div>
+              <div class="progress"><div class="progress-bar"></div></div>
+              <a href="#" class="bs-wizard-dot"></a>
+              <div class="bs-wizard-info text-center">Building Info</div>
+            </div>
+
+            <div class="col-xs-4 bs-wizard-step disabled">
+              <div class="text-center bs-wizard-stepnum">Step 2</div>
+              <div class="progress"><div class="progress-bar"></div></div>
+              <a href="#" class="bs-wizard-dot"></a>
+              <div class="bs-wizard-info text-center">Student Info</div>
+            </div>
+
+            <div class="col-xs-4 bs-wizard-step disabled">
+              <div class="text-center bs-wizard-stepnum">Step 3</div>
+              <div class="progress"><div class="progress-bar"></div></div>
+              <a href="#" class="bs-wizard-dot"></a>
+              <div class="bs-wizard-info text-center">Confirm</div>
                 </div>
-                
-                <div class="col-xs-4 bs-wizard-step disabled">
-                  <div class="text-center bs-wizard-stepnum">Step 2</div>
-                  <div class="progress"><div class="progress-bar"></div></div>
-                  <a href="#" class="bs-wizard-dot"></a>
-                  <div class="bs-wizard-info text-center">Student information</div>
-                </div>
-                
-                <div class="col-xs-4 bs-wizard-step disabled">
-                  <div class="text-center bs-wizard-stepnum">Step 3</div>
-                  <div class="progress"><div class="progress-bar"></div></div>
-                  <a href="#" class="bs-wizard-dot"></a>
-                  <div class="bs-wizard-info text-center">Confirm</div>
-                </div>
-          </div>
+      </div>
 
 
     </div><!-- /.container-fluid -->

@@ -7,6 +7,13 @@ studentInfoConfirmText.js. Remember to include this textFunction in the template
  
  TL;DR: Add preview class to button, and define your own textFunction() to display
  text in the confimation popup
+ 
+ Example:
+ 
+ var textFunction = function(){
+    var text = "<h1>Are you sure you wanna submit that??</h1>";
+    return text;
+ };
 */
 
 $('.preview').on('click', function(event) {

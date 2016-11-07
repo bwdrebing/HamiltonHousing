@@ -1,0 +1,38 @@
+{% extends "students/base.html" %}
+{% block title %}Contact Us{% endblock title %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Contact Us</h1>
+                
+                {% if submitted %}
+                    <h3>Your request was succesfully submitted.</h3>
+                {% else %}
+                    <form role="form" action="" method="post" class="post-form form-group">
+                        {% csrf_token %}
+
+                        {% for field in contact_form %}
+                            <div class="form-group" style="padding-bottom: 20px;">
+                                <label for="FormInput" class="control-label">{{field.label}} </label>
+
+                                <div class="text-align: top;">
+                                    {{field}}
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        <button type="submit" class="btn btn-primary btn-default">
+                            Submit
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block custom-js %}
+    <script src="/staff/static/staff/RoomSelect/addFormControlToInputs.js" type="text/javascript"></script>
+{% endblock %}
