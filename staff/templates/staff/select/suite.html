@@ -19,7 +19,9 @@
 
     <!-- Custom styles for this template -->
     <link href="/static/staff/home/starter-template.css" rel="stylesheet">
+    <link href="/static/staff/home/header.css" rel="stylesheet">
     <link href="/static/staff/select/block/style.css" rel="stylesheet">
+    <link href="/static/staff/StaffForms/forms.css" rel="stylesheet">
       
     <!-- Progress bar formatting -->
     <link href="/static/staff/progressbar/progressbar.css" rel="stylesheet">
@@ -34,7 +36,7 @@
   <body>
     {% include "staff/header.html" %}
       
-      <div class="container col-md-12">
+      <div class="container-fluid">
 
           <div class="starter-template">
             <h1>Suite Selection</h1>
@@ -49,8 +51,8 @@
                         </div>
                     {% endfor %}
                 </div>
+                <button type="submit" class="save btn btn-default form-btn">Next</button>
             </form>
-            <button type="submit" class="save btn btn-default bottom-button">Next</button>
           </div>
         
           <!-- Progress Bar -->
@@ -82,15 +84,12 @@
           
           <!-- if no suites available for selection -->
           {% else %}
-          <div class="container centered-block">
-            <h4>Oops! There are currently no available suites.</h4>
+          <h4>Oops! There are currently no available suites.</h4>
               {# fixme: link to general edit page when made #}
-              {% url 'review-room' as edit_transaction_url %}
-              <h5>Do you need to <a href="{{edit_transaction_url}}">edit</a> an existing transaction?</h5>
-          </div>
+              <h5>Do you need to <a href="{% url 'review-room' %}">edit</a> an existing transaction?</h5>
           {% endif %}
 
-    </div><!-- /.container -->
+    </div><!-- /.container-fluid -->
 
 
     <!-- Bootstrap core JavaScript

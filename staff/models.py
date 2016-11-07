@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from datetime import datetime
 
 class LotteryNumber(models.Model):
     number = models.PositiveSmallIntegerField()
@@ -156,7 +157,29 @@ class Apartment(models.Model):
             
         return available_beds
     
+    def _get_room_types(self):
+        room_types = ""
+        rooms = (Room.objects.filter(apartment = self)
+                             .filter(available = True)
+                             .exclude(available_beds = 0))
+        for room in rooms:
+            room_types += " type" + room.room_type
+            
+        return room_types
+    
+    def _get_floors(self):
+        floors = ""
+        rooms = (Room.objects.filter(apartment = self)
+                             .filter(available = True)
+                             .exclude(available_beds = 0))
+        for room in rooms:
+            floors += " floor" + room.floor
+            
+        return floors
+    
     available_beds = property(_get_available_beds)
+    room_types = property(_get_room_types)
+    floors = property(_get_floors)
     
     def __str__(self):
         return str(self.building.name) + " " + str(self.number)
@@ -336,3 +359,56 @@ class Resident(models.Model):
             string = "student(" + str(self.gender) + ")"
             
         return string
+    
+class PageContent(models.Model):
+    name = models.CharField(
+        max_length=50,
+        default="",
+        help_text="This is a name for this entry - it will not be displayed anywhere on the webiste"
+    )
+    
+    header_text = models.CharField(
+        max_length=50,
+        default="",
+        help_text="This text will be displayed on the students home page as a page title",
+        verbose_name="Home page main text"
+    )
+    
+    header_subtext = models.TextField(
+        default="",
+        help_text="This text will be displayed on the home page below the title in a smaller font",
+        verbose_name="Home page lead text"
+    )
+        
+    header_block_text = models.TextField(
+        default="", 
+        blank=True,
+        help_text="This text will be displayed as a paragraph below the page title and subtitle",
+        verbose_name="Home page block text"
+    )
+  
+    lottery_name = models.CharField(
+        max_length=25,
+        default="",
+        help_text="This is the name of the current lottery; it will display on the home page"
+    )
+    
+    lottery_text = models.TextField(
+        default='',
+        help_text="This is a description of the logistics of the this lottery"
+    )
+    
+    contact = models.TextField(
+        default='',
+        help_text="This is a block of text explaining who to contact with any immediate questions."
+    )
+    
+    active = models.BooleanField(default=True)
+    
+    updated = models.DateTimeField(auto_now=True, blank=True)
+    
+    class Meta:
+        get_latest_by = "updated"
+    
+    def __str__(self):
+        return self.name

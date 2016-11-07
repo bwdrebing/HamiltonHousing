@@ -27,6 +27,7 @@
       
     <!-- CSS for this page -->
     <link rel="stylesheet" href="/static/students/building/building.css">
+    <link rel="stylesheet" href="/static/students/header/header.css">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -46,21 +47,22 @@
       {% include "students/sidebar.html" %}
         
       <div id="main">
-          <div class="col-md-12">
+          <div class="container-fluid">
               <h1 id="page-title">
-                  {{current_building.name}} 
+                  {{current_building.name}} <small style="vertical-align: middle">
                   {% if current_building.closed_to == 'F' %}
-                  <span class="label label-warning">Closed to Women</span>
+                  <span class="label building-label">Closed to Women</span>
                   {% elif current_building.closed_to == 'M' %}
-                  <span class="label label-warning">Closed to Men</span>
+                  <span class="label building-label">Closed to Men</span>
                   {% endif %}
+                  </small>
               </h1>
-              <div class="row">
+              <div class="row building-stats">
                   
                    <!-- Types of Rooms -->
-                   <div class="container col-md-6">
-                      <div class="panel panel-default stat-panel-heading">
-                            <div class="panel-heading">
+                   <div class="col-md-6">
+                      <div class="panel panel-default">
+                            <div class="stat-panel-heading">
                                 <h3 class="panel-title">Types of Rooms</h3>
                             </div>
                             <div class="panel-body">
@@ -82,7 +84,7 @@
                   
                    <!-- Building Notes -->
                   {% if building.notes %}
-                   <div class="container col-md-12">
+                   <div class="col-md-12">
                       <div class="panel panel-default stat-panel-heading">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Notes</h3>
@@ -91,6 +93,19 @@
                                 {{building.notes}}
                             </div>
                        </div>
+                  </div>
+                  {% endif %}
+                  
+                  {% if floor_images %}
+                  <!-- Link to floor plan images if small screen -->
+                  <div class="col-md-6 hidden-md hidden-lg">
+                    <a href="#floorPlans" class="nodecor" id="floorPlanViewButton">
+                      <div class="panel panel-green panel-default nodecor">
+                            <div class="stat-panel-heading-green nodecor">
+                                <h3 class="panel-title-green nodecor" id="floorPlanViewText"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> View Floor Plans <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></h3>
+                            </div>
+                       </div>
+                    </a>
                   </div>
                   {% endif %}
                 
@@ -103,19 +118,50 @@
       {% else %}
       <div class="col-md-12">
       {% endif %}
-
-        <!-- filter by floor dropdown available if there are rooms left -->
-        {% if num_floors > 1 %}
-        <select id="floorSelect" class="selectpicker" data-style="btn-primary">
+      
+      <!-- filter by floor dropdown available if there are rooms left -->
+       {% if floors|length > 1 %}
+        <select id="floorFilter" class="selectpicker room-filter">
             <option name="all" value="all">All Floors</option>
             {% for floor in floors %}
-                <option name="{{floor}}" value="{{floor}}">Floor {{floor}}</option>
+                <option name="floor{{floor}}" value="floor{{floor}}">Floor {{floor}}</option>
+            {% endfor %}
+        </select>
+        {% endif %}
+
+        <!-- filter by room type dropdown available, if there are more than 1 type of room -->
+        {% if room_types|length > 1 %}
+        <select id="roomTypeFilter" class="selectpicker room-filter">
+            <option name="all" value="all">All Room Types</option>
+            {% for type in room_types %}
+                <option name="type{{type}}" value="type{{type}}">
+                    {% if type == 'S' %}
+                        Single
+                    {% elif type == 'D' %}
+                        Double
+                    {% elif type == 'T' %}
+                        Triple
+                    {% elif type == 'Q' %}
+                        Quad
+                    {% elif type == 'B' %}
+                        Block
+                    {% endif %}
+                </option>
             {% endfor %}
         </select>
         {% endif %}
           
+        <!-- filter by floor dropdown available if there are rooms left -->
+       {% if genders|length > 1 %}
+        <select id="genderFilter" class="selectpicker room-filter">
+            <option name="all" value="all">All Genders</option>
+            <option name="genderF" value="genderF">Female</option>
+            <option name="genderM" value="genderM">Male</option>
+        </select>
+        {% endif %}
+          
         <!-- table of all open rooms -->
-        {% if rooms_by_floor %}
+        {% if rooms %}
         <div class="table-responsive">
             <table class="table">
               <thead>
@@ -137,70 +183,140 @@
               </thead>
               <tbody class="room-list">
                 {% comment %}
+                  <!--
                     rooms_by_floor list looks like this:
-                    'rooms_by_floor': {'1': {'101': "", '10': ['101', '110', '152']}}
+                    'rooms_by_floor': {'101': <Room object 101>, '10': [<Room 102>, <Room 110>, <Room 152>]}
+                    -->
                 {% endcomment %}
                   
-                {% for floor, rooms in rooms_by_floor.items %}
-                    {% for room, apt_rooms in rooms.items %}
+                {% for roomNum, apt_rooms in rooms.items %}
+    
+                    <!-- An apartment dropdown -->
+                    {% with first_room=apt_rooms|first %}
+                    {% if first_room.apartment %}
+                        {% with apt=first_room.apartment %}
+                        <tr name="{{apt.name}}" class="{{apt.floors}}{{apt.room_types}} table-dropdown table-hoverable">
+                            <td><span class="glyphicon glyphicon-menu-down"></span></td>
+                            <td><strong>{{apt.number}}</strong></td>
+                            <td><strong>Apartment</strong></td>
+                            <td>{{apt.available_beds}}</td>
+                            
+                            <!-- Show Gender -->
+                            {% if show_gender %}
+                            <td>
+                                {% if apt.gender == 'F' %}
+                                    Female
+                                {% elif apt.gender == 'M' %}
+                                    Male
+                                {% endif %}
+                            </td>
+                            {% endif %}
+                              
+                            <!-- Show Pull (none on an apartment) -->
+                            {% if show_pull %}
+                            <td></td>
+                            {% endif %}
+                            
+                            <!-- Show Notes -->
+                            {% if show_notes %}
+                            <td>
+                                {{apt.notes}}
+                            </td>
+                            {% endif %}
+                            
+                        </tr>
                   
-                        <!-- An apartment dropdown -->
-                        {% if apt_rooms|length > 1 %}
-                            {% with first_room=apt_rooms|first %}
-                            {% with apt=first_room.apartment %}
-                            <tr name="{{apt.name}}" class="{{floor}} table-dropdown table-hoverable">
-                              <td><span class="glyphicon glyphicon-menu-down"></span></td>
-                              <td><strong>{{apt.number}}</strong></td>
-                              <td><strong>Apartment</strong></td>
-                              <td>{{apt.available_beds}}</td>
-                              {% if show_gender %}
+                        <!-- Apartment rooms -->
+                        {% for rm in apt_rooms %}
+                            <tr name="{{rm}}" class="{{apt.floors}}{{apt.room_types}} apt-room" style="display: none;">
                                 <td>
-                                    {% if apt.gender == 'F' %}
+                                </td>
+                                <td>
+                                    {{rm.number}}
+                                </td>
+                                <td>
+                                {% if rm.room_type == 'S' %}
+                                    Single
+                                {% elif rm.room_type == 'D' %}
+                                    Double
+                                {% elif rm.room_type == 'T' %}
+                                    Triple
+                                {% elif rm.room_type == 'Q' %}
+                                    Quad
+                                {% elif rm.room_type == 'B' %}
+                                    Block
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                                </td>
+                                <td>
+                                    {{rm.available_beds}}
+                                </td>
+                                
+                                <!-- Show Gender -->
+                                {% if show_gender %}
+                                <td>
+                                    {% if rm.gender == 'F' %}
                                         Female
-                                    {% elif apt.gender == 'M' %}
+                                    {% elif rm.gender == 'M' %}
                                         Male
                                     {% endif %}
                                 </td>
-                              {% endif %}
-                              {% if show_pull %}
-                                <td></td>
-                              {% endif %}
-                              {% if show_notes %}
+                                {% endif %}
+                                
+                                <!-- Show Pull -->
+                                {% if show_pull %}
                                 <td>
-                                    {{apt.notes}}
+                                    {% if rm.pull %}
+                                      {{rm.pull}}
+                                    {% endif %}
                                 </td>
-                              {% endif %}
+                                {% endif %}
+                                
+                                <!-- Show Notes -->
+                                {% if show_notes %}
+                                <td>
+                                    {{rm.notes}}
+                                </td>
+                                {% endif %}
+                                
                             </tr>
-                            {% endwith %}
-                            {% endwith %}
+                        {% endfor %}
+                        {% endwith %}
                   
-                            <!-- Apartment rooms -->
+                        <!-- Regular room -->
+                        {% else %}
                             {% for rm in apt_rooms %}
-                                <tr name="{{rm}}" class="{{floor}} apt-room" style="display: none;">
-                                  <td>
-                                  </td>
-                                  <td>
-                                      {{rm.number}}
-                                  </td>
-                                  <td>
-                                      {% if rm.room_type == 'S' %}
-                                        Single
-                                      {% elif rm.room_type == 'D' %}
-                                        Double
-                                      {% elif rm.room_type == 'T' %}
-                                        Triple
-                                      {% elif rm.room_type == 'Q' %}
-                                        Quad
-                                      {% elif rm.room_type == 'B' %}
-                                        Block
-                                      {% else %}
-                                        N/A
-                                      {% endif %}
-                                  </td>
-                                  <td>
-                                      {{rm.available_beds}}
-                                    </td>
-                                  {% if show_gender %}
+                            <tr name="{{rm}}" class="floor{{rm.floor}} type{{rm.room_type}} table-dropdown">
+                                <td></td>
+                                <td>{{rm.number}}</td>
+                                
+                                <!-- Room Type -->
+                                <td>
+                                {% if rm.room_type == 'S' %}
+                                    Single
+                                {% elif rm.room_type == 'D' %}
+                                    Double
+                                {% elif rm.room_type == 'T' %}
+                                    Triple
+                                {% elif rm.room_type == 'Q' %}
+                                    Quad
+                                {% elif rm.room_type == 'B' %}
+                                    {# fixme: if morris say apartment not suite #}
+                                    {% if currrent_building.name == "Morris" %}
+                                      Apartment
+                                    {% else %}
+                                      Suite
+                                    {% endif %}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                                </td>
+                            
+                                <td>{{rm.available_beds}}</td>
+                                
+                                <!-- Show Gender -->
+                                {% if show_gender %}
                                     <td>
                                     {% if rm.gender == 'F' %}
                                         Female
@@ -208,75 +324,38 @@
                                         Male
                                     {% endif %}
                                     </td>
-                                  {% endif %}
-                                  {% if show_pull %}
+                                {% endif %}
+                                
+                                <!-- Show Pull -->
+                                {% if show_pull %}
                                     <td>
                                     {% if rm.pull %}
-                                      {{rm.pull}}
+                                        {{rm.pull}}
                                     {% endif %}
                                     </td>
-                                  {% endif %}
-                                  {% if show_notes %}
+                                {% endif %}
+                                
+                                <!-- Show Notes -->
+                                {% if show_notes %}
                                     <td>
                                         {{rm.notes}}
                                     </td>
-                                  {% endif %}
-                                </tr>
-                            {% endfor %}
-                        {% else %}
-                            {% for rm in apt_rooms %}
-                            <tr name="{{rm}}" class="{{floor}} table-dropdown">
-                              <td></td>
-                              <td>{{rm.number}}</td>
-                              <td>
-                              {% if rm.room_type == 'S' %}
-                                Single
-                              {% elif rm.room_type == 'D' %}
-                                Double
-                              {% elif rm.room_type == 'T' %}
-                                Triple
-                              {% elif rm.room_type == 'Q' %}
-                                Quad
-                              {% elif rm.room_type == 'B' %}
-                                Block
-                              {% else %}
-                                N/A
-                              {% endif %}
-                              </td>
-                              <td>{{rm.available_beds}}</td>
-                              {% if show_gender %}
-                                <td>
-                                {% if rm.gender == 'F' %}
-                                    Female
-                                {% elif rm.gender == 'M' %}
-                                    Male
                                 {% endif %}
-                                </td>
-                              {% endif %}
-                              {% if show_pull %}
-                                <td>
-                                {% if rm.pull %}
-                                  {{rm.pull}}
-                                {% endif %}
-                                </td>
-                              {% endif %}
-                              {% if show_notes %}
-                                <td>
-                                    {{rm.notes}}
-                                </td>
-                              {% endif %}
                             </tr>
                             {% endfor %}
                         {% endif %}
-                    {% endfor %}
+                        {% endwith %}
                 {% endfor %}
               </tbody>
             </table>
           </div><!--table of rooms-->   
+          
+          <!-- if there are no rooms -->
           {% else %}
             <h3>There are currently no available rooms</h3>
           {% endif %}
-      </div><!--/first half of screen-->
+          
+    </div><!--/first half of screen-->
           
     <!-- horizontal line visible on smaller screens to divide floor plans and open room list -->
     {% if floor_images %}
@@ -284,20 +363,19 @@
     {% endif %}
         
     <!-- second half of screen (floor plans) -->
+    {% if floor_images %}
+    <a name="floorPlans"></a>
     <div class="col-md-6 col-xs-12">
         
         <!-- large floor image -->
-        {% if floor_images %}
         {% with first_image=floor_images|first %}
             <h2 id="floorPlanName">{{ first_image.display_name }}</h2>
         
             <!-- floor plan image -->
             <img id="fullFloorPlan" class="img-responsive floor-plan-img" src="{{first_image.image.url}}" data-zoom-image="{{first_image.image.url}}"/>
         {% endwith %}
-        {% endif %}
         
         <!-- floor plan thumbnail links -->
-        {% if floor_images %}
         <div class="row">
             {% for floorplan in floor_images %}
                 <div class="col-xs-3 col-md-3 thumb-div" id="thumbnail-gallery">
@@ -314,9 +392,8 @@
                 </div>
             {% endfor %}
         </div>
-        {% endif %}
-
     </div><!--/floor plans-->
+    {% endif %}
     </div><!--/row-offcanvas -->
 
 
@@ -336,7 +413,7 @@
     <script src="/static/students/building/zoom.js" type="text/javascript"></script> 
     <!-- Bootstrap Select plugin for filtering by floor -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
-    <script src="/static/students/building/floorFilter.js"></script>
+    <script src="/static/students/building/filters.js"></script>
     <!-- Script for floor plan thumbnail click function -->
     <script src="/static/students/building/thumbnail.js"></script>
     <!-- Script for dropdown apartments -->

@@ -18,12 +18,9 @@
     <!--<link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">-->
 
     <!-- Custom styles for this template - sidebar, etc. -->
-    <link href="/static/students/home/home.css" rel="stylesheet">
     <link href="/static/students/sidebar/sidebar.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <!--<script src="../../assets/js/ie-emulation-modes-warning.js"></script>-->
+    <link href="/static/students/home/home.css" rel="stylesheet">
+    <link href="/static/students/header/header.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -34,22 +31,84 @@
 
   <body>
     {% include "students/header.html" %}
+      
     <div class="row-offcanvas row-offcanvas-left">
       {% include "students/sidebar.html" %}
     
       <div id="main">
-          <div class="container">
-              <div class="container col-md-12" id="home-jumbotron">
-                    <h1>Welcome to the Subfree Lottery</h1>
-                    <p class="lead">Select a building from the left navigation to view room availability by dorm</p>
+          <div class="container-fluid">
+              <div class="col-md-12" id="home-jumbotron">
+                    <h1>
+                    {% if pageContent %}
+                        {{pageContent.header_text}}
+                    {% else %}
+                        Let the search begin!
+                    {% endif %}
+                    </h1>
+                    <p class="lead">
+                    {% if pageContent %}
+                        {{ pageContent.header_subtext|linebreaksbr }}
+                    {% else %}
+                        Select a building from the left sidebar to view room availability by building.
+                    {% endif %}
+                    </p>
+                    {% if pageContent %}
+                        {% if pageContent.header_block_text %}
+                            {{ pageContent.header_block_text|linebreaks }}
+                        {% endif %}
+                    {% endif %}
+                    <hr class="yellow-line">
               </div>
-              <div class="col-md-12">
-                  <div class="container">
-                        <a class="twitter-timeline"
-                        href="https://twitter.com/HamiltonResLife">
-                        Tweets by @HamiltonResLife
-                        </a>
+              
+              
+              <div class="col-md-6">
+                  <div class="landing-panel panel">
+                    <div class="landing-panel-heading container-fluid" data-toggle="collapse" data-target="#lottery-info-panel" style="clear: both;">
+                        <h3 class="landing-panel-title" style="float: left;">Lottery Logistics</h3>
+                        <h3 class="landing-panel-title" style="float: right;"><span class="glyphicon glyphicon-plus"></span></h3>
+                    </div>
+                    <div id="lottery-info-panel" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <h4 class="h4-panel">
+                            {% if pageContent %}
+                                {{ pageContent.lottery_name }}
+                            {% else %}
+                                General Lottery
+                            {% endif %}
+                            </h4>
+                            {% if pageContent %}
+                                {{ pageContent.lottery_text|linebreaksbr }} 
+                            {% else %}
+                                The General Lottery provides students an opportunity to select all other housing options not chosen in the Blocking, Co-Op and Substance-Free lotteries or otherwise pre-assigned. You do not need to sign up for the General Lottery. For more information about the lottery visit the <a href="https://www.hamilton.edu/offices/residentiallife/lottery/general-lottery">Office of Residential Life website</a>.
+                            {% endif %}
+                        </div>
+                    </div>
                   </div>
+              </div>
+
+              <div class="col-md-6">
+                  <div class="landing-panel panel">
+                    <div class="landing-panel-heading container-fluid" data-toggle="collapse" data-target="#contact-info-panel" style="clear: both;">
+                        <h3 class="landing-panel-title" style="float: left;">Contact</h3>
+                        <h3 class="landing-panel-title" style="float: right;"><span class="glyphicon glyphicon-plus"></span></h3>
+                    </div>
+                    <div id="contact-info-panel" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            For questions or comments about the use of this website, please fill out our <a href="{% url 'contact' %}">contact form</a>.<br><br>
+                            {% if pageContent %}
+                                {{ pageContent.contact|linebreaksbr }}
+                            {% else %}
+                                Questions pertaining to the lottery and the lottery process should be directed to Ashley Place, assistant director of Residential Life, at <a href="mailto:aplace@hamilton.edu">aplace@hamilton.edu</a>.
+                            {% endif %}
+                        </div>
+                    </div>
+                  </div>
+              </div>
+              
+              <div class="col-md-12">
+                    <a class="twitter-timeline" href="https://twitter.com/HamiltonResLife">
+                        Tweets by @HamiltonResLife
+                    </a>
               </div>
           </div>
       </div>

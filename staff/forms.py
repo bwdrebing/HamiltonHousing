@@ -52,7 +52,6 @@ class suiteInfoForm(forms.Form):
         
         self.fields['building'].choices = buildingChoices 
         self.fields['suite_number'].choices = suiteChoices
-        
     
 class StudentInfoForm(forms.Form):
     
@@ -71,38 +70,37 @@ class StudentInfoForm(forms.Form):
         )
         
         self.fields[prefix + 'Number0'] = forms.IntegerField(label = 'Block Lottery Number')
+        
+        #Build field for the room number
+        numForm = forms.CharField(
+            disabled = True,
+            initial = suite.number,
+            widget = forms.HiddenInput()
+        )
+            
+        self.fields[prefix + 'Suite_Number'] = numForm
+            
+            
+        #Build field for the room id
+        roomId = forms.IntegerField(
+            initial = suite.id,
+            widget = forms.HiddenInput(),
+        )
+            
+        self.fields[prefix + 'Suite'] = roomId
 
         for i in range(self.numberOfStudents):
             
-            #Build field for the room number
-            numForm = forms.CharField(
-                    disabled = True,
-                    initial = suite.number,
-                    widget = forms.HiddenInput()
-                )
-            self.fields[prefix + 'Room_Number' + str(i)] = numForm
-            
-            
-            #Build field for the room id
-            roomId = forms.IntegerField(
-                    initial = room.id,
-                    widget = forms.HiddenInput(),
-                )
-            self.fields[prefix + 'Room' + str(i)] = roomId
+            self.studentFields.append([])
             
             #Build field for student gender
-            gender = forms.ChoiceField(
-                label = 'Resident #' + str(i+1) + ' Gender',
+            gender= forms.ChoiceField(
+                label = 'Gender',
                 choices = [('M', 'Male'), ('F', 'Female')] 
-                )
-            self.fields[prefix + 'Gender'+str(i)] = gender
-            
-            #Build field for the suite_number
-            self.fields[prefix + 'Suite_Number' + str(i)] = forms.CharField(
-                    disabled = True,
-                    initial = suite.number,
-                    widget = forms.HiddenInput()
             )
+            
+            self.fields[prefix + 'Gender' + str(i)] = gender
+            self.studentFields[i].append(self.__getitem__(prefix + 'Gender' + str(i)))
 
     
     def forBaseRoom(self, room, prefix = ""):
@@ -230,9 +228,9 @@ class editRoomForm(forms.ModelForm):
         model = Room
         fields = ['name', 'room_number', 'available', 'gender', 'available_beds', 'pull', 'notes']
         
-class userForm(forms.ModelForm):
+class userLoginForm(forms.Form):
+    username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput())
-
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'password')
+    
+    def __init__(self, *args, **kargs):
+        super(userLoginForm, self).__init__(*args, **kargs)

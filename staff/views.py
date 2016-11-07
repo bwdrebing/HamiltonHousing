@@ -1,5 +1,6 @@
-from django.contrib.auth import authenticate, login
-#from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.shortcuts import redirect
@@ -14,6 +15,7 @@ from .models import Resident
 
 from .forms import *
 
+@login_required
 def lotteryNumberInput(request):
     """View with a simple form that allows a new Next Lottery Number to be input"""
     if request.method == "POST":
@@ -33,6 +35,7 @@ def lotteryNumberInput(request):
                   'staff/LotteryNumberInput.html', 
                   {'LotteryNumber': number,'form' : form})
 
+@login_required
 def RoomSelect(request):
     """Sends a form to request a building name and room number. Redirect to the StudentInfo to render    a new form"""
     form = BuildingForm()
@@ -47,13 +50,14 @@ def RoomSelect(request):
         
     
     return render(request, 
-                  'staff/RoomSelect.html',
+                  'staff/select/room.html',
                   {'HeaderText' : headerText,
                    'Action': reverse('room-select-student-info'),
                    'LotteryNumber' : number,
                    'rooms' : list(Room.objects.all()),
                    'form' : form})
 
+@login_required
 def suiteSelect(request):
     """Select a suite as a living space - almost exactly room select"""
     form = suiteInfoForm()
@@ -69,13 +73,14 @@ def suiteSelect(request):
     
     #fixme: Only render available rooms
     return render(request,
-                  'staff/select/suiteSelect.html',
+                  'staff/select/suite.html',
                   {'headerText': headerText,
                    'Action': reverse('suite-select-student-info'),
                    'LotteryNumber': number,
                    'form': form,
                    'suites': suites})
 
+@login_required
 def ReviewRoom(request):
     """Allow the user to input a room number to review and edit the information presented"""
     form = BuildingForm()
@@ -94,6 +99,7 @@ def ReviewRoom(request):
                    'LotteryNumber' : number,
                    'form' : form})
 
+@login_required
 def ReviewStudentInfo(request):
     """Allows a staff user to view edit the student info in a transaction"""
     if request.method == "POST":
@@ -118,7 +124,6 @@ def ReviewStudentInfo(request):
             else:
                 number = ""
         
-
             return render(request, 
                           'staff/edit/transactionStudentInfo.html',
                           {'HeaderText' : headerText, 
@@ -126,6 +131,7 @@ def ReviewStudentInfo(request):
                            'LotteryNumber' : number, 
                            'form' : form})
 
+@login_required
 def StudentInfo(request):
     """Gather information about student and any roommates they might have"""
     if request.method == "POST":
@@ -141,6 +147,7 @@ def StudentInfo(request):
             
             baseForm = StudentInfoForm()
             baseForm.forBaseRoom(room)
+            
             
             formsToRender = [baseForm]
             print(room.pull)
@@ -164,13 +171,14 @@ def StudentInfo(request):
         
 
             return render(request,
-                          'staff/StudentInfo.html',
+                          'staff/select/studentInfo.html',
                           {'HeaderText' : headerText, 
                            'Action' : reverse('room-select-confirm'),
                            'LotteryNumber' : number, 
                            'Rooms' : roomsToRender,
                            'Forms' : formsToRender})
 
+@login_required
 def suiteStudentInfo(request):
     """Step 2 of the suite selection process - allows a user to input information about the students being placed in a suite during the blocking lottery"""
     if request.method == "POST":
@@ -199,15 +207,15 @@ def suiteStudentInfo(request):
             else:
                 number = ""
         
-
             return render(request, 
-                          'staff/StudentInfo.html',
+                          'staff/select/suiteStudentInfo.html',
                           {'HeaderText' : headerText, 
                            'Action' : reverse('suite-select-confirm'),
                            'LotteryNumber' : number, 
                            'Rooms' : roomsToRender,
                            'Forms' : formsToRender})
         
+@login_required
 def suiteConfirm(request):
     """A form the show the user the information they input during the suite selection prcoess for confirmation""" 
     #This form will save the transaction based on info of previous form
@@ -241,12 +249,13 @@ def suiteConfirm(request):
     
     # todo: when select page is addded action should go there
     return render(request, 
-                  'staff/ConfirmSelection.html',
+                  'staff/confirmSelection.html',
                   {'HeaderText' : "Confirm Suite Selection Details", 
                    'Action' : reverse('home'),
                    'LotteryNumber' : number, 
                    'form' : None})
 
+@login_required
 def ConfirmSelection(request):
     """Shows a user the information they input during the room selection process for confirmation"""
     #This form will save the transaction based on info of previous form
@@ -313,6 +322,7 @@ def ConfirmSelection(request):
                    'LotteryNumber' : number, 
                    'form' : None})
 
+@login_required
 def edit(request):
     """A landing page for staff users to see descriptions of the three models they can edit - transactions, rooms, and buildings"""
     # get next lottery number for header
@@ -325,6 +335,21 @@ def edit(request):
                   'staff/edit/edit.html',
                   {'LotteryNumber' : number})
 
+@login_required
+def select(request):
+    """A landing page for staff users to see descriptions of the two models they can place selections-
+    rooms and suites"""
+    # get next lottery number for header
+    nums = list(LotteryNumber.objects.all())
+    if (nums):
+        number = nums[-1]
+    else:
+        number = ""
+    return render(request,
+                  'staff/select/select.html',
+                  {'LotteryNumber' : number})
+
+@login_required
 def editBuilding(request):
     """Displays a form that allows user to edit certain building attributes (closed to women, men, etc.)"""
     # get next lottery number for header
@@ -347,6 +372,7 @@ def editBuilding(request):
                   'staff/edit/building.html', 
                   {'LotteryNumber': number,'form' : form})
 
+@login_required
 def editRoom(request):
     """Displays a form that allows user to edit certain room attributes - available, notes, etc."""
     # get next lottery number for header
@@ -371,53 +397,63 @@ def editRoom(request):
                   'staff/edit/room.html', 
                   {'LotteryNumber': number,'form' : form})
 
-def userRegistration(request):
-    """A view that displays a user registration form that adds a user to the database"""
-    number = list(LotteryNumber.objects.all())
-    if (number):
-        number = number[-1]
-    else:
-        number = ""
-    
-    # Keep track of whether registration was successful
-    registered = False
-
-    # If it's a HTTP POST, we're interested in processing form data.
-    if request.method == 'POST':
-        # Attempt to grab information from the raw form information.
-        user_form = userForm(data=request.POST)
-
-        # If the form is valid
-        if user_form.is_valid():
-            # Save the user's form data to the database.
-            user = user_form.save()
-
-            # Now we hash the password with the set_password method.
-            # Once hashed, we can update the user object.
-            user.set_password(user.password)
-            user.save()
-            
-            # Update our variable to tell the template registration was successful.
-            registered = True
-
-        # Invalid form or forms - mistakes or something else?
-        # Print problems to the terminal.
-        # They'll also be shown to the user.
+def userLogin(request):
+    if not request.user.is_authenticated:
+        number = list(LotteryNumber.objects.all())
+        if(number):
+            number = number[-1]
         else:
-            print(user_form.errors)
+            number = ""
 
-    # Not a HTTP POST, so we render our form using two ModelForm instances.
-    # This form will be blank, ready for user input.
+        # If the request is a HTTP POST, try to pull out the relevant information.
+        if request.method == 'POST':
+            print("iN LOGIN POST SECTION")
+            # Gather the username and password provided by the user
+            username = request.POST['username']
+            password = request.POST['password']
+
+            # see if combination is valid - a User object is returned if it is.
+            user = authenticate(username=username, password=password)
+
+            # If we have a User object, the details are correct.
+            if user:
+
+                print("found user object")
+                # Is the account active? It could have been disabled.
+                if user.is_active:
+                    # We'll send the user back to the homepage.
+                    login(request, user)
+                    return HttpResponseRedirect(reverse('home'))
+                else:
+                    # An inactive account was used - no logging in!
+                    # fixme: make this better (httpresponse)
+                    return HttpResponse("Your Staff account is disabled.")
+            else:
+                # Bad login details were provided. So we can't log the user in.
+                # fixme: delete this when we know its working
+                print("Invalid login details: {0}, {1}".format(username, password))
+                return HttpResponse("Invalid login details supplied.")
+
+        # The request is not a HTTP POST, so display the login form.
+        # This scenario would most likely be a HTTP GET.
+        else:
+            login_form = userLoginForm()
+            return render(request,
+                          'staff/Login.html',
+                          {'LotteryNumber' : number,
+                           'login_form': login_form})
     else:
-        user_form = userForm()
-
-    # Render the template depending on the context.
-    return render(request,
-                  'staff/register.html',
-                  {'user_form': user_form,
-                   'registered': registered,
-                   'LotteryNumber': number})
+        return HttpResponseRedirect(reverse('staff-home'))
     
+@login_required
+def userLogout(request):
+     # Since we know the user is logged in, we can now just log them out.
+    logout(request)
+
+    # Take the user back to the homepage.
+    return HttpResponseRedirect(reverse('home'))
+    
+@login_required
 def home(request):
     """The home page"""
     number = list(LotteryNumber.objects.all())

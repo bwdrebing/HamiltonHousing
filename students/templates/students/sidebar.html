@@ -1,17 +1,31 @@
 <div id="sidebar" class="sidebar-offcanvas">
-    <div class="col-md-12">
-        <h3 id="sidebar-title">Open Buildings</h3>
+    <div class="container-fluid">
+        <ul class="nav nav-pills nav-stack">
+            <li class="sidebar-nav-item all-rooms">
+                <a href="{% url 'all-rooms' %}" class="sidebar-link all-rooms-link">
+                    <strong>View all rooms</strong><span class="glyphicon glyphicon-chevron-right" style="float: right;"></span>
+                </a>
+            </li>
+        </ul>
         <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search" onkeyup="buildingFilter(this)" />
+            <input type="text" class="form-control sidebar-search" placeholder="Search Buildings" onkeyup="buildingFilter(this)" />
         </div>
         <ul class="nav nav-pills nav-stacked" id="building-sidebar">
+            
             {% for building in buildings %}
-                {% url 'building-view' building.name as building_url %}
                 {% if building.available_rooms > 0 %}
                     {% if building.name == current_building.name %}
-                       <li class="active"><a href="{{building_url}}">{{building}}</a></li>
+                       <li class="active sidebar-nav-item">
+                           <a href="{% url 'building-view' building.name %}" class="sidebar-link">
+                            {{building}}
+                           </a>
+                        </li>
                     {% else %}
-                        <li class="#"><a href="{{building_url}}">{{building}}</a></li>
+                        <li class="sidebar-nav-item">
+                            <a href="{% url 'building-view' building.name %}" class="sidebar-link">
+                                {{building}}
+                            </a>
+                        </li>
                     {% endif %}
                 {% endif %}
              {% endfor %}

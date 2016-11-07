@@ -49,7 +49,7 @@ class RoomResource(resources.ModelResource):
     class Meta:
         import_id_fields = ['building', 'number']
         model = Room
-        fields = ('building', 'number', 'room_type', 'gender', 'pull', 'notes', 'notes2',                       'apartment')
+        fields = ('building', 'number', 'room_type', 'gender', 'pull', 'notes', 'notes2', 'apartment')
         export_order = fields
         
     def before_import_row(self, row, **kwargs):
@@ -117,14 +117,18 @@ class RoomResource(resources.ModelResource):
             instance.apartment = row['APARTMENT']
             
         instance.save()
+        
+        #def after_import(dataset, result, using_transactions, dry_run, **kwargs):
+        # fixme: make after import to add pulls
+        
       
 # Action for admin page
-def make_available(modeladmin, request, queryset):
+def make_room_available(modeladmin, request, queryset):
     """Adds action to Room admin page - make rooms available"""
     queryset.update(available=True)
 
 # Action for admin page
-def make_unavailable(modeladmin, request, queryset):
+def make_room_unavailable(modeladmin, request, queryset):
     """Adds action to Room admin page - make rooms unavailable"""
     queryset.update(unavailable=True)
     
@@ -136,15 +140,16 @@ def make_all_beds_available(modeladmin, request, queryset):
         entry.save()
 
 # admin action descriptions
-make_available.short_description = "Mark selected rooms as available"
-make_unavailable.short_description = "Mark selected rooms as unavailable"
+make_room_available.short_description = "Mark selected rooms as available"
+make_room_unavailable.short_description = "Mark selected rooms as unavailable"
 make_all_beds_available.short_description = "Make all beds available for selected rooms"
 
 class RoomAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = RoomResource
     list_display = ['building', 'number', 'room_type', 'apartment', 'available_beds', 'gender',                       'available']
+    list_filter = ('gender', 'apartment', 'building')
     ordering = ['building']
-    actions = [make_available, make_unavailable, make_all_beds_available]
+    actions = [make_room_available, make_room_unavailable, make_all_beds_available]
     
 # Resource for importing buildings using an excel spreadsheet
 
@@ -217,24 +222,27 @@ class BuildingResource(resources.ModelResource):
                     Building.objects.get(name = value).delete()
 
 # MASS MAKE UNAVAILABLE ACTION FOR ADMIN PAGE
-def make_unavailable(modeladmin, request, queryset):
+def make_buildings_unavailable(modeladmin, request, queryset):
     """Adds action to Building admin page - make buildings unavailable"""
     queryset.update(available=False)
    
 # Mass action for admin page
-def make_available(modeladmin, request, queryset):
+def make_buildings_available(modeladmin, request, queryset):
     """Adds action to Building admin page - make buildings available"""
     queryset.update(available=True)    
     
 # admin action descriptions
-make_unavailable.short_description = "Mark selected buildings as unavailable"
-make_available.short_description = "Mark selected buildings as available"
+make_buildings_unavailable.short_description = "Mark selected buildings as unavailable"
+make_buildings_available.short_description = "Mark selected buildings as available"
         
 class BuildingAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = BuildingResource
     list_display = ['name', 'total_rooms', 'closed_to', 'available']
     ordering = ['name']
-    actions = [make_available, make_unavailable]
+    
+    # fixme: add more options? what are good filtering options
+    list_filter = ('closed_to', )
+    actions = [make_buildings_available, make_buildings_unavailable]
 
     
 # Register models on Admin site
@@ -253,6 +261,29 @@ class TransactionResource(resources.ModelResource):
         
 class TransactionAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = TransactionResource
+    
+class ApartmentAdmin(admin.ModelAdmin):
+    list_display = ['building', 'number', 'gender']
+    ordering = ['building', 'number']
+    
+# MASS MAKE UNAVAILABLE ACTION FOR ADMIN PAGE
+def make_contents_unavailable(modeladmin, request, queryset):
+    """Make buildings unavailable"""
+    queryset.update(available=False)
+   
+# Mass action for admin page
+def make_contents_available(modeladmin, request, queryset):
+    """Make buildings available"""
+    queryset.update(available=True)    
+    
+# admin action descriptions
+make_contents_unavailable.short_description = "Mark selected contents as unavailable"
+make_contents_available.short_description = "Mark selected contents as available"
+    
+class PageContentAdmin(admin.ModelAdmin):
+    list_display = ['name', 'lottery_name', 'header_text', 'updated', 'active']
+    
+    actions = [make_contents_available, make_contents_unavailable]
         
 admin.site.register(LotteryNumber)
 admin.site.register(FloorPlan)
@@ -260,4 +291,5 @@ admin.site.register(BlockTransaction)
 admin.site.register(Transaction, TransactionAdmin)
 admin.site.register(Building, BuildingAdmin)    
 admin.site.register(Room, RoomAdmin)
-admin.site.register(Apartment)
+admin.site.register(Apartment, ApartmentAdmin)
+admin.site.register(PageContent, PageContentAdmin)

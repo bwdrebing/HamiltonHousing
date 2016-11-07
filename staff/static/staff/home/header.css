@@ -1,0 +1,14 @@
+.navbar-text {
+    padding: 15px;
+    margin: 0px;
+}
+
+.navbar-btn {
+    margin-left: 15px;
+}
+
+.navbar-toggle {
+    border: none;
+    outline: none;
+    border-radius: 0px;
+}

@@ -1,6 +1,58 @@
 body {
   padding-top: 50px;
 }
+
 .starter-template {
-  padding: 40px 15px;
+    padding-top: 15px;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.landing-panel-title {
+    /*text-transform: uppercase;
+    font-family: sans-serif;
+    font-weight: 300;
+    letter-spacing: 1.2px;
+    line-height: 1.7;
+    font-size: 1.5rem;*/
+    border-radius: 0;
+    border: none;
+    margin: 0px;
+}
+
+.landing-panel {
+    border-radius: 0;
+    color: black;
+    border: none;
+    background-color: lightgray;
+}
+
+.landing-panel-heading {
+    background-color: lightgray;
+    border-radius: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    padding-bottom: 5px;
+}
+
+.nodecor:hover {
+    text-decoration: none;
+}
+
+.nodecor:active {
+    text-decoration: none;
+}
+
+a > .panel:hover {
+    color: darkgray;
+}
+
+a > .panel:active {
+    color: darkgray;
+}
+
+.yellow-line {
+    border-color: #fbbd19;
+    margin-bottom: 30px;
 }
