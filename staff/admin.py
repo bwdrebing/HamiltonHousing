@@ -83,7 +83,6 @@ class RoomResource(resources.ModelResource):
                         row[key] = row[key].replace(' '+ word, '', 1)
         # if this room is in an apartment
         if (row['APARTMENT']):
-            
             # check if the apartment already exists, otherwise make it
             bldg = Building.objects.get(name = row['BUILDING'])    
             print(bldg)

@@ -4,7 +4,7 @@ from .models import Building
 from .models import Room
 from .models import Transaction
 from django.contrib.auth.models import User
-"""
+
 class LotteryNumberForm(forms.ModelForm):
 
     class Meta:
@@ -28,9 +28,9 @@ class BuildingForm(forms.Form):
         self.fields['name'].choices = buildingChoices 
         self.fields['room_number'].choices = roomChoices
         
-class suiteInfoForm(forms.Form):"""
-"""A form allowing a user to choose a building and room number that corresponds to a block"""
-"""    building = forms.ChoiceField()
+class suiteInfoForm(forms.Form):
+    """A form allowing a user to choose a building and room number that corresponds to a block"""
+    building = forms.ChoiceField()
     suite_number = forms.ChoiceField()
     
     def __init__(self, *args, **kargs):
@@ -234,4 +234,3 @@ class userLoginForm(forms.Form):
     
     def __init__(self, *args, **kargs):
         super(userLoginForm, self).__init__(*args, **kargs)
-"""

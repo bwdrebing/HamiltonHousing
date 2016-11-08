@@ -19,7 +19,7 @@ from .forms import *
 @login_required
 def lotteryNumberInput(request):
     """View with a simple form that allows a new Next Lottery Number to be input"""
-    """if request.method == "POST":
+    if request.method == "POST":
         form = LotteryNumberForm(request.POST)
         if form.is_valid():
             form.save()
@@ -34,12 +34,12 @@ def lotteryNumberInput(request):
     form = LotteryNumberForm()
     return render(request, 
                   'staff/LotteryNumberInput.html', 
-                  {'LotteryNumber': number,'form' : form})"""
+                  {'LotteryNumber': number,'form' : form})
 
 @login_required
 def RoomSelect(request):
     """Sends a form to request a building name and room number. Redirect to the StudentInfo to render    a new form"""
-    """form = BuildingForm()
+    form = BuildingForm()
     
     headerText = "Please enter room information to get started..."
 
@@ -56,12 +56,12 @@ def RoomSelect(request):
                    'Action': reverse('room-select-student-info'),
                    'LotteryNumber' : number,
                    'rooms' : list(Room.objects.all()),
-                   'form' : form})"""
+                   'form' : form})
 
 @login_required
 def suiteSelect(request):
     """Select a suite as a living space - almost exactly room select"""
-    """form = suiteInfoForm()
+    form = suiteInfoForm()
     headerText = "Select the suite you are trying to fill..."
     suites = Room.objects.filter(room_type = 'B').exclude(available = False) # get all block rooms
     
@@ -79,12 +79,12 @@ def suiteSelect(request):
                    'Action': reverse('suite-select-student-info'),
                    'LotteryNumber': number,
                    'form': form,
-                   'suites': suites})"""
+                   'suites': suites})
 
 @login_required
 def ReviewRoom(request):
     """Allow the user to input a room number to review and edit the information presented"""
-    """form = BuildingForm()
+    form = BuildingForm()
     headerText = "Please enter a building and a number to proceed"
 
     number = list(LotteryNumber.objects.all())
@@ -98,12 +98,12 @@ def ReviewRoom(request):
                   {'HeaderText' : headerText,
                    'Action' : reverse('review-room-student-info'),
                    'LotteryNumber' : number,
-                   'form' : form})"""
+                   'form' : form})
 
 @login_required
 def ReviewStudentInfo(request):
     """Allows a staff user to view edit the student info in a transaction"""
-    """if request.method == "POST":
+    if request.method == "POST":
         responseForm = BuildingForm(request.POST)
         if responseForm.is_valid():
             building = Building.objects.get(
@@ -130,12 +130,12 @@ def ReviewStudentInfo(request):
                           {'HeaderText' : headerText, 
                            'Action' : reverse('review-room-confirm'),
                            'LotteryNumber' : number, 
-                           'form' : form})"""
+                           'form' : form})
 
 @login_required
 def StudentInfo(request):
     """Gather information about student and any roommates they might have"""
-    """if request.method == "POST":
+    if request.method == "POST":
         responseForm = BuildingForm(request.POST)
         if responseForm.is_valid():
             building = Building.objects.get(
@@ -177,12 +177,12 @@ def StudentInfo(request):
                            'Action' : reverse('room-select-confirm'),
                            'LotteryNumber' : number, 
                            'Rooms' : roomsToRender,
-                           'Forms' : formsToRender})"""
+                           'Forms' : formsToRender})
 
 @login_required
 def suiteStudentInfo(request):
     """Step 2 of the suite selection process - allows a user to input information about the students being placed in a suite during the blocking lottery"""
-    """if request.method == "POST":
+    if request.method == "POST":
         responseForm = suiteInfoForm(request.POST)
         if responseForm.is_valid():
             building = Building.objects.get(
@@ -214,14 +214,14 @@ def suiteStudentInfo(request):
                            'Action' : reverse('suite-select-confirm'),
                            'LotteryNumber' : number, 
                            'Rooms' : roomsToRender,
-                           'Forms' : formsToRender})"""
+                           'Forms' : formsToRender})
         
 @login_required
 def suiteConfirm(request):
     """A form the show the user the information they input during the suite selection prcoess for confirmation""" 
     #This form will save the transaction based on info of previous form
     #XXX:Need to be able to go back or decline the creation of transactions.
-    """if request.method == "POST":
+    if request.method == "POST":
         totalNumberOfStudents = int(request.POST['numberOfStudents'])
         
         transaction = BlockTransaction.objects.create(
@@ -255,14 +255,14 @@ def suiteConfirm(request):
 
                    'Action' : reverse('select'),
                    'LotteryNumber' : number, 
-                   'form' : None})"""
+                   'form' : None})
 
 @login_required
 def ConfirmSelection(request):
     """Shows a user the information they input during the room selection process for confirmation"""
     #This form will save the transaction based on info of previous form
     #XXX:Need to be able to go back or decline the creation of transactions.
-    """if request.method == "POST":
+    if request.method == "POST":
         totalNumberOfStudents = int(request.POST['numberOfStudents'])
 
         for i in range(totalNumberOfStudents):
@@ -322,7 +322,7 @@ def ConfirmSelection(request):
                   {'HeaderText' : "Confirm this Room Selection Please", 
                    'Action' : reverse('room-select'),
                    'LotteryNumber' : number, 
-                   'form' : None})"""
+                   'form' : None})
 
 @login_required
 def edit(request):
@@ -355,7 +355,7 @@ def select(request):
 def editBuilding(request):
     """Displays a form that allows user to edit certain building attributes (closed to women, men, etc.)"""
     # get next lottery number for header
-    """nums = list(LotteryNumber.objects.all())
+    nums = list(LotteryNumber.objects.all())
     if (nums):
         number = nums[-1]
     else:
@@ -372,7 +372,7 @@ def editBuilding(request):
     form = editBuildingForm()
     return render(request, 
                   'staff/edit/building.html', 
-                  {'LotteryNumber': number,'form' : form})"""
+                  {'LotteryNumber': number,'form' : form})
 
 @login_required
 def editRoom(request):
@@ -383,7 +383,7 @@ def editRoom(request):
         number = nums[-1]
     else:
         number = ""
-    """if request.method == "POST":
+    if request.method == "POST":
         #form = editBuildingForm(request.POST, instance = building)
         current_building = Building.objects.get(name=request.POST["building"])
         current_number = Room.objects.get(name = request.POST["room_number"])
@@ -397,10 +397,10 @@ def editRoom(request):
     form = editRoomForm()
     return render(request, 
                   'staff/edit/room.html', 
-                  {'LotteryNumber': number,'form' : form})"""
+                  {'LotteryNumber': number,'form' : form})
 
 def userLogin(request):
-    """if not request.user.is_authenticated:
+    if not request.user.is_authenticated:
         number = list(LotteryNumber.objects.all())
         if(number):
             number = number[-1]
@@ -445,7 +445,7 @@ def userLogin(request):
                           {'LotteryNumber' : number,
                            'login_form': login_form})
     else:
-        return HttpResponseRedirect(reverse('staff-home'))"""
+        return HttpResponseRedirect(reverse('staff-home'))
     
 @login_required
 def userLogout(request):
