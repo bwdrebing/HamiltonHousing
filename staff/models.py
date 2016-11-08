@@ -88,7 +88,7 @@ class Building(models.Model):
     
 # returns a filepath for an image in the format MEDIA_ROOT/floorplan/building/floor/image
 def building_directory_path(instance, filename):
-    return 'floorplan/' + instance.related_building + '/' + str(instance.floor) + '/' + filename
+    return 'floorplan/' + instance.related_building + "/" + str(instance.floor) + '/' + filename
     
 class FloorPlan(models.Model):
     # the building this floor plan is from
