@@ -239,7 +239,7 @@ class editRoomForm(forms.ModelForm):
         buildingChoices = [(o.name, o.name) for o in list(Building.objects.all())]
         buildingChoices.insert(0,('','-- Select a Building --')) 
 
-        rooms = list(Room.objects.filter(available=True).exclude(available_beds = 0))
+        rooms = list(Room.objects.all())
         roomChoices = [(o.number, o.building) for o in rooms]
         
         self.fields['name'].choices = buildingChoices 
