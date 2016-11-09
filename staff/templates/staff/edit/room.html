@@ -37,15 +37,28 @@
 
     <div class="container-fluid" id="main">
         <div class="starter-template">
-            <h1>Edit Room Information</h1>
-            <form method="POST" class="post-form">
+            <div class="col-md-2 hidden-xs hidden-sm"></div>
+            <div class="container-fluid col-md-8 form-container">
+                <h1>Edit Room Information</h1>
+                <hr class="yellow-line">
+                <form method="POST" class="post-form form-horizontal">
                 {% csrf_token %}
+                <div class="container-fluid">
+                {% for field in form %}
+                    <div class="form-group form-group-lg">
+                        <label for="FormInput" class="control-label">{{field.label}}</label>
+                        <div>{{field}}</div>
+                    </div>
+                {% endfor %}
+                </div>
                 
-                {{form.as_p}}
-                <button type="submit" class="save btn btn-default">
+                <!--{{form.as_p}}-->
+                <button type="submit" class="save btn btn-default btn-lg">
                     Save
                 </button>
-            </form>
+                </form>
+            </div>
+            <div class="col-md-2 hidden-xs hidden-sm"></div>
         </div>
     </div><!-- /.container-fluid -->
 
