@@ -52,7 +52,6 @@
           <div class="col-md-12">
               <form role="form" method="POST" class="post-form form-horizontal" action="{{Action}}">
                         {% csrf_token %}
-<!--<<<<<<< HEAD:staff/templates/staff/StudentInfo.html-->
               <div class="panel panel-default">
                     
                   <div class="panel-heading">
@@ -77,12 +76,12 @@
                 </div>
                   <div class="panel-body">
                         <div class="tab-content clearfix">
-                            <div class="container-fluid">
+<!--                            <div class="container-fluid">-->
                             {% for form in Forms %}
                                 {% if forloop.first %}
-                                    <div class="tab-pane active" id="{{forloop.counter}}a">
+                                    <div class="tab-pane active container-fluid" id="{{forloop.counter}}a">
                                 {% else %}
-                                    <div class="tab-pane" id="{{forloop.counter}}a">
+                                    <div class="tab-pane container-fluid" id="{{forloop.counter}}a">
                                 {% endif %}
                                         
                                 {% if form.pullToggle != None %}
@@ -119,11 +118,11 @@
                                         </div> <!-- End form-group -->
                                     {% endfor %}
                                     </div> <!-- End Student -->
-                                    {% endfor %}
+                                {% endfor %}
 
-                                    {% for field in form.hidden_fields %}
-                                            {{ field }}         
-                                    {% endfor %}
+                                {% for field in form.hidden_fields %}
+                                        {{ field }}         
+                                {% endfor %}
                                     
                                 </div> <!-- End tab-pane -->
                             {% endfor %}
@@ -132,7 +131,7 @@
                         <button class="save btn btn-default back-btn" >Back</button>
                         <button type="submit" class="save btn btn-default preview">Next</button>
                       </div>
-                    </div>
+<!--                    </div>-->
                   </div>    
         </form>
     </div>
