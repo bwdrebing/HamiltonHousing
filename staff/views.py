@@ -84,7 +84,7 @@ def suiteSelect(request):
 @login_required
 def ReviewRoom(request):
     """Allow the user to input a room number to review and edit the information presented"""
-    form = BuildingForm()
+    form = ReviewTransactionForm()
     headerText = "Please enter a building and a number to proceed"
 
     number = list(LotteryNumber.objects.all())
@@ -104,18 +104,18 @@ def ReviewRoom(request):
 def ReviewStudentInfo(request):
     """Allows a staff user to view edit the student info in a transaction"""
     if request.method == "POST":
-        responseForm = BuildingForm(request.POST)
+        responseForm = ReviewTransactionForm(request.POST)
         if responseForm.is_valid():
             building = Building.objects.get(
-                    name = responseForm.cleaned_data['name'])
-
+                name = responseForm.cleaned_data['name'])
+            
             rooms = Room.objects.filter(building = building)
             room = rooms.get(number = responseForm.cleaned_data['room_number'])
             
             headerText = "Placing student in  " + \
                 str(responseForm.cleaned_data['name']) + \
                 " " + str(responseForm.cleaned_data['room_number'])
-           
+            
            #Create a form with the room id 
             form = ReviewStudentInfoForm()
             form.init(room.id)
@@ -124,13 +124,13 @@ def ReviewStudentInfo(request):
                 number = number[-1]
             else:
                 number = ""
-        
-            return render(request, 
-                          'staff/edit/transactionStudentInfo.html',
-                          {'HeaderText' : headerText, 
-                           'Action' : reverse('review-room-confirm'),
-                           'LotteryNumber' : number, 
-                           'form' : form})
+                
+                return render(request, 
+                              'staff/edit/transactionStudentInfo.html',
+                              {'HeaderText' : headerText, 
+                               'Action' : reverse('review-room-confirm'),
+                               'LotteryNumber' : number, 
+                               'form' : form})
 
 @login_required
 def StudentInfo(request):
