@@ -2,6 +2,7 @@ from django import forms
 from .models import LotteryNumber
 from .models import Building
 from .models import Room
+from .models import Apartment
 from .models import Transaction
 from django.contrib.auth.models import User
 
@@ -21,12 +22,15 @@ class BuildingForm(forms.Form):
         buildingChoices = [(o.name, o.name) for o in list(Building.objects.all())]
         buildingChoices.insert(0,('','-- Select a Building --')) 
 
-        rooms = list(Room.objects.filter(available=True).exclude(available_beds = 0))
+        apartments = list(Apartment.objects.all())
+        apartmentChoices = [("Apartment " + apt.number, apt.building) for apt in apartments]
+
+        rooms = list(Room.objects.filter(available=True, apartment = None).exclude(available_beds = 0))
         roomChoices = [(o.number, o.building) for o in rooms]
         roomChoices.insert(0,('',''))
         
         self.fields['name'].choices = buildingChoices 
-        self.fields['room_number'].choices = roomChoices
+        self.fields['room_number'].choices = roomChoices + apartmentChoices
         
 class suiteInfoForm(forms.Form):
     """A form allowing a user to choose a building and room number that corresponds to a block"""
