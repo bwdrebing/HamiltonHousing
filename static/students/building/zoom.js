@@ -6,4 +6,3 @@ $("#fullFloorPlan").elevateZoom({
     galleryActiveClass: 'active', 
     imageCrossfade: true,
 }); 
-
