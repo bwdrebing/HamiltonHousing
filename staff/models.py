@@ -5,12 +5,18 @@ from datetime import datetime
 
 class LotteryNumber(models.Model):
     number = models.PositiveSmallIntegerField()
+    created = models.DateTimeField(auto_now_add=True, 
+                                   blank=True, 
+                                   db_index=True)
 
     def __str__(self):
         return str(self.number)
     
+    class Meta:
+        get_latest_by = "created"
+    
 class Building(models.Model):
-    name = models.CharField(max_length = 100)
+    name = models.CharField(max_length = 100, unique=True)
     available = models.BooleanField(blank=True, default=True)
     total_rooms = models.PositiveSmallIntegerField(default=0)
     total_singles = models.PositiveSmallIntegerField(default=0)
@@ -95,7 +101,8 @@ class FloorPlan(models.Model):
     related_building = models.CharField(
         max_length = 100,
         default = "",
-        verbose_name="Building name")
+        verbose_name="Building name"
+    )
     
     floor = models.PositiveSmallIntegerField()
 
@@ -188,10 +195,11 @@ class Room(models.Model):
     building = models.ForeignKey(
         'Building',
         on_delete=models.CASCADE,
+        db_index=True
     )
     
     # Room Number
-    number = models.CharField(max_length = 5)
+    number = models.CharField(max_length=5, db_index=True)
     
     # Choices for Room Type
     ROOM_TYPE_CHOICES = (

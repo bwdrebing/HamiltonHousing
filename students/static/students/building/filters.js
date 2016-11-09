@@ -2,31 +2,22 @@ $(".room-filter").change(function () {
     var value1 = $("#floorFilter").val();
     var value2 = $("#roomTypeFilter").val();
     
-    if ((typeof value1 !== "undefined") && (typeof value2 !== "undefined")) {
-        if (value1 != "all" && value2 != "all") {
-            $(".room-list tr").hide()
-            $("." + value1 + "." + value2).show();
-            $(".apt-room").hide();
-            return;
-        }
+    if (value1 != "all" && value2 != "all") {
+        $(".room-list tr:not(." + value1 + "." + value2 + ")").hide();
+        $("." + value1 + "." + value2).show();
+        return;
     }
-
-    if (typeof value1 !== "undefined") {
-        if (value1 != "all") {
-            $(".room-list tr").hide()
-            $("." + value1).show();
-            $(".apt-room").hide();
-            return;
-        }
+    
+    if (value1 == "all") {
+        $(".room-list tr:not(." + value1 + ")").hide();
+        $("." + value2).show();
+        return;
     }
-
-    else if (typeof value2 !== "undefined") {
-        if (value2 != "all") {
-            $(".room-list tr").hide()
-            $("." + value2).show();
-            $(".apt-room").hide();
-            return;
-        }
+    
+    if (value2 == "all") {
+        $(".room-list tr:not(." + value2 + ")").hide();
+        $("." + value1).show();
+        return;
     }
     
     $(".room-list tr").show();

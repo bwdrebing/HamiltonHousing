@@ -50,14 +50,14 @@
             </div>
                   
             <!-- Building Notes -->
-            {% if building.notes %}
-             <div class="col-md-12">
-                <div class="panel panel-default stat-panel-heading">
-                    <div class="panel-heading">
+            {% if current_building.notes %}
+             <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="stat-panel-heading">
                         <h3 class="panel-title">Notes</h3>
                     </div>
                     <div class="panel-body">
-                        {{building.notes}}
+                        {{current_building.notes}}
                     </div>
                 </div>
              </div>
@@ -118,15 +118,6 @@
         </select>
         {% endif %}
           
-        <!-- filter by floor dropdown available if there are rooms left -->
-       {% if genders|length > 1 %}
-        <select id="genderFilter" class="selectpicker room-filter">
-            <option name="all" value="all">All Genders</option>
-            <option name="genderF" value="genderF">Female</option>
-            <option name="genderM" value="genderM">Male</option>
-        </select>
-        {% endif %}
-          
         <!-- table of all open rooms -->
         {% if rooms %}
         <div class="table-responsive">
@@ -136,7 +127,7 @@
                   <th></th>
                   <th>#</th>
                   <th>Type</th>
-                  <th>Beds</th>
+                  <th>Open Beds</th>
                   {% if show_gender %}
                     <th>Gender</th>
                   {% endif %}
@@ -195,26 +186,26 @@
                   
                         <!-- Apartment rooms -->
                         {% for rm in apt_rooms %}
-                            <tr name="{{rm}}" class="{{apt.floors}}{{apt.room_types}} apt-room" style="display: none;">
+                            <tr name="{{rm}}" class="apt-room" style="display: none;">
                                 <td>
                                 </td>
                                 <td>
                                     {{rm.number}}
                                 </td>
                                 <td>
-                                {% if rm.room_type == 'S' %}
+                                {% with type=rm.room_type %}
+                                {% if type == 'S' %}
                                     Single
-                                {% elif rm.room_type == 'D' %}
+                                {% elif type == 'D' %}
                                     Double
-                                {% elif rm.room_type == 'T' %}
+                                {% elif type == 'T' %}
                                     Triple
-                                {% elif rm.room_type == 'Q' %}
+                                {% elif type == 'Q' %}
                                     Quad
-                                {% elif rm.room_type == 'B' %}
+                                {% elif type == 'B' %}
                                     Block
-                                {% else %}
-                                    N/A
                                 {% endif %}
+                                {% endwith %}
                                 </td>
                                 <td>
                                     {{rm.available_beds}}
@@ -260,23 +251,23 @@
                                 
                                 <!-- Room Type -->
                                 <td>
-                                {% if rm.room_type == 'S' %}
+                                {% with type=rm.room_type %}
+                                {% if type == 'S' %}
                                     Single
-                                {% elif rm.room_type == 'D' %}
+                                {% elif type == 'D' %}
                                     Double
-                                {% elif rm.room_type == 'T' %}
+                                {% elif type == 'T' %}
                                     Triple
-                                {% elif rm.room_type == 'Q' %}
+                                {% elif type == 'Q' %}
                                     Quad
-                                {% elif rm.room_type == 'B' %}
+                                {% elif type == 'B' %}
                                     {% if rm.building.name == "Morris" %}
                                       Apartment
                                     {% else %}
                                       Suite
                                     {% endif %}
-                                {% else %}
-                                    N/A
                                 {% endif %}
+                                {% endwith %}
                                 </td>
                             
                                 <td>{{rm.available_beds}}</td>
