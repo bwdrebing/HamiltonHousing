@@ -37,16 +37,29 @@
 
     <div class="container-fluid" id="main">
         <div class="starter-template">
-            <h1>
-                Edit Building Information
-            </h1>
-            <form method="POST" class="post-form">
+            <div class="col-md-2 hidden-xs hidden-sm"></div>
+            <div class="container-fluid col-md-8 form-container">
+                <h1>
+                    Edit Building Information
+                </h1>
+                <form method="POST" class="post-form form-horizontal">
                 {% csrf_token %}
-                {{form.as_p}}
-                <button type="submit" class="save btn btn-default">
+                <div class="container-fluid">
+                {% for field in form %}
+                    <div class="form-group form-group-lg">
+                        <label for="FormInput" class="control-label">{{field.label}}</label>
+                        <div>{{field}}</div>
+                    </div>
+                {% endfor %}
+                </div>
+                    
+                    <!--{{form.as_p}}-->
+                <button type="submit" class="save btn btn-default btn-lg">
                     Save
                 </button>
-            </form>
+                </form>
+            </div>
+            <div class="col-md-2 hidden-xs hidden-sm"></div>
         </div>
     </div><!-- /.container -->
 
@@ -59,5 +72,6 @@
     <script src="/../static/staff/dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="/static/staff/assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="/static/staff/RoomSelect/addFormControlToInputs.js"></script>x
   </body>
 </html>
