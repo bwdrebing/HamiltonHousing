@@ -259,13 +259,7 @@ def suiteConfirm(request):
         
     
     # todo: when select page is addded action should go there
-    return render(request, 
-                  'staff/confirmSelection.html',
-                  {'HeaderText' : "Confirm Suite Selection Details", 
-
-                   'Action' : reverse('select'),
-                   'LotteryNumber' : number, 
-                   'form' : None})
+    return select(request)
 
 @login_required
 def ConfirmSelection(request):
