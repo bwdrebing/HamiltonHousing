@@ -19,9 +19,9 @@ def home(request):
     
     # get next lottery number for header
     try:
-	number = LotteryNumber.objects.latest()
+        number = LotteryNumber.objects.latest()
     except:
-	number = ""
+        number = ""
         
     pageContent = StudentPageContent.objects.filter(active=True)
     if (pageContent):
@@ -101,9 +101,9 @@ def building(request, building_name):
     
     # get next lottery number for header
     try:
-	number = LotteryNumber.objects.latest()
+        number = LotteryNumber.objects.latest()
     except:
-	number = ""
+        number = ""
     
     return render(request, 
                   'students/building.html', 
@@ -145,7 +145,7 @@ def allRooms(request):
     try:
     	number = LotteryNumber.objects.latest()
     except:    
-	number = ""
+        number = ""
         
     return render(request, 
                   'students/all.html', 
@@ -159,11 +159,11 @@ def contact(request):
     building_list = (Building.objects.exclude(available = False)
                                      .order_by('name'))
     
-     # get next lottery number for header
+    # get next lottery number for header
     try: 
-	number = LotteryNumber.objects.latest()
+        number = LotteryNumber.objects.latest()
     except:
-	number = ""
+        number = ""
 
     contact_form = ContactForm()
     submitted = False

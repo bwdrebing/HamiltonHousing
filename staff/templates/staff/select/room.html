@@ -45,13 +45,18 @@
     <div class="container-fluid" id="main">
 
       <div class="starter-template">
-        <h1>Room Selection</h1>
-          <hr class="yellow-line">
-          <div class="container-fluid">
-            <form method="POST" class="post-form form-horizontal" action="{{Action}}">{% csrf_token %}
+          <div class="col-md-2 hidden-xs hidden-sm"></div>
+          <div class="container-fluid col-md-8 form-container">
+              <h1>Room Selection</h1>
+              <hr class="yellow-line">
+              <div class="container-fluid">
+                  <form method="POST" class="post-form form-horizontal" action="{{Action}}">
+                      {% csrf_token %}
 
-              {% comment %}  <div class="panel panel-default">
-                    <div class="panel-body">{% endcomment %}
+                      {% comment %}  
+                      <div class="panel panel-default">
+                        <div class="panel-body">
+                      {% endcomment %}
                         <div class="col-md-2"></div>
                         <div class="col-md-8">
                         {% for field in form %}
@@ -71,6 +76,7 @@
                 </div>{% endcomment %}
             </form>
           </div>
+          <div class="col-md-2 hidden-xs hidden-sm"></div>
       </div>
 
       <div class="row bs-wizard" style="border-bottom:0;">
