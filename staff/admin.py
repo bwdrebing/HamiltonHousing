@@ -56,6 +56,8 @@ class RoomResource(resources.ModelResource):
         """
         Override to add additional logic. Does nothing by default.
         """
+
+        row['BUILDING'] = str(row['BUILDING'])
         for key, value in row.items():
             if isinstance(value, str):
                 row[key] = re.sub('[^A-Za-z0-9 ]+', '', row[key])
@@ -79,10 +81,8 @@ class RoomResource(resources.ModelResource):
                 for word in row[key].split():
                     if word.lower() in HouseSyns:
                         row[key] = row[key].replace(' '+ word, '', 1)
-                        
         # if this room is in an apartment
         if (row['APARTMENT']):
-            
             # check if the apartment already exists, otherwise make it
             bldg = Building.objects.get(name = row['BUILDING'])    
             print(bldg)
