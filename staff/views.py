@@ -358,8 +358,10 @@ def editBuilding(request):
         if form.is_valid():
             form.save()
             return render(request,
-                          'staff/edit.html', 
-                          {'LotteryNumber': number,'form' : form})
+                          'staff/edit/edit.html', 
+                          {'LotteryNumber': number,
+                           'Action': reverse('edit-building'),
+                           'form' : form})
     form = editBuildingForm()
     return render(request, 
                   'staff/edit/building.html', 
