@@ -6,12 +6,3 @@ $("#fullFloorPlan").elevateZoom({
     galleryActiveClass: 'active', 
     imageCrossfade: true,
 }); 
-
-// pass the images to Fancybox
-/*
-$("#fullFloorPlan").bind("click", function(e) {  
-    var ez = $('#fullFloorPlan').data('elevateZoom');	
-	$.fancybox(ez.getGalleryList());
-    return false;
-});
-*/

@@ -27,7 +27,7 @@ SECRET_KEY = '9g@=9w)9d)^h52l_2i26rdct#(nuf_tc8$2@txzh4dx2l8_gzd'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '150.209.91.51', 'halls.hamilton.edu']
 
 
 # Application definition

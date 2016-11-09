@@ -27,6 +27,23 @@ class BuildingForm(forms.Form):
         
         self.fields['name'].choices = buildingChoices 
         self.fields['room_number'].choices = roomChoices
+
+class ReviewTransactionForm(forms.Form):
+    name = forms.ChoiceField()
+    room_number = forms.ChoiceField()
+    
+    def __init__(self, *args, **kargs):
+        super(ReviewTransactionForm, self).__init__(*args, **kargs)
+        
+        buildingChoices = [(o.name, o.name) for o in list(Building.objects.all())]
+        buildingChoices.insert(0,('','-- Select a Building --')) 
+
+        rooms = list(Room.objects.filter(available=False))
+        roomChoices = [(o.number, o.building) for o in rooms]
+        roomChoices.insert(0,('',''))
+        
+        self.fields['name'].choices = buildingChoices 
+        self.fields['room_number'].choices = roomChoices
         
 class suiteInfoForm(forms.Form):
     """A form allowing a user to choose a building and room number that corresponds to a block"""
