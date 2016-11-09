@@ -25,7 +25,7 @@
     <link href="/static/staff/progressbar/progressbar.css" rel="stylesheet">
 
     <!-- CSS for forms-->
-    <link href="/static/staff/StaffForms/forms.css" rel="stylesheet">
+    <!--<link href="/static/staff/StaffForms/forms.css" rel="stylesheet">-->
 
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
@@ -49,29 +49,24 @@
           <div class="container-fluid col-md-8 form-container">
               <h1>Room Selection</h1>
               <hr class="yellow-line">
-              <div class="container-fluid">
-                  <form method="POST" class="post-form form-horizontal" action="{{Action}}">
-                      {% csrf_token %}
+              <form method="POST" class="post-form form-horizontal" action="{{Action}}">
+                  {% csrf_token %}
 
-                      {% comment %}  
-                      <div class="panel panel-default">
-                        <div class="panel-body">
-                      {% endcomment %}
-                        <div class="col-md-2"></div>
-                        <div class="col-md-8">
+                  {% comment %}  
+                  <div class="panel panel-default">
+                    <div class="panel-body">
+                  {% endcomment %}
+                    <div class="container-fluid">
                         {% for field in form %}
-                        <div class="form-group form-group-lg">
-                            <label for="FormInput" class="col-sm-3 control-label">{{field.label}}</label>
-
-                            <div class="col-sm-9">
-                                {{field}}
+                            <div class="form-group form-group-lg">
+                                <label for="FormInput" class="control-label">{{field.label}}</label>
+                                <div>{{field}}</div>
                             </div>
-                        </div>
                         {% endfor %}
-                        <button type="submit" class="save btn btn-default btn-lg">Next</button>
-                        </div>
-                        <div class="col-md-2"></div>
-                        
+                    </div>
+                    <button type="submit" class="save btn btn-default btn-lg">Next</button>
+                    </div>
+
                    {% comment %} </div>
                 </div>{% endcomment %}
             </form>

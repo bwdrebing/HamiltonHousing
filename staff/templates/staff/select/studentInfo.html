@@ -77,6 +77,7 @@
                 </div>
                   <div class="panel-body">
                         <div class="tab-content clearfix">
+                            <div class="container-fluid">
                             {% for form in Forms %}
                                 {% if forloop.first %}
                                     <div class="tab-pane active" id="{{forloop.counter}}a">
@@ -126,10 +127,11 @@
                                     
                                 </div> <!-- End tab-pane -->
                             {% endfor %}
-                            </div><!-- End tab-content -->
-                            </div>                            
+                            </div>
+                          </div><!-- End tab-content -->                          
                         <button class="save btn btn-default back-btn" >Back</button>
                         <button type="submit" class="save btn btn-default preview">Next</button>
+                      </div>
                     </div>
                   </div>    
         </form>

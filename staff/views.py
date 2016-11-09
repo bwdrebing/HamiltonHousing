@@ -168,7 +168,7 @@ def StudentInfo(request):
             return render(request,
                           'staff/select/studentInfo.html',
                           {'HeaderText' : headerText, 
-                           'Action' : reverse('room-select-confirm'),
+                           'Action' : reverse('select'),
                            'LotteryNumber' : number, 
                            'Rooms' : roomsToRender,
                            'Forms' : formsToRender})
