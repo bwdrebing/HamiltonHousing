@@ -18,11 +18,10 @@ def home(request):
     buildings = list(Building.objects.all().exclude(available=False).order_by('name'))
     
     # get next lottery number for header
-    nums = list(LotteryNumber.objects.all())
-    if (nums):
-        number = nums[-1]
-    else:
-        number = ""
+    try:
+	number = LotteryNumber.objects.latest()
+    except:
+	number = ""
         
     pageContent = StudentPageContent.objects.filter(active=True)
     if (pageContent):
@@ -101,11 +100,10 @@ def building(request, building_name):
     rooms, show_gender, show_pull, show_notes, room_types, floors = get_rooms_by_floor(rooms)
     
     # get next lottery number for header
-    nums = list(LotteryNumber.objects.all())
-    if (nums):
-        number = nums[-1]
-    else:
-        number = ""
+    try:
+	number = LotteryNumber.objects.latest()
+    except:
+	number = ""
     
     return render(request, 
                   'students/building.html', 
@@ -144,9 +142,10 @@ def allRooms(request):
     room_types=[]
     
     # get next lottery number for header
-    number = LotteryNumber.objects.latest()
-    if (not number):
-        number = ""
+    try:
+    	number = LotteryNumber.objects.latest()
+    except:    
+	number = ""
         
     return render(request, 
                   'students/all.html', 
@@ -161,11 +160,10 @@ def contact(request):
                                      .order_by('name'))
     
      # get next lottery number for header
-    nums = list(LotteryNumber.objects.all())
-    if (nums):
-        number = nums[-1]
-    else:
-        number = ""
+    try: 
+	number = LotteryNumber.objects.latest()
+    except:
+	number = ""
 
     contact_form = ContactForm()
     submitted = False
