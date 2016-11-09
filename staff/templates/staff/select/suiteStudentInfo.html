@@ -44,7 +44,8 @@
           <div class="col-md-8 container-fluid form-container">
                 <h1>Student Information</h1>
                 <p class="lead">Enter student information for each room in the selected suite.</p>
-                <form role="form" method="POST" class="post-form form-horizontal" action="{{Action}}">
+                <hr class="yellow-line">  
+              <form role="form" method="POST" class="post-form form-horizontal" action="{{Action}}">
               
                     {% csrf_token %}
                     
@@ -65,15 +66,15 @@
                             </div>
                             <!-- Student information fields -->
                             {% for student in form.studentFields %}
-                                <div class="list-group-item">
+                                <div class="list-group-item student-group">
                                     <div class="container-fluid">
-                                        <h4 class="PullField text-center resident-header">
+                                        <h4 class="text-center resident-header">
                                             Resident {{forloop.counter}}
                                         </h4>
 
                                         {% for field in student %}
                                             {% if not forloop.parentloop.parentloop.first %}
-                                                <div class="form-group form-group-lg PullField">
+                                                <div class="form-group form-group-lg">
                                             {% else %}
                                                 <div class="form-group form-group-lg">
                                             {% endif %}

@@ -18,10 +18,9 @@ def home(request):
     buildings = list(Building.objects.all().exclude(available=False).order_by('name'))
     
     # get next lottery number for header
-    nums = list(LotteryNumber.objects.all())
-    if (nums):
-        number = nums[-1]
-    else:
+    try:
+        number = LotteryNumber.objects.latest()
+    except:
         number = ""
         
     pageContent = StudentPageContent.objects.filter(active=True)
@@ -84,9 +83,9 @@ def get_rooms_by_floor(rooms):
 
 # Building page view
 def building(request, building_name):
-    bldg = Building.objects.get(name = building_name)
     building_list = (Building.objects.exclude(available = False)
                                      .order_by('name'))
+    bldg = building_list.get(name = building_name)
     
     # all the rooms that are in this building and that are available
     rooms = list(Room.objects.all()
@@ -101,10 +100,9 @@ def building(request, building_name):
     rooms, show_gender, show_pull, show_notes, room_types, floors = get_rooms_by_floor(rooms)
     
     # get next lottery number for header
-    nums = list(LotteryNumber.objects.all())
-    if (nums):
-        number = nums[-1]
-    else:
+    try:
+        number = LotteryNumber.objects.latest()
+    except:
         number = ""
     
     return render(request, 
@@ -121,15 +119,8 @@ def building(request, building_name):
                    'LotteryNumber': number})
 
 # organize all rooms into a dict and collect info about them
-def all_rooms_with_filters(rooms):
-    """A function that returns a dictionary of dictionarys!
-       param bldg is a Building object from the building view
-       returned object looks like this: {'1': {'101': <Room object 101>
-                                               '10': [<Room object 110>, <Room object 152>]}}}
-    """
-    
+def get_room_types(rooms):
     # initialize dictionary to organize rooms by floor for filtering
-    rooms_dict = collections.OrderedDict()
     room_types = []
         
     # loop through rooms to calculate building stats & organize rooms by floor
@@ -137,21 +128,7 @@ def all_rooms_with_filters(rooms):
         if room.room_type not in room_types:
             room_types.append(room.room_type)
             
-        # if this room is in an apartment
-        if room.apartment:
-            
-            # if the apartment is already in the dict
-            if str(room.apartment) in rooms_dict:
-                rooms_dict[str(room.apartment)].append(room)
-                    
-            # if this specific apt has not been initialized
-            else:
-                rooms_dict[str(room.apartment)] = [room]
-                                                                
-        else:
-            rooms_dict[str(room)] = [room]
-                
-    return (rooms_dict, room_types)  
+    return room_types  
 
 def allRooms(request):
     building_list = (Building.objects.exclude(available = False)
@@ -161,13 +138,13 @@ def allRooms(request):
                              .exclude(available_beds = 0)
                              .order_by('building', 'number'))
     
-    rooms, room_types = all_rooms_with_filters(rooms)
+    # room_types = get_room_types(rooms)
+    room_types=['S', 'D', 'Q', 'T']
     
     # get next lottery number for header
-    nums = list(LotteryNumber.objects.all())
-    if (nums):
-        number = nums[-1]
-    else:
+    try:
+    	number = LotteryNumber.objects.latest()
+    except:    
         number = ""
         
     return render(request, 
@@ -182,11 +159,10 @@ def contact(request):
     building_list = (Building.objects.exclude(available = False)
                                      .order_by('name'))
     
-     # get next lottery number for header
-    nums = list(LotteryNumber.objects.all())
-    if (nums):
-        number = nums[-1]
-    else:
+    # get next lottery number for header
+    try: 
+        number = LotteryNumber.objects.latest()
+    except:
         number = ""
 
     contact_form = ContactForm()

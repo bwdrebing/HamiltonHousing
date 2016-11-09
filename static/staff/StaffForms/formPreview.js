@@ -21,17 +21,24 @@ $('.preview').on('click', function(event) {
     event.preventDefault();
 
     //Call the function that will produce your confirmation text here...
-    var confirmationText = textFunction();
+    if(!($('form')[0].checkValidity())){
+        var obj = $.alert({
+            title: "Opps!",
+            content: "Looks like you forgot a fill out part of the form!"
+        });
+    }
+    else {
+        var confirmationText = textFunction();
 
-    var obj = $.confirm({
-        title: 'Please confirm the information below...',
-        content: confirmationText,
-        confirm: function() { $('form').submit();},
-        confirmButton: 'Confirm',
-        cancelButton: 'Cancel',
-        confirmButtonClass: 'btn-info',
-        cancelButtonClass: 'btn-danger',
-        theme: 'material',
-
-    }); 
+        var obj = $.confirm({
+            title: 'Please confirm the information below...',
+            content: confirmationText,
+            confirm: function() { $('form').submit();},
+            confirmButton: 'Confirm',
+            cancelButton: 'Cancel',
+            confirmButtonClass: 'btn-info',
+            cancelButtonClass: 'btn-danger',
+            theme: 'material',
+        });
+    }
 });

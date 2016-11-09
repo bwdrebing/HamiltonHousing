@@ -19,18 +19,41 @@ class BuildingForm(forms.Form):
     def __init__(self, *args, **kargs):
         super(BuildingForm, self).__init__(*args, **kargs)
         
-        buildingChoices = [(o.name, o.name) for o in list(Building.objects.all())]
+        buildings = list(Building.objects.exclude(available=False))
+        buildingChoices = [(o.name, o.name) for o in buildings]
         buildingChoices.insert(0,('','-- Select a Building --')) 
 
         apartments = list(Apartment.objects.all())
         apartmentChoices = [("Apartment " + apt.number, apt.building) for apt in apartments]
 
         rooms = list(Room.objects.filter(available=True, apartment = None).exclude(available_beds = 0))
+        rooms = list(Room.objects.filter(available=True)
+                                 .exclude(available_beds = 0)
+                                 .exclude(room_type = 'B'))
+        
         roomChoices = [(o.number, o.building) for o in rooms]
         roomChoices.insert(0,('',''))
         
         self.fields['name'].choices = buildingChoices 
         self.fields['room_number'].choices = roomChoices + apartmentChoices
+
+class ReviewTransactionForm(forms.Form):
+    name = forms.ChoiceField()
+    room_number = forms.ChoiceField()
+    
+    def __init__(self, *args, **kargs):
+        super(ReviewTransactionForm, self).__init__(*args, **kargs)
+        
+        buildingChoices = [(o.name, o.name) for o in list(Building.objects.all())]
+        buildingChoices.insert(0,('','-- Select a Building --')) 
+
+
+        rooms = list(Room.objects.filter(available=False))
+        roomChoices = [(o.number, o.building) for o in rooms]
+        roomChoices.insert(0,('',''))
+        
+        self.fields['name'].choices = buildingChoices 
+        self.fields['room_number'].choices = roomChoices 
         
 class suiteInfoForm(forms.Form):
     """A form allowing a user to choose a building and room number that corresponds to a block"""

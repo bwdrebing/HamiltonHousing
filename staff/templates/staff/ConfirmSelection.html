@@ -43,9 +43,7 @@
     <div class="container-fluid">
         <div class="starter-template">
             <h1>Welcome to Room Selection</h1>
-            <p class="lead">
-                {{ HeaderText }}
-            </p>
+            
             <form method="POST" class="post-form" action="{{Action}}">
                 {% csrf_token %}
                 {% for field in form %}

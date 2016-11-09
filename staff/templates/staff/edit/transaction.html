@@ -41,19 +41,30 @@
       
     <div class="container-fluid" id="main">
         <div class="starter-template">
-        <h1>Review a Room</h1>
-            <p class="lead">
-                {{ HeaderText }}
-            </p>
-            <form method="POST" class="post-form" action="{{Action}}">
+            <div class="col-md-2 hidden-xs hidden-sm"></div>
+            <div class="container-fluid col-md-8 form-container">
+                <h1>Review a Transaction</h1>
+                <hr class="yellow-line">
+                
+                <form method="POST" class="post-form form-horizontal" action="{{Action}}">
                 {% csrf_token %}
+                <div class="container-fluid">
+                    {% for field in form %}
+                        <div class="form-group form-group-lg">
+                            <label for="FormInput" class="control-label">{{field.label}}</label>
+                            <div>{{field}}</div>
+                        </div>
+                    {% endfor %}
+                </div>
                 
-                {{form.as_p}}
+                <!--{{form.as_p}}-->
                 
-                <button type="submit" class="save btn btn-default">
+                <button type="submit" class="save btn btn-default btn-lg">
                     Next
                 </button>
             </form>
+            </div>
+            <div class="col-md-2 hidden-xs hidden-sm"></div>
         </div>
         
         <div class="row bs-wizard" style="border-bottom:0;">
@@ -95,5 +106,6 @@
       
     <!-- Our own scripts -->
     <script src="/static/staff/RoomSelect/buildingRoomsFilter.js"></script>
+    <script src="/static/staff/RoomSelect/addFormControlToInputs.js"></script>
     </body>
 </html>

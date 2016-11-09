@@ -10,129 +10,99 @@
 {% endblock custom-css %}
 
 {% block content %}
-    <div class="container-fluid">
-        <h1 id="page-title">
-            All rooms
-        </h1>
+<div class="container-fluid">
+    <h1 id="page-title">
+        All rooms
+    </h1>
+</div>
+
+<div class="col-md-12">
+<!-- filter by floor dropdown available if there are rooms left -->
+{% if buildings|length > 1 %}
+<select id="buildingFilter" class="selectpicker room-list-filter building-filter" multiple title="All Buildings">
+    {% for bldg in buildings %}
+        <option name="bldg{{ bldg.name|cut:' ' }}" value="bldg{{ bldg.name|cut:' ' }}">
+            {{bldg.name}}
+        </option>
+    {% endfor %}
+</select>
+{% endif %}
+
+<!-- filter by room type dropdown available, if there are more than 1 type of room -->
+{% if room_types|length > 1 %}
+<select id="roomTypeFilter" class="selectpicker room-list-filter room-type-filter" multiple title="All Room Types">
+    {% for type in room_types %}
+        {% if type == 'S' %}
+            <option name="type{{type}}" value="type{{type}}">Single</option>
+        {% elif type == 'D' %}
+            <option name="type{{type}}" value="type{{type}}">Double</option>
+        {% elif type == 'T' %}
+            <option name="type{{type}}" value="type{{type}}">Triple</option>
+        {% elif type == 'Q' %}
+            <option name="type{{type}}" value="type{{type}}">Quad</option>
+        {% endif %} 
+{% endfor %}
+</select>
+{% endif %}
+
+<!-- table of all open rooms -->
+{% if rooms %}
+<div class="row">
+    <div class="col-md-12 table-parent">
+        <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Building</th>
+                  <th>#</th>
+                  <th>Type</th>
+                  <th>Open Beds</th>
+                </tr>
+              </thead>
+              <tbody class="room-list">
+
+                {% for room in rooms %}
+                    <tr name="{{room}}" class="floor{{room.floor}} type{{room.room_type}} bldg{{room.building.name|cut:' '}}">
+                        <td>{{room.building.name}}</td>
+                        <td>{{room.number}}</td>
+
+                        <!-- Room Type -->
+                        <td>
+                        {% with type=room.room_type %}
+                        {% if type == 'S' %}
+                            Single
+                        {% elif type == 'D' %}
+                            Double
+                        {% elif type == 'T' %}
+                            Triple
+                        {% elif type == 'Q' %}
+                            Quad
+                        {% elif type == 'B' %}
+                            {% if room.building.name == "Morris" %}
+                              Apartment
+                            {% else %}
+                              Suite
+                            {% endif %}
+                        {% endif %}
+                        {% endwith %}
+                        </td>
+
+                        <td>{{room.available_beds}}</td>
+
+                    </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div><!--table of rooms--> 
+        </div>
     </div>
 
-    <div class="col-md-12">
-            <!-- filter by floor dropdown available if there are rooms left -->
-           {% if buildings|length > 1 %}
-            <select id="buildingFilter" class="selectpicker room-list-filter building-filter" multiple title="All Buildings">
-                {% for bldg in buildings %}
-                    <option name="bldg{{ bldg.name|cut:' ' }}" value="bldg{{ bldg.name|cut:' ' }}">
-                        {{bldg.name}}
-                    </option>
-                {% endfor %}
-            </select>
-            {% endif %}
+  <!-- if there are no rooms -->
+  {% else %}
+    <h3>There are currently no available rooms</h3>
+  {% endif %}
 
-            <!-- filter by room type dropdown available, if there are more than 1 type of room -->
-            {% if room_types|length > 1 %}
-            <select id="roomTypeFilter" class="selectpicker room-list-filter room-type-filter" multiple title="All Room Types">
-                <option name="all" value="all">All Room Types</option>
-                    {% for type in room_types %}
-                        {% if type == 'S' %}
-                            <option name="type{{type}}" value="type{{type}}">Single</option>
-                        {% elif type == 'D' %}
-                            <option name="type{{type}}" value="type{{type}}">Double</option>
-                        {% elif type == 'T' %}
-                            <option name="type{{type}}" value="type{{type}}">Triple</option>
-                        {% elif type == 'Q' %}
-                            <option name="type{{type}}" value="type{{type}}">Quad</option>
-                        {% endif %} 
-                {% endfor %}
-            </select>
-            {% endif %}
-
-            <!-- table of all open rooms -->
-            {% if rooms %}
-            <div class="row">
-                <div class="col-md-12 table-parent">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                          <thead>
-                            <tr>
-                              <th>Building</th>
-                              <th>#</th>
-                              <th>Type</th>
-                              <th>Beds</th>
-                              {# link to building page? onclick="window.location='{{building_url}}'" #}
-                            </tr>
-                          </thead>
-                          <tbody class="room-list">
-                            {% comment %}
-                              <!--
-                                rooms_by_floor list looks like this:
-                                'rooms_by_floor': {'101': <Room object 101>, '10': [<Room 102>, <Room 110>, <Room 152>]}
-                                -->
-                            {% endcomment %}
-
-                            {% for roomNum, apt_rooms in rooms.items %}
-
-                                <!-- An apartment - not a dropdown on all rooms page -->
-                                {% if apt_rooms|length > 1 %}
-                                    {% with first_room=apt_rooms|first %}
-                                    {% with apt=first_room.apartment %}
-                                    {# {% url 'building-view' apt.building.name as building_url %} #}
-                                    <tr name="{{apt.name}}" class="{{apt.floors}}{{apt.room_types}} bldg{{apt.building.name|cut:' ' }}">
-                                        <td>{{apt.building.name}}</td>
-                                        <td>{{apt.number}}</td>
-                                        <td>Apartment</td>
-                                        <td>{{apt.available_beds}}</td>
-                                    </tr>
-                                    {% endwith %}
-                                    {% endwith %}
-
-                                    <!-- Regular room -->
-                                    {% else %}
-                                        {% for rm in apt_rooms %}
-                                        {% url 'building-view' rm.building.name as building_url %}
-                                        <tr name="{{rm}}" class="floor{{rm.floor}} type{{rm.room_type}} bldg{{rm.building.name|cut:' '}}">
-                                            <td>{{rm.building.name}}</td>
-                                            <td>{{rm.number}}</td>
-
-                                            <!-- Room Type -->
-                                            <td>
-                                            {% if rm.room_type == 'S' %}
-                                                Single
-                                            {% elif rm.room_type == 'D' %}
-                                                Double
-                                            {% elif rm.room_type == 'T' %}
-                                                Triple
-                                            {% elif rm.room_type == 'Q' %}
-                                                Quad
-                                            {% elif rm.room_type == 'B' %}
-                                                {% if rm.building.name == "Morris" %}
-                                                  Apartment
-                                                {% else %}
-                                                  Suite
-                                                {% endif %}
-                                            {% else %}
-                                                N/A
-                                            {% endif %}
-                                            </td>
-
-                                            <td>{{rm.available_beds}}</td>
-
-                                        </tr>
-                                        {% endfor %}
-                                    {% endif %}
-                            {% endfor %}
-                          </tbody>
-                        </table>
-                      </div><!--table of rooms--> 
-                    </div>
-                </div>
-
-              <!-- if there are no rooms -->
-              {% else %}
-                <h3>There are currently no available rooms</h3>
-              {% endif %}
-          
-        </div><!--/table of rooms-->
-
+</div><!--/row-->
 {% endblock content %}
 
 {% block custom-js %}

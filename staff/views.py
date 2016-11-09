@@ -26,10 +26,9 @@ def lotteryNumberInput(request):
             form.save()
 
     #fixme: Change so lottery number doesn't load if there is none
-    number = list(LotteryNumber.objects.all())
-    if(number):
-        number = number[-1]
-    else:
+    try:
+        number = LotteryNumber.objects.latest()
+    except:
         number = ""
         
     form = LotteryNumberForm()
@@ -44,12 +43,10 @@ def RoomSelect(request):
     
     headerText = "Please enter room information to get started..."
 
-    number = list(LotteryNumber.objects.all())
-    if(number):
-        number = number[-1]
-    else:
+    try:
+        number = LotteryNumber.objects.latest()
+    except:
         number = ""
-        
     
     return render(request, 
                   'staff/select/room.html',
@@ -66,10 +63,9 @@ def suiteSelect(request):
     headerText = "Select the suite you are trying to fill..."
     suites = Room.objects.filter(room_type = 'B').exclude(available = False) # get all block rooms
     
-    number = list(LotteryNumber.objects.all())
-    if(number):
-        number = number[-1]
-    else:
+    try:
+        number = LotteryNumber.objects.latest()
+    except:
         number = ""
         
     
@@ -85,13 +81,12 @@ def suiteSelect(request):
 @login_required
 def ReviewRoom(request):
     """Allow the user to input a room number to review and edit the information presented"""
-    form = BuildingForm()
+    form = ReviewTransactionForm()
     headerText = "Please enter a building and a number to proceed"
 
-    number = list(LotteryNumber.objects.all())
-    if(number):
-        number = number[-1]
-    else:
+    try:
+        number = LotteryNumber.objects.latest()
+    except:
         number = ""
         
     return render(request, 
@@ -105,27 +100,27 @@ def ReviewRoom(request):
 def ReviewStudentInfo(request):
     """Allows a staff user to view edit the student info in a transaction"""
     if request.method == "POST":
-        responseForm = BuildingForm(request.POST)
+        responseForm = ReviewTransactionForm(request.POST)
         if responseForm.is_valid():
             building = Building.objects.get(
-                    name = responseForm.cleaned_data['name'])
-
+                name = responseForm.cleaned_data['name'])
+            
             rooms = Room.objects.filter(building = building)
             room = rooms.get(number = responseForm.cleaned_data['room_number'])
             
             headerText = "Placing student in  " + \
                 str(responseForm.cleaned_data['name']) + \
                 " " + str(responseForm.cleaned_data['room_number'])
-           
-           #Create a form with the room id 
+            
+            # Create a form with the room id 
             form = ReviewStudentInfoForm()
             form.init(room.id)
-            number = list(LotteryNumber.objects.all())
-            if(number):
-                number = number[-1]
-            else:
+            
+            try:
+                number = LotteryNumber.objects.latest()
+            except:
                 number = ""
-        
+                
             return render(request, 
                           'staff/edit/transactionStudentInfo.html',
                           {'HeaderText' : headerText, 
@@ -182,10 +177,9 @@ def StudentInfo(request):
                     " " + str(responseForm.cleaned_data['room_number'])
 
 
-            number = list(LotteryNumber.objects.all())
-            if(number):
-                number = number[-1]
-            else:
+            try:
+                number = LotteryNumber.objects.latest()
+            except:
                 number = ""
         
 
@@ -220,10 +214,9 @@ def suiteStudentInfo(request):
                 str(responseForm.cleaned_data['building']) + \
                 " " + str(responseForm.cleaned_data['suite_number'])
 
-            number = list(LotteryNumber.objects.all())
-            if(number):
-                number = number[-1]
-            else:
+            try:
+                number = LotteryNumber.objects.latest()
+            except:
                 number = ""
         
             return render(request, 
@@ -259,10 +252,9 @@ def suiteConfirm(request):
     
         transaction.save()
 
-    number = list(LotteryNumber.objects.all())
-    if(number):
-        number = number[-1]
-    else:
+    try:
+        number = LotteryNumber.objects.latest()
+    except:
         number = ""
         
     
@@ -329,28 +321,22 @@ def ConfirmSelection(request):
                     room.available = False
                 room.save()
 
-    number = list(LotteryNumber.objects.all())
-    if(number):
-        number = number[-1]
-    else:
+    try:
+        number = LotteryNumber.objects.latest()
+    except:
         number = ""
         
-    return render(request, 
-                  'staff/ConfirmSelection.html',
-                  {'HeaderText' : "Confirm this Room Selection Please", 
-                   'Action' : reverse('room-select'),
-                   'LotteryNumber' : number, 
-                   'form' : None})
+    return select(request)
 
 @login_required
 def edit(request):
     """A landing page for staff users to see descriptions of the three models they can edit - transactions, rooms, and buildings"""
     # get next lottery number for header
-    nums = list(LotteryNumber.objects.all())
-    if (nums):
-        number = nums[-1]
-    else:
+    try:
+        number = LotteryNumber.objects.latest()
+    except:
         number = ""
+        
     return render(request,
                   'staff/edit/edit.html',
                   {'LotteryNumber' : number})
@@ -360,11 +346,11 @@ def select(request):
     """A landing page for staff users to see descriptions of the two models they can place selections-
     rooms and suites"""
     # get next lottery number for header
-    nums = list(LotteryNumber.objects.all())
-    if (nums):
-        number = nums[-1]
-    else:
+    try:
+        number = LotteryNumber.objects.latest()
+    except:
         number = ""
+        
     return render(request,
                   'staff/select/select.html',
                   {'LotteryNumber' : number})
@@ -373,11 +359,11 @@ def select(request):
 def editBuilding(request):
     """Displays a form that allows user to edit certain building attributes (closed to women, men, etc.)"""
     # get next lottery number for header
-    nums = list(LotteryNumber.objects.all())
-    if (nums):
-        number = nums[-1]
-    else:
+    try:
+        number = LotteryNumber.objects.latest()
+    except:
         number = ""
+        
     if request.method == "POST":
         #form = editBuildingForm(request.POST, instance = building)
         current_building = Building.objects.get(name=request.POST["building"])
@@ -396,11 +382,11 @@ def editBuilding(request):
 def editRoom(request):
     """Displays a form that allows user to edit certain room attributes - available, notes, etc."""
     # get next lottery number for header
-    nums = list(LotteryNumber.objects.all())
-    if (nums):
-        number = nums[-1]
-    else:
+    try: 
+        number = LotteryNumber.objects.latest()
+    except:
         number = ""
+        
     if request.method == "POST":
         #form = editBuildingForm(request.POST, instance = building)
         current_building = Building.objects.get(name=request.POST["building"])
@@ -419,10 +405,9 @@ def editRoom(request):
 
 def userLogin(request):
     if not request.user.is_authenticated:
-        number = list(LotteryNumber.objects.all())
-        if(number):
-            number = number[-1]
-        else:
+        try:
+            number = LotteryNumber.objects.latest()
+        except:
             number = ""
 
         # If the request is a HTTP POST, try to pull out the relevant information.
@@ -476,10 +461,9 @@ def userLogout(request):
 @login_required
 def home(request):
     """The home page"""
-    number = list(LotteryNumber.objects.all())
-    if(number):
-        number = number[-1]
-    else:
+    try: 
+        number = LotteryNumber.objects.latest()
+    except:
         number = ""
         
     pageContent = StaffPageContent.objects.filter(active=True)
