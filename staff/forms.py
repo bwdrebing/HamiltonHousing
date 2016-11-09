@@ -6,6 +6,8 @@ from .models import Apartment
 from .models import Transaction
 from django.contrib.auth.models import User
 
+import datetime
+
 class LotteryNumberForm(forms.ModelForm):
 
     class Meta:
@@ -160,10 +162,10 @@ class StudentInfoForm(forms.Form):
             self.fields[prefix + 'Number' + str(i)] = lotteryNumber
             self.studentFields[i].append(self.__getitem__(prefix + 'Number' + str(i)))
 
-            
+            now = datetime.datetime.now()
             classYear = forms.ChoiceField(
                 label = 'Resident #' + str(i+1) + ' Class Year',
-                choices = [(num, num) for num in range (2014, 2019)]
+                choices = [(num, num) for num in range (now.year, now.year+5)]
                 )
             self.fields[prefix + 'Year'+str(i)] = classYear
             self.studentFields[i].append(self.__getitem__(prefix + 'Year' + str(i)))
@@ -213,9 +215,10 @@ class ReviewStudentInfoForm(forms.Form):
                     widget = forms.HiddenInput(),
                 )
 
+            now = datetime.datetime.now()
             self.fields['Year'+str(i)] = forms.ChoiceField(
                 label = 'Resident #' + str(i+1) + ' Class Year',
-                choices = [(num, num) for num in range (2014, 2019)],
+                choices = [(num, num) for num in range (now.year, now.year+5)],
                 initial = transaction_rooms[i].Pullee_Year
                 )
 

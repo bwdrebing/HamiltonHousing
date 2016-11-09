@@ -165,7 +165,7 @@ def StudentInfo(request):
                 baseForm.forBaseRoom(room)
 
                 formsToRender = [baseForm]
-                if(room.pull != '' and rooms.get(number = room.pull).available == True):
+                if(room.pull != '' and room.pull != ' ' and rooms.get(number = room.pull).available == True):
                     additionalForm = StudentInfoForm()
                     pullRoom = rooms.get(number = room.pull)
                     roomsToRender.append(pullRoom)
