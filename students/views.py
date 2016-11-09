@@ -140,8 +140,8 @@ def allRooms(request):
                              .exclude(available_beds = 0)
                              .order_by('building', 'number'))
     
-   # room_types = get_room_types(rooms)
-    room_types=[]
+    # room_types = get_room_types(rooms)
+    room_types=['S', 'D', 'Q', 'T']
     
     # get next lottery number for header
     number = LotteryNumber.objects.latest()
