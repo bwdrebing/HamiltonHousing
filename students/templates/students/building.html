@@ -30,7 +30,7 @@
             <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="stat-panel-heading">
-                        <h3 class="panel-title">Types of Rooms</h3>
+                        <h3 class="panel-title">Types of Rooms Available</h3>
                     </div>
                     <div class="panel-body">
                         {% if current_building.total_singles != 0 %}
@@ -40,10 +40,10 @@
                             <strong>{{current_building.available_doubles}}</strong> / {{current_building.total_doubles}} Doubles<br>
                         {% endif %}
                         {% if current_building.total_triples != 0 %}
-                            <strong>{{current_building.total_triples}}</strong> / {{current_building.total_triples}} Triples<br>
+                            <strong>{{current_building.available_triples}}</strong> / {{current_building.total_triples}} Triples<br>
                         {% endif %}
                         {% if current_building.total_quads != 0 %}
-                            <strong>{{current_building.total_quads}}</strong> / {{current_building.total_quads}} Quads<br>
+                            <strong>{{current_building.available_quads}}</strong> / {{current_building.total_quads}} Quads<br>
                         {% endif %}
                     </div>
                </div>
