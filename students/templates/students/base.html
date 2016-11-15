@@ -71,7 +71,14 @@
 
 
           <div class="col-md-6">
-              <div class="landing-panel panel">
+              <div class="landing-panel panel landing-panel-toggle hidden-md hidden-lg">
+                <div class="landing-panel-heading container-fluid" data-toggle="offcanvas" data-target=".sidebar" href="#" style="clear: both;">
+                    <h3 class="landing-panel-title" style="float: left;">Search by Building</h3>
+                    <h3 class="landing-panel-title" style="float: right;"><span class="glyphicon glyphicon-chevron-right"></span></h3>
+                  </div>
+              </div>
+              
+              <div class="landing-panel panel landing-panel-toggle">
                 <div class="landing-panel-heading container-fluid" data-toggle="collapse" data-target="#lottery-info-panel" style="clear: both;">
                     <h3 class="landing-panel-title" style="float: left;">Lottery Logistics</h3>
                     <h3 class="landing-panel-title" style="float: right;"><span class="glyphicon glyphicon-plus"></span></h3>
@@ -97,19 +104,16 @@
 
           <div class="col-md-6">
               <div class="landing-panel panel">
-                <div class="landing-panel-heading container-fluid" data-toggle="collapse" data-target="#contact-info-panel" style="clear: both;">
+                <div class="landing-panel-heading container-fluid">
                     <h3 class="landing-panel-title" style="float: left;">Contact</h3>
-                    <h3 class="landing-panel-title" style="float: right;"><span class="glyphicon glyphicon-plus"></span></h3>
                 </div>
-                <div id="contact-info-panel" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        For questions or comments about the use of this website, please fill out our <a href="{% url 'contact' %}">contact form</a>.
-                        {% if pageContent %}
-                            {{ pageContent.contact|linebreaksbr }}
-                        {% else %}
-                            <br><br>Questions pertaining to the lottery and the lottery process should be directed to Ashley Place, assistant director of Residential Life, at <a href="mailto:aplace@hamilton.edu">aplace@hamilton.edu</a>.
-                        {% endif %}
-                    </div>
+                <div class="panel-body">
+                    For questions or comments about the use of this website, please fill out our <a href="{% url 'contact' %}">contact form</a>.
+                    {% if pageContent %}
+                        {{ pageContent.contact|linebreaksbr }}
+                    {% else %}
+                        <br><br>Questions pertaining to the lottery and the lottery process should be directed to Ashley Place, assistant director of Residential Life, at <a href="mailto:aplace@hamilton.edu">aplace@hamilton.edu</a>.
+                    {% endif %}
                 </div>
               </div>
           </div>
