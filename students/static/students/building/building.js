@@ -1,3 +1,32 @@
+// -------------------------------------------
+//  initialize floor plan zoom plugin
+// -------------------------------------------
+jQuery(function($){
+    $('.table').footable();
+});
+
+// -------------------------------------------
+//  apartment dropdowns
+// -------------------------------------------
+$('.table-hoverable').click(function () {
+    $(this).nextUntil('.table-dropdown').slideToggle('normal');
+    $(this).find("span").toggleClass("glyphicon-menu-up");
+    $(this).find("span").toggleClass("glyphicon-menu-down");
+});
+
+$('.table-hoverable').hover(
+    function () {
+        $(this).addClass('active');
+    }, 
+    
+    function () {
+        $(this).removeClass('active');
+    }
+);
+
+// -------------------------------------------
+//  filtering functions
+// -------------------------------------------
 $(".room-filter").change(function () {
     var value1 = $("#floorFilter").val();
     var value2 = $("#roomTypeFilter").val();
