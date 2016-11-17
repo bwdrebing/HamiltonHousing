@@ -4,6 +4,7 @@
 
 body, html, .row-offcanvas {
   height:100%;
+  overflow-x: hidden;
 }
 
 body {
