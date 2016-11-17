@@ -1,0 +1,203 @@
+/* * {
+  -webkit-border-radius: 0 !important;
+     -moz-border-radius: 0 !important;
+          border-radius: 0 !important;
+}*/
+/*
+* {
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
+*/
+
+#main {
+    background-color: white;
+}
+
+#page-title {
+    margin-bottom: 20px; 
+    font-family: 'Montserrat', sans-serif;
+}
+/*
+    font-family: 'Roboto', sans-serif;   
+    font-size: 3.125em;
+    font-weight: 400;
+    line-height: 51px;
+    color: #545454;
+}*/
+
+.table-responsive {
+    padding-top: 12px;    
+}
+
+.apt-room {
+    background-color: #fcfcfc;
+}
+
+.building-label {
+    background-color: #888bd6;   # purple!
+    border-radius: 8px;
+    text-transform: uppercase;
+    font-family: 'Proza Libre', sans-serif;
+}
+
+/* panels */
+.panel {
+    background-color: #99d3df;
+    border: none;
+    border-radius: 0;
+    color: white;
+    font-family: 'Rasa', sans-serif;
+    font-size: 1.5rem;
+}
+
+.panel-title {
+    text-transform: uppercase;
+    font-family: 'Proza Libre', sans-serif;
+    /*font-weight: 300;*/
+    letter-spacing: 1.2px;
+   /* line-height: 1.7;*/
+    /*font-size: 1.5rem;*/
+    color: white;
+    border-radius: 0;
+    border: none;
+    border-color: #99d3df; 
+}
+
+.stat-panel-heading {
+    background-color: #99d3df;
+    border: none;
+    border-radius: 0;
+    color: white;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    padding-bottom: 5px;
+}
+
+.panel-green {
+    background-color: #88bbd6;
+    border: none;
+    border-radius: 0;
+    color: white;
+    font-family: 'Roboto Slab', sans-serif;
+}
+
+.panel-body {
+    font-family: 'Amiko', sans-serif; 
+}
+
+.nodecor:hover {
+    text-decoration: none;
+}
+
+.panel-title-green {
+    text-transform: uppercase;
+    font-family: 'Proza Libre', sans-serif;
+    font-weight: 300;
+    letter-spacing: 1.2px;
+    line-height: 1.7;
+    font-size: 1.5rem;
+    color: white;
+    border-radius: 0;
+    border: 0;
+    margin-bottom: 10px;
+    margin-top: 0px;
+}
+
+.stat-panel-heading-green:hover {
+    background-color: rgb(156, 207, 234);
+}
+
+.stat-panel-heading-green:hover > .panel-title-green {
+}
+/*
+.panel-title-green:hover {
+    color: #fbed46;
+    border-color: #fbed46;
+    font-weight: 500;
+}*/
+
+.stat-panel-heading-green {
+    background-color: #88bbd6;
+    border: none;
+    border-radius: 0;
+    color: white;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    padding-bottom: 5px;
+}
+
+#floorplan-photo-icon {
+    float: left;
+    display: inline;
+    padding-right: 12px;
+    margin-right: 12px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-top: auto;
+    margin-bottom: auto;
+    border-right: 1px solid white;
+}
+
+.room-filter {
+    border-radius: 0px;
+    border: 1px solid;
+    border-color: lightgray;
+}
+
+.room-list-filter {
+    border-radius: 0px;
+    border: 1px solid;
+    border-color: lightgray;
+}
+
+.dropdown-toggle {
+    border-radius: 0px;
+    border: none;
+}
+
+.bootstrap-select {
+   margin-bottom: 10px;
+}
+
+.table-parent {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* -------------------------
+       Floor Plan Images
+   ------------------------- */
+
+.thumbnail-label {
+    top:0;
+    left:0;
+    position: absolute;
+}
+
+.thumb-div {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+.thumbnail {
+    border-radius: 0;
+    position:relative;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* get rid of upper margin only when the floor plan/room panels are displaying next to each other */
+@media (min-width: 992px) {  
+    #floorPlanName {
+        margin-top: 0px;
+    }
+}
+
+/*set a border on the images to prevent shifting*/
+ #thumbnail-gallery img {
+     border:2px solid white;
+}

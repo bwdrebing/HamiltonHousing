@@ -7,10 +7,10 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+    <link rel="shortcut icon" href="/static/students/icon/favicon.ico" />
 
     <title>
-        {% block title %}SiteName{% endblock title %}
+        {% block title %}RoomService{% endblock title %}
     </title>
 
     <!-- Bootstrap core CSS -->
@@ -20,11 +20,12 @@
     <!--<link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">-->
 
     <!-- Custom styles for this template - sidebar, etc. -->
-    <link href="/static/students/sidebar/sidebar.css" rel="stylesheet">
-    <link href="/static/students/header/header.css" rel="stylesheet">
+    <link href="/static/students/sidebar/sidebar-roomservice.css" rel="stylesheet">
+    <link href="/static/students/header/header-roomservice.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed|Roboto|Amiko|Libre+Franklin|Proza+Libre|Rubik|Playfair+Display|Montserrat|Work+Sans|Space+Mono|Neuton" rel="stylesheet">
       
     {% block custom-css %}
-        <link href="/static/students/home/home.css" rel="stylesheet">
+        <link href="/static/students/home/home-roomservice.css" rel="stylesheet">
     {% endblock custom-css %}
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -71,35 +72,21 @@
 
 
           <div class="col-md-6">
-              <div class="landing-panel panel landing-panel-toggle hidden-md hidden-lg">
+              <div class="landing-panel panel landing-panel-button hidden-md hidden-lg">
                 <div class="landing-panel-heading container-fluid" data-toggle="offcanvas" data-target=".sidebar" href="#" style="clear: both;">
-                    <h3 class="landing-panel-title" style="float: left;">Search by Building</h3>
+                    <h3 class="landing-panel-title" style="float: left;">Start Your Search</h3>
                     <h3 class="landing-panel-title" style="float: right;"><span class="glyphicon glyphicon-chevron-right"></span></h3>
                   </div>
               </div>
               
-              <div class="landing-panel panel landing-panel-toggle">
-                <div class="landing-panel-heading container-fluid" data-toggle="collapse" data-target="#lottery-info-panel" style="clear: both;">
-                    <h3 class="landing-panel-title" style="float: left;">Lottery Logistics</h3>
-                    <h3 class="landing-panel-title" style="float: right;"><span class="glyphicon glyphicon-plus"></span></h3>
-                </div>
-                <div id="lottery-info-panel" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <h4 class="h4-panel">
-                        {% if pageContent %}
-                            {{ pageContent.lottery_name }}
-                        {% else %}
-                            General Lottery
-                        {% endif %}
-                        </h4>
-                        {% if pageContent %}
-                            {{ pageContent.lottery_text|linebreaksbr }} 
-                        {% else %}
-                            The General Lottery provides students an opportunity to select all other housing options not chosen in the Blocking, Co-Op and Substance-Free lotteries or otherwise pre-assigned. You do not need to sign up for the General Lottery. For more information about the lottery visit the <a href="https://www.hamilton.edu/offices/residentiallife/lottery/general-lottery">Office of Residential Life website</a>.
-                        {% endif %}
-                    </div>
-                </div>
-              </div>
+              <a href="{% url 'faq' %}" class="nodecor" id="faq-button">
+                   <div class="landing-panel panel landing-panel-button nodecor">
+                       <div class="landing-panel-heading container-fluid nodecor" style="clear: both;">
+                           <h3 class="landing-panel-title" style="float: left;">FAQ</h3>
+                           <h3 class="landing-panel-title" style="float: right;"><span class="glyphicon glyphicon-chevron-right"></span></h3>
+                        </div>
+                   </div>
+              </a>
           </div>
 
           <div class="col-md-6">
@@ -108,11 +95,10 @@
                     <h3 class="landing-panel-title" style="float: left;">Contact</h3>
                 </div>
                 <div class="panel-body">
-                    For questions or comments about the use of this website, please fill out our <a href="{% url 'contact' %}">contact form</a>.
                     {% if pageContent %}
                         {{ pageContent.contact|linebreaksbr }}
                     {% else %}
-                        <br><br>Questions pertaining to the lottery and the lottery process should be directed to Ashley Place, assistant director of Residential Life, at <a href="mailto:aplace@hamilton.edu">aplace@hamilton.edu</a>.
+                        Questions pertaining to the lottery and the lottery process should be directed to Ashley Place, assistant director of Residential Life, at <a class="nodecor highlight-link" href="mailto:aplace@hamilton.edu">aplace@hamilton.edu</a>.
                     {% endif %}
                 </div>
               </div>

@@ -155,6 +155,22 @@ def allRooms(request):
                    'room_types': room_types,
                    'LotteryNumber': number})
 
+def faq(request):
+    building_list = (Building.objects.exclude(available = False)
+                                     .order_by('name'))
+    
+    # get next lottery number for header
+    try: 
+        number = LotteryNumber.objects.latest()
+    except:
+        number = ""
+        
+    return render(request, 
+                  'students/faq.html', 
+                  {'buildings': building_list,
+                   'LotteryNumber': number})
+
+
 def contact(request):
     building_list = (Building.objects.exclude(available = False)
                                      .order_by('name'))

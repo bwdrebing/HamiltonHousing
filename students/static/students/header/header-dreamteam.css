@@ -7,8 +7,21 @@
     margin-bottom: 0px;
 }
 
+.navbar-toggle > span {
+    background-color: black;
+}
+
+.navbar-toggle:hover > span,
+.navbar-toggle:active > span {
+    background-color: white;
+}
+    
+
 .header {
     min-height: 65px;
+    background-color: #e9e9e9;
+    color: black;
+    border: none;
     /*vertical-align: middle;*/
 }
 
@@ -26,6 +39,19 @@
     line-height: 65px;
     font-size: 14pt;
     padding-right: 12px;
+    color: black;
+    font-family: 'Work Sans', sans-serif;
+    text-transform: uppercase;
+}
+
+.navbar-site-name {
+    color: black;
+    font-family: 'Proza Libre', sans-serif;
+}
+
+.navbar-site-name:hover,
+.navbar-site-name:active {
+    color: white;
 }
 
 .navbar-header {
