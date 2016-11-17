@@ -7,7 +7,7 @@ body, html, .row-offcanvas {
 }
 
 body {
-  padding-top: 50px;
+  padding-top: 65px;
 }
 
 #sidebar {
@@ -89,12 +89,12 @@ body {
  * off Canvas sidebar
  * --------------------------------------------------
  */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 765px) {
   .row-offcanvas {
     position: relative;
-    -webkit-transition: all 0.25s ease-out;
-    -moz-transition: all 0.25s ease-out;
-    transition: all 0.25s ease-out;
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
     width:calc(100% + 250px);
   }
     

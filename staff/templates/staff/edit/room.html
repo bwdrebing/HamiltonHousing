@@ -41,7 +41,7 @@
             <div class="container-fluid col-md-8 form-container">
                 <h1>Edit Room Information</h1>
                 <hr class="yellow-line">
-                <form method="POST" class="post-form form-horizontal">
+                <form method="POST" class="post-form form-horizontal" action="{{Action}}">
                 {% csrf_token %}
                 <div class="container-fluid">
                 {% for field in form %}

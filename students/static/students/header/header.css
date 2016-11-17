@@ -3,4 +3,32 @@
     outline: none;
     border-radius: 0px;
     float: left;
+    margin-top: 15px;
+    margin-bottom: 0px;
+}
+
+.header {
+    min-height: 65px;
+    /*vertical-align: middle;*/
+}
+
+.navbar-header > a {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    line-height: 65px;
+    font-size: 20pt;
+}
+
+.navbar-text {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin: 0px;
+    line-height: 65px;
+    font-size: 14pt;
+    padding-right: 12px;
+}
+
+.navbar-header {
+    height: 100%;
+    vertical-align: middle;
 }

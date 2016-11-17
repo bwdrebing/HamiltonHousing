@@ -10,10 +10,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
       
     <!-- CSS for this page -->
-    <link rel="stylesheet" href="/static/students/building/building.css">
+    <link rel="stylesheet" href="/static/students/building/building-roomservice.css">
 {% endblock %}
 
 {% block content %}
+    <a name="top"></a><!-- top anchor -->
     <div class="container-fluid">
         <h1 id="page-title">
             {{current_building.name}} <small style="vertical-align: middle">
@@ -30,21 +31,46 @@
             <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="stat-panel-heading">
-                        <h3 class="panel-title">Types of Rooms</h3>
+                        <h3 class="panel-title">Types of Rooms Available</h3>
                     </div>
                     <div class="panel-body">
                         {% if current_building.total_singles != 0 %}
-                            <strong>{{current_building.available_singles}}</strong> / {{current_building.total_singles}} Singles<br>
+                            <strong>{{current_building.available_singles}}</strong>
+                            {% if current_building.available_singles == 1 %}
+                                Single
+                            {% else %}
+                                Singles
+                            {% endif %}
+                            <br>
                         {% endif %}
                         {% if current_building.total_doubles != 0 %}
-                            <strong>{{current_building.available_doubles}}</strong> / {{current_building.total_doubles}} Doubles<br>
+                            <strong>{{current_building.available_doubles}}</strong>
+                            {% if current_building.available_doubles == 1 %}
+                                Double
+                            {% else %}
+                                Doubles
+                            {% endif %}
+                            <br>
                         {% endif %}
                         {% if current_building.total_triples != 0 %}
-                            <strong>{{current_building.total_triples}}</strong> / {{current_building.total_triples}} Triples<br>
+                            <strong>{{current_building.available_triples}}</strong>
+                            {% if current_building.available_triples == 1 %}
+                                Triple
+                            {% else %}
+                                Triples
+                            {% endif %}
+                            <br>
                         {% endif %}
                         {% if current_building.total_quads != 0 %}
-                            <strong>{{current_building.total_quads}}</strong> / {{current_building.total_quads}} Quads<br>
+                            <strong>{{current_building.available_quads}}</strong>
+                            {% if current_building.available_quads == 1 %}
+                                Quad
+                            {% else %}
+                                Quads
+                            {% endif %}
+                            <br>
                         {% endif %}
+                        
                     </div>
                </div>
             </div>
@@ -68,8 +94,13 @@
             <div class="col-md-6 hidden-md hidden-lg">
                <a href="#floorPlans" class="nodecor" id="floorPlanViewButton">
                    <div class="panel panel-green panel-default nodecor">
-                       <div class="stat-panel-heading-green nodecor">
-                           <h3 class="panel-title-green nodecor" id="floorPlanViewText"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> View Floor Plans <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></h3>
+                       <div class="stat-panel-heading-green nodecor" style="clear: both;">
+                           <h3 class="panel-title-green nodecor floorplan-button" id="floorplan-photo-icon">
+                                <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> 
+                           </h3>
+                           <h3 class="panel-title-green nodecor floorplan-button" id="floorplan-text">
+                           View Floor Plans
+                           </h3>
                         </div>
                    </div>
                 </a>
@@ -120,7 +151,7 @@
           
         <!-- table of all open rooms -->
         {% if rooms %}
-        <div class="table-responsive">
+        <div id="no-more-tables">
             <table class="table">
               <thead>
                 <tr>
@@ -155,13 +186,13 @@
                         {% with apt=first_room.apartment %}
                         <tr name="{{apt.name}}" class="{{apt.floors}}{{apt.room_types}} table-dropdown table-hoverable">
                             <td><span class="glyphicon glyphicon-menu-down"></span></td>
-                            <td><strong>{{apt.number}}</strong></td>
-                            <td><strong>Apartment</strong></td>
-                            <td>{{apt.available_beds}}</td>
+                            <td data-title="#"><strong>{{apt.number}}</strong></td>
+                            <td data-title="Type"><strong>Apartment</strong></td>
+                            <td data-title="Open Beds">{{apt.available_beds}}</td>
                             
                             <!-- Show Gender -->
                             {% if show_gender %}
-                            <td>
+                            <td data-title="Gender">
                                 {% if apt.gender == 'F' %}
                                     Female
                                 {% elif apt.gender == 'M' %}
@@ -172,7 +203,7 @@
                               
                             <!-- Show Pull (none on an apartment) -->
                             {% if show_pull %}
-                            <td></td>
+                            <td data-title="Pull"></td>
                             {% endif %}
                             
                             <!-- Show Notes -->
@@ -322,34 +353,57 @@
     <!-- second half of screen (floor plans) -->
     {% if floor_images %}
     <a name="floorPlans"></a>
-    <div class="col-md-6 col-xs-12">
-        
-        <!-- large floor image -->
-        {% with first_image=floor_images|first %}
-            <h2 id="floorPlanName">{{ first_image.display_name }}</h2>
-        
-            <!-- floor plan image -->
-            <img id="fullFloorPlan" class="img-responsive floor-plan-img" src="{{first_image.image.url}}" data-zoom-image="{{first_image.image.url}}"/>
-        {% endwith %}
-        
-        <!-- floor plan thumbnail links -->
+    <div class="container-fluid">
+        <div class="col-md-6 col-xs-12">
+
+            <!-- large floor image -->
+            {% with first_image=floor_images|first %}
+                <h2 id="floorPlanName">{{ first_image.display_name }}</h2>
+
+                <!-- floor plan image -->
+                <img id="fullFloorPlan" class="img-responsive floor-plan-img" src="{{first_image.image.url}}" data-zoom-image="{{first_image.image.url}}"/>
+            {% endwith %}
+
+            <!-- floor plan thumbnail links -->
+            <div class="row">
+                {% for floorplan in floor_images %}
+                    <div class="col-xs-3 col-md-3 thumb-div" id="thumbnail-gallery">
+                        {% if forloop.first %}
+                        <a class="active thumbnail" data-image="{{floorplan.image.url}}" data-zoom-image="{{floorplan.image.url}}">
+                        {% else %}
+                        <a class="thumbnail" data-image="{{floorplan.image.url}}" data-zoom-image="{{floorplan.image.url}}">
+                        {% endif %}
+                            <img src="{{floorplan.image.url}}" class="floorplan-thumbnail" alt="{{floorplan.display_name}}" id="thumb{{forloop.counter0}}"/>
+                            <div class="caption thumbnail-label">
+                                {{floorplan.display_name}}
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div><!--/floor plans-->
+    </div>
+
+    <!-- link to top -->
+    <div class="container-fluid">
         <div class="row">
-            {% for floorplan in floor_images %}
-                <div class="col-xs-3 col-md-3 thumb-div" id="thumbnail-gallery">
-                    {% if forloop.first %}
-                    <a class="active thumbnail" data-image="{{floorplan.image.url}}" data-zoom-image="{{floorplan.image.url}}">
-                    {% else %}
-                    <a class="thumbnail" data-image="{{floorplan.image.url}}" data-zoom-image="{{floorplan.image.url}}">
-                    {% endif %}
-                        <img src="{{floorplan.image.url}}" class="floorplan-thumbnail" alt="{{floorplan.display_name}}" id="thumb{{forloop.counter0}}"/>
-                        <div class="caption thumbnail-label">
-                            {{floorplan.display_name}}
+            <div class="col-md-6 hidden-md hidden-lg">
+               <a href="#top" class="nodecor" id="floorPlanViewButton">
+                   <div class="panel panel-green panel-default nodecor">
+                       <div class="stat-panel-heading-green nodecor" style="clear: both;">
+                           <h3 class="panel-title-green nodecor floorplan-button" id="floorplan-photo-icon">
+                                <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span> 
+                           </h3>
+                           <h3 class="panel-title-green nodecor floorplan-button" id="floorplan-text">
+                                Back to Top
+                           </h3>
                         </div>
-                    </a>
-                </div>
-            {% endfor %}
+                   </div>
+                </a>
+             </div>
         </div>
-    </div><!--/floor plans-->
+    </div>
     {% endif %}
     </div><!--/row-offcanvas -->
 

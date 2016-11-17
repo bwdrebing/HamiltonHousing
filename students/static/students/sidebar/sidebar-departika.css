@@ -14,7 +14,7 @@ body {
   width: inherit;
   min-width: 250px;
   max-width: 250px;
-  background-color: dimgray;
+  background-color: #caebf2;
   float: left;
   height:100%;
   position:relative;
@@ -24,11 +24,12 @@ body {
 }
 
 .sidebar-link {
-    color: white;
+    color: #a9a9a9;
+    font-family: 'Roboto', sans-serif;
 }
 
 .sidebar-link:hover {
-    color: black;
+    color: #494949;
     border-radius: 0;
 }
 
@@ -43,7 +44,7 @@ body {
 }
 
 .sidebar-nav-item.all-rooms {
-    background-color: black;
+    background-color: white;
     margin-top: 20px;
     margin-bottom: 15px;
     width: 100%;
@@ -52,8 +53,8 @@ body {
 .sidebar-nav-item.all-rooms > a:hover,
 .sidebar-nav-item.all-rooms > a:active,
 .sidebar-nav-item.all-rooms > a:focus {
-    background-color: #fbbd19;
-    color: black;
+    background-color: #ff383f;
+    color: white;
     border-radius: 0;
 }
 
@@ -64,6 +65,7 @@ body {
     padding-right: 10px;
 }
 
+/*
 .sidebar-search {
     border: 1px solid;
     border-color: dimgray;
@@ -77,13 +79,12 @@ body {
     background-color: white;
 }
 
-/* when the sidebar is in use */
 .sidebar-search:focus {
     border: 1px solid;
     border-color: #fbbd19;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(251, 189, 25, 0.6);
     background-color: white;
-}
+}*/
 
 /*
  * off Canvas sidebar

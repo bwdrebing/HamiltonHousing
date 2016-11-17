@@ -9,6 +9,7 @@ from django.urls import reverse
 from .models import LotteryNumber 
 from .models import Building
 from .models import Room
+from .models import Apartment
 from .models import Transaction
 from .models import BlockTransaction
 from .models import Resident
@@ -133,31 +134,48 @@ def StudentInfo(request):
     if request.method == "POST":
         responseForm = BuildingForm(request.POST)
         if responseForm.is_valid():
-            building = Building.objects.get(
-            name = responseForm.cleaned_data['name'])
+            building = Building.objects.get(name = responseForm.cleaned_data['name'])
+            name = responseForm.cleaned_data['room_number'].split()
+            
+            roomsToRender = []
+            formsToRender = []
+            
+            if (name[0] == "Apartment"):
+                apt = Apartment.objects.get(number = name[1])
+                rooms = Room.objects.filter(building = building, apartment = apt)
+                roomsToRender = rooms
 
-            rooms = Room.objects.filter(building = building)
-            room = rooms.get(number = responseForm.cleaned_data['room_number'])
+                if (len(rooms) != 0):
+                    formsToRender.append(StudentInfoForm())
+                    formsToRender[-1].forBaseRoom(rooms[0])
+                for i in range(1,len(rooms)):
+                    formsToRender.append(StudentInfoForm())
+                    formsToRender[-1].forAdditionalRoom(rooms[i])
+                headerText = "Placing students in Apartment " + name[1]
             
-            roomsToRender = [room]
+            else:
+                rooms = Room.objects.filter(building = building)
+
             
-            baseForm = StudentInfoForm()
-            baseForm.forBaseRoom(room)
-            
-            
-            formsToRender = [baseForm]
-            print(room.pull)
-            if(room.pull != '' and rooms.get(number = room.pull).available == True):
-                additionalForm = StudentInfoForm()
-                pullRoom = rooms.get(number = room.pull)
-                roomsToRender.append(pullRoom)
-                additionalForm.forAdditionalRoom(pullRoom)
-                formsToRender.append(additionalForm)
-            
-            headerText = "Placing student in  " + \
-                str(responseForm.cleaned_data['name']) + \
-                " " + str(responseForm.cleaned_data['room_number'])
-           
+                room = rooms.get(number = responseForm.cleaned_data['room_number'])
+
+                roomsToRender.append(room)
+
+                baseForm = StudentInfoForm()
+                baseForm.forBaseRoom(room)
+
+                formsToRender = [baseForm]
+                if(room.pull != '' and room.pull != ' ' and rooms.get(number = room.pull).available == True):
+                    additionalForm = StudentInfoForm()
+                    pullRoom = rooms.get(number = room.pull)
+                    roomsToRender.append(pullRoom)
+                    additionalForm.forAdditionalRoom(pullRoom)
+                    formsToRender.append(additionalForm)
+
+                headerText = "Placing student in  " + \
+                    str(responseForm.cleaned_data['name']) + \
+                    " " + str(responseForm.cleaned_data['room_number'])
+
 
             try:
                 number = LotteryNumber.objects.latest()
@@ -168,7 +186,7 @@ def StudentInfo(request):
             return render(request,
                           'staff/select/studentInfo.html',
                           {'HeaderText' : headerText, 
-                           'Action' : reverse('select'),
+                           'Action' : reverse('room-select-confirm'),
                            'LotteryNumber' : number, 
                            'Rooms' : roomsToRender,
                            'Forms' : formsToRender})
@@ -241,13 +259,7 @@ def suiteConfirm(request):
         
     
     # todo: when select page is addded action should go there
-    return render(request, 
-                  'staff/confirmSelection.html',
-                  {'HeaderText' : "Confirm Suite Selection Details", 
-
-                   'Action' : reverse('select'),
-                   'LotteryNumber' : number, 
-                   'form' : None})
+    return select(request)
 
 @login_required
 def ConfirmSelection(request):
@@ -308,12 +320,7 @@ def ConfirmSelection(request):
     except:
         number = ""
         
-    return render(request, 
-                  'staff/ConfirmSelection.html',
-                  {'HeaderText' : "Confirm this Room Selection Please", 
-                   'Action' : reverse('room-select'),
-                   'LotteryNumber' : number, 
-                   'form' : None})
+    return select(request)
 
 @login_required
 def edit(request):
@@ -358,8 +365,10 @@ def editBuilding(request):
         if form.is_valid():
             form.save()
             return render(request,
-                          'staff/edit.html', 
-                          {'LotteryNumber': number,'form' : form})
+                          'staff/edit/edit.html', 
+                          {'LotteryNumber': number,
+                           'Action': reverse('edit-building'),
+                           'form' : form})
     form = editBuildingForm()
     return render(request, 
                   'staff/edit/building.html', 

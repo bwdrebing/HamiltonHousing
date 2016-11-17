@@ -2,8 +2,11 @@ from django import forms
 from .models import LotteryNumber
 from .models import Building
 from .models import Room
+from .models import Apartment
 from .models import Transaction
 from django.contrib.auth.models import User
+
+import datetime
 
 class LotteryNumberForm(forms.ModelForm):
 
@@ -22,6 +25,10 @@ class BuildingForm(forms.Form):
         buildingChoices = [(o.name, o.name) for o in buildings]
         buildingChoices.insert(0,('','-- Select a Building --')) 
 
+        apartments = list(Apartment.objects.all())
+        apartmentChoices = [("Apartment " + apt.number, apt.building) for apt in apartments]
+
+        rooms = list(Room.objects.filter(available=True, apartment = None).exclude(available_beds = 0))
         rooms = list(Room.objects.filter(available=True)
                                  .exclude(available_beds = 0)
                                  .exclude(room_type = 'B'))
@@ -30,7 +37,7 @@ class BuildingForm(forms.Form):
         roomChoices.insert(0,('',''))
         
         self.fields['name'].choices = buildingChoices 
-        self.fields['room_number'].choices = roomChoices
+        self.fields['room_number'].choices = roomChoices + apartmentChoices
 
 class ReviewTransactionForm(forms.Form):
     name = forms.ChoiceField()
@@ -42,12 +49,13 @@ class ReviewTransactionForm(forms.Form):
         buildingChoices = [(o.name, o.name) for o in list(Building.objects.all())]
         buildingChoices.insert(0,('','-- Select a Building --')) 
 
+
         rooms = list(Room.objects.filter(available=False))
         roomChoices = [(o.number, o.building) for o in rooms]
         roomChoices.insert(0,('',''))
         
         self.fields['name'].choices = buildingChoices 
-        self.fields['room_number'].choices = roomChoices
+        self.fields['room_number'].choices = roomChoices 
         
 class suiteInfoForm(forms.Form):
     """A form allowing a user to choose a building and room number that corresponds to a block"""
@@ -154,10 +162,10 @@ class StudentInfoForm(forms.Form):
             self.fields[prefix + 'Number' + str(i)] = lotteryNumber
             self.studentFields[i].append(self.__getitem__(prefix + 'Number' + str(i)))
 
-            
+            now = datetime.datetime.now()
             classYear = forms.ChoiceField(
                 label = 'Resident #' + str(i+1) + ' Class Year',
-                choices = [(num, num) for num in range (2014, 2019)]
+                choices = [(num, num) for num in range (now.year, now.year+5)]
                 )
             self.fields[prefix + 'Year'+str(i)] = classYear
             self.studentFields[i].append(self.__getitem__(prefix + 'Year' + str(i)))
@@ -207,9 +215,10 @@ class ReviewStudentInfoForm(forms.Form):
                     widget = forms.HiddenInput(),
                 )
 
+            now = datetime.datetime.now()
             self.fields['Year'+str(i)] = forms.ChoiceField(
                 label = 'Resident #' + str(i+1) + ' Class Year',
-                choices = [(num, num) for num in range (2014, 2019)],
+                choices = [(num, num) for num in range (now.year, now.year+5)],
                 initial = transaction_rooms[i].Pullee_Year
                 )
 
@@ -239,7 +248,7 @@ class editRoomForm(forms.ModelForm):
         buildingChoices = [(o.name, o.name) for o in list(Building.objects.all())]
         buildingChoices.insert(0,('','-- Select a Building --')) 
 
-        rooms = list(Room.objects.filter(available=True).exclude(available_beds = 0))
+        rooms = list(Room.objects.all())
         roomChoices = [(o.number, o.building) for o in rooms]
         
         self.fields['name'].choices = buildingChoices 
