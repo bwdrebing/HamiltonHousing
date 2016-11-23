@@ -1,0 +1,135 @@
+#sidebar-title {
+    margin-bottom: 18px;
+}
+
+body, html, .row-offcanvas {
+    height:100%;
+    overflow-x: hidden;
+}
+
+body {
+    padding-top: 85px;
+}
+
+#sidebar {
+  width: inherit;
+  min-width: 250px;
+  max-width: 250px;
+  background-color: #a9a9a9;
+  float: left;
+  height:100%;
+  position:relative;
+  overflow-y:auto;
+  overflow-x:hidden;
+  color: white;
+}
+
+.sidebar-link {
+    color: white;
+    font-family: 'Amiko', sans-serif;
+    text-transform: uppercase;
+}
+
+.sidebar-nav-item:hover,
+.sidebar-nav-item:focus,
+.sidebar-nav-item:active {
+    background-color: #a9a9a9;
+    color: #002f86;
+    border-radius: 0;
+}
+
+.sidebar-nav-item > .sidebar-link:focus,
+.sidebar-nav-item > .sidebar-link:active,
+.sidebar-nav-item > .sidebar-link:hover {
+    background-color: #a9a9a9;
+    color: #002f86;
+    border-radius: 0;
+}
+
+
+.sidebar-nav-item.active > .sidebar-link,
+.sidebar-nav-item.active > .sidebar-link:focus,
+.sidebar-nav-item.active > .sidebar-link:active,
+.sidebar-nav-item.active > .sidebar-link:hover {
+    background-color: #a9a9a9;
+    color: #002f86;
+    border-radius: 0;
+}
+
+.sidebar-nav-item.all-rooms {
+    background-color: white;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.sidebar-link.all-rooms-link {
+    color: black;
+    font-family: 'Amiko', sans-serif;
+    text-transform: none;
+}
+
+.sidebar-nav-item.all-rooms > a:hover,
+.sidebar-nav-item.all-rooms > a:active,
+.sidebar-nav-item.all-rooms > a:focus {
+    background-color: #002f86;
+    color: white;
+    border-radius: 0;
+}
+
+#main {
+    height: 100%;
+    overflow: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/*
+.sidebar-search {
+    border: 1px solid;
+    border-color: dimgray;
+    border-radius: 0;
+    background-color: #f1f1f1;
+}
+
+.sidebar-search:hover {
+    border: 1px solid;
+    border-color: #fbbd19;
+    background-color: white;
+}
+
+.sidebar-search:focus {
+    border: 1px solid;
+    border-color: #fbbd19;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(251, 189, 25, 0.6);
+    background-color: white;
+}*/
+
+/*
+ * off Canvas sidebar
+ * --------------------------------------------------
+ */
+@media screen and (max-width: 765px) {
+  .row-offcanvas {
+    position: relative;
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+    width:calc(100% + 250px);
+
+  }
+    
+  .row-offcanvas-left
+  {
+    left: -250px;
+  }
+
+  .row-offcanvas-left.active {
+        left: 0;
+  }
+
+  .sidebar-offcanvas {
+        position: absolute;
+        top: 0;
+  }
+}

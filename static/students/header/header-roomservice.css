@@ -1,0 +1,109 @@
+.navbar-toggle {
+    border: none;
+    outline: none;
+    border-radius: 0px;
+    float: left;
+    margin-bottom: 0px;
+    margin-right: 8px;
+}
+
+.navbar-toggle > span {
+    background-color: white;
+}
+
+.navbar-toggle:hover > span,
+.navbar-toggle:active > span {
+    background-color: #d6ba8b;
+}
+    
+
+.header {
+    min-height: 80px;
+    background-color: #002f86;
+    color: white;
+    border: none;
+}
+
+
+
+@font-face {
+    font-family: "Bodoni 72 Book";
+    src: url("/static/students/fonts/Bodoni72Book.ttf") format("truetype");
+}
+
+@media screen and (max-width: 360px) {
+    .navbar-site-name {
+        color: white;
+        font-family: 'Bodoni 72 Book', serif;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 20pt;
+    }
+    
+    .navbar-text {
+        font-size: 12pt;
+        margin-right: 10px;
+        color: white;
+        font-family: 'Amiko', sans-serif;
+        font-weight: 300;
+        letter-spacing: .5px;
+        line-height: 25px; /* looks weirdly off center without this line */
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+}
+
+@media screen and (max-width: 765px) and (min-width: 361px) {
+    .navbar-site-name {
+        color: white;
+        font-family: 'Bodoni 72 Book', serif;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 22pt;
+    }
+    
+    .navbar-text {
+        font-size: 14pt;
+        margin-right: 10px;
+        color: white;
+        font-family: 'Amiko', sans-serif;
+        font-weight: 300;
+        letter-spacing: .5px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    
+}
+
+@media screen and (min-width: 765px) {
+    .navbar-site-name {
+        color: white;
+        font-family: 'Bodoni 72 Book', serif;
+        padding-left: 20px;
+        margin-bottom: 0px;
+        margin-top: 0px;
+        font-size: 30pt;
+    }
+    
+    .navbar-text {
+        font-size: 18pt;
+        margin-right: 10px;
+        color: white;
+        font-family: 'Amiko', sans-serif;
+        font-weight: 300;
+        letter-spacing: .5px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+}
+
+.navbar-site-name:hover,
+.navbar-site-name:focus,
+.navbar-site-name:active {
+    color: #d6ba8b;
+}
+
+#header-container {
+    margin-bottom: 18px;
+    margin-top: 20px;
+}

@@ -1,0 +1,64 @@
+a {
+    color: #d1d1d1;
+}
+
+a:hover,
+a.active {
+    color: #002f86;
+    text-decoration: none;
+}
+
+#home-jumbotron {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.landing-panel-title {
+    border-radius: 0;
+    border: none;
+    margin: 0px;
+}
+
+.landing-panel {
+    border-radius: 0;
+    color: white;
+    border: none;
+    background-color: #a9a9a9;
+    margin-bottom: 30px;
+}
+
+.landing-panel-heading {
+    background-color: #a9a9a9;
+    border-radius: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+/* hover colors */
+.landing-panel-button:hover > .landing-panel-heading {
+    background-color: #002f86;
+}
+
+.yellow-line {
+    border-color: #cdcdcd;
+    margin-bottom: 30px;
+}
+
+.landing-panel-toggle:hover {
+    cursor: pointer; 
+    cursor: hand;
+}
+
+.landing-panel-toggle > .landing-panel-heading:hover > h3 > span {
+    color: #cdcdcd;
+    
+    /* apparently different browsers use different names */
+    cursor: pointer; 
+    cursor: hand;
+}
+
+.h4-panel {
+    margin-top: 0px;
+}
