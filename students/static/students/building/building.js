@@ -2,7 +2,7 @@
 //  initialize floor plan zoom plugin
 // -------------------------------------------
 jQuery(function($){
-    $('.table').footable();
+    $('.footable').footable();
 });
 
 // -------------------------------------------

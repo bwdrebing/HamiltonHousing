@@ -43,19 +43,14 @@ def get_rooms_by_floor(rooms):
     """
     
     # initialize dictionary to organize rooms by floor for filtering
-    rooms_dict = collections.OrderedDict()
-    show_gender = False
-    show_pull = False
-    show_notes = False
+    rooms_list = []
+    apts_dict = collections.OrderedDict()
     room_types = []
     floors = []
         
     # loop through rooms to calculate building stats & organize rooms by floor
     for room in rooms:
         floor = room.floor
-        show_gender = (show_gender or (room.gender != 'E'))
-        show_pull = (show_pull or room.pull)
-        show_notes = (show_notes or room.notes)
         
         if floor not in floors:
             floors.append(floor)
@@ -65,21 +60,19 @@ def get_rooms_by_floor(rooms):
             
         # if this room is in an apartment
         if room.apartment:
-            show_gender = (show_gender or (room.apartment.gender != 'E'))
-            show_notes = (show_notes or room.apartment.notes)
             
             # if the apartment is already in the dict
-            if room.apartment.number in rooms_dict:
-                rooms_dict[room.apartment.number].append(room)
+            if room.apartment.number in apts_dict:
+                apts_dict[room.apartment.number].append(room)
                     
             # if this specific apt has not been initialized
             else:
-                rooms_dict[room.apartment.number] = [room]
+                apts_dict[room.apartment.number] = [room]
                                                                 
         else:
-            rooms_dict[room.number] = [room]
+            rooms_list.append(room)
                 
-    return (rooms_dict, show_gender, show_pull, show_notes, room_types, floors)     
+    return (rooms_list, apts_dict, room_types, floors)     
 
 # Building page view
 def building(request, building_name):
@@ -97,7 +90,7 @@ def building(request, building_name):
     # all the floor images associated with this building 
     floor_images = list(bldg.floor_plans.all().order_by('floor'))
     
-    rooms, show_gender, show_pull, show_notes, room_types, floors = get_rooms_by_floor(rooms)
+    rooms, apts, room_types, floors = get_rooms_by_floor(rooms)
     
     # get next lottery number for header
     try:
@@ -109,9 +102,7 @@ def building(request, building_name):
                   'students/building.html', 
                   {'current_building': bldg,
                    'rooms': rooms, 
-                   'show_gender': show_gender,
-                   'show_pull': show_pull,
-                   'show_notes': show_notes,
+                   'apts': apts,
                    'room_types': room_types,
                    'floors': floors,
                    'buildings': building_list,

@@ -22,7 +22,7 @@
     <!-- Custom styles for this template - sidebar, etc. -->
     <link href="/static/students/sidebar/sidebar-roomservice.css" rel="stylesheet">
     <link href="/static/students/header/header-roomservice.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed|Roboto|Amiko|Libre+Franklin|Proza+Libre|Rubik|Playfair+Display|Montserrat|Work+Sans|Space+Mono|Neuton" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Amiko|Khula:300|Montserrat:400,700|Proza+Libre" rel="stylesheet">
       
     {% block custom-css %}
         <link href="/static/students/home/home-roomservice.css" rel="stylesheet">
@@ -55,6 +55,7 @@
                     Let the search begin!
                 {% endif %}
                 </h1>
+              
                 <p class="lead">
                 {% if pageContent %}
                     {{ pageContent.header_subtext|linebreaksbr }}
@@ -70,16 +71,15 @@
                 <hr class="yellow-line">
           </div>
 
-
           <div class="col-md-6">
-              <div class="landing-panel panel landing-panel-button hidden-md hidden-lg">
+              <div class="landing-panel panel landing-panel-button hidden-sm hidden-md hidden-lg">
                 <div class="landing-panel-heading container-fluid" data-toggle="offcanvas" data-target=".sidebar" href="#" style="clear: both;">
                     <h3 class="landing-panel-title" style="float: left;">Start Your Search</h3>
                     <h3 class="landing-panel-title" style="float: right;"><span class="glyphicon glyphicon-chevron-right"></span></h3>
                   </div>
               </div>
               
-              <a href="{% url 'faq' %}" class="nodecor" id="faq-button">
+              <a href="{% url 'faq' %}" class="nodecor hidden-sm hidden-md hidden-lg" id="faq-button">
                    <div class="landing-panel panel landing-panel-button nodecor">
                        <div class="landing-panel-heading container-fluid nodecor" style="clear: both;">
                            <h3 class="landing-panel-title" style="float: left;">FAQ</h3>
@@ -87,6 +87,16 @@
                         </div>
                    </div>
               </a>
+              
+               <a href="{% url 'faq' %}" class="nodecor hidden-xs" id="faq-button">
+                   <div class="landing-panel panel landing-panel-button nodecor">
+                       <div class="landing-panel-heading container-fluid nodecor" style="clear: both;">
+                           <h3 class="landing-panel-title" style="float: left;">Frequently Asked Questions</h3>
+                           <h3 class="landing-panel-title" style="float: right;"><span class="glyphicon glyphicon-chevron-right"></span></h3>
+                        </div>
+                   </div>
+              </a>
+              
           </div>
 
           <div class="col-md-6">

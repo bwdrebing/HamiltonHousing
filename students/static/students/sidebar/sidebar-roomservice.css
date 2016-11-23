@@ -3,12 +3,21 @@
 }
 
 body, html, .row-offcanvas {
-  height:100%;
+  height: 100%;
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
-body {
-  padding-top: 85px;
+@media screen and (max-width: 765px) {
+    body {
+        padding-top: 60px;
+    }
+}
+
+@media screen and (min-width: 765px) {
+    body {
+        padding-top: 80px;
+    }
 }
 
 #sidebar {
@@ -17,10 +26,10 @@ body {
   max-width: 250px;
   background-color: #a9a9a9;
   float: left;
-  height:100%;
-  position:relative;
-  overflow-y:auto;
-  overflow-x:hidden;
+  height: 100%;
+  position: relative;
+  overflow-y: scroll;
+  overflow-x: hidden;
   color: white;
 }
 
@@ -65,7 +74,6 @@ body {
 
 .sidebar-link.all-rooms-link {
     color: black;
-    font-family: 'Amiko', sans-serif;
     text-transform: none;
 }
 
@@ -79,7 +87,8 @@ body {
 
 #main {
     height: 100%;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: scroll;
     padding-left: 10px;
     padding-right: 10px;
 }
@@ -109,26 +118,24 @@ body {
  * off Canvas sidebar
  * --------------------------------------------------
  */
-@media screen and (max-width: 765px) {
-  .row-offcanvas {
-    position: relative;
-    -webkit-transition: all 0.2s ease-out;
-    -moz-transition: all 0.2s ease-out;
-    transition: all 0.2s ease-out;
-    width:calc(100% + 250px);
-  }
-    
-  .row-offcanvas-left
-  {
-    left: -250px;
-  }
+.row-offcanvas {
+position: relative;
+-webkit-transition: all 0.2s ease-out;
+-moz-transition: all 0.2s ease-out;
+transition: all 0.2s ease-out;
+width:calc(100% + 250px);
+}
 
-  .row-offcanvas-left.active {
-    left: 0;
-  }
+.row-offcanvas-left
+{
+left: -250px;
+}
 
-  .sidebar-offcanvas {
-    position: absolute;
-    top: 0;
-  }
+.row-offcanvas-left.active {
+left: 0;
+}
+
+.sidebar-offcanvas {
+position: absolute;
+top: 0;
 }
