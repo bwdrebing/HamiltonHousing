@@ -1,0 +1,28 @@
+body{
+  overflow-y: hidden;
+}
+
+html {
+  overflow-y: hidden;
+}
+
+.floorplans {
+    position: fixed;
+    top: 5.5em;
+    background-color: dimgray;
+    border: solid medium black;
+    margin-right: 15px;
+}
+
+
+
+.thumbnails {
+  margin-left: -8px;
+
+}
+
+@media (max-width: 992px){
+    .floorplans {
+      position: absolute;
+      }
+}
