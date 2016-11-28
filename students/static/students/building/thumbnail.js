@@ -4,9 +4,8 @@ $('#thumbnail-gallery a').click(function() {
                 $(this).attr('data-zoom-image'));
     $('.active.thumbnail').removeClass('active');
     $(this).addClass('active');
-    
-    //Update floorplan title
-    $('#floor-name').text($(this, ".caption").text());
-     
-});
 
+    //Update floorplan title
+    $('#floor-name').text($(this).find(".thumbnail-label").attr("title"));
+
+});

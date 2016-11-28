@@ -1,0 +1,248 @@
+/* * {
+  -webkit-border-radius: 0 !important;
+     -moz-border-radius: 0 !important;
+          border-radius: 0 !important;
+}*/
+/*
+* {
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
+*/
+
+.building-tabs > a {
+    color: #002f86;
+}
+
+.building-tabs > a:hover,
+.building-tabs > a:active {
+    color: black;
+}
+
+#main {
+    background-color: white;
+}
+
+#page-title {
+    margin-bottom: 20px;
+}
+/*
+    font-family: 'Roboto', sans-serif;
+    font-size: 3.125em;
+    font-weight: 400;
+    line-height: 51px;
+    color: #545454;
+}*/
+
+.table-responsive {
+    padding-top: 12px;
+}
+
+.apt-room {
+    background-color: #fcfcfc;
+}
+
+.building-label {
+    background-color: #df744a;
+    border-radius: 6px;
+}
+
+/* panels */
+.panel {
+    background-color: #a9a9a9;
+    border: none;
+    border-radius: 0;
+    color: white;
+    font-size: 1.6rem;
+}
+
+.panel-title {
+    text-transform: uppercase;
+    font-family: 'Proza Libre', sans-serif;
+    /*font-weight: 300;*/
+    letter-spacing: 1.2px;
+   /* line-height: 1.7;*/
+    /*font-size: 1.5rem;*/
+    color: white;
+    border-radius: 0;
+    border: none;
+    border-color: #a9a9a9;
+}
+
+.stat-panel-heading {
+    background-color: #a9a9a9;
+    border: none;
+    border-radius: 0;
+    color: white;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    padding-bottom: 5px;
+}
+
+.panel-green {
+    background-color: #efefef;
+    border: none;
+    border-radius: 0;
+    color: #a9a9a9;
+}
+
+.nodecor:hover {
+    text-decoration: none;
+}
+
+.panel-title-green {
+    text-transform: uppercase;
+    font-family: 'Proza Libre', sans-serif;
+    font-weight: 300;
+    letter-spacing: 1.2px;
+    line-height: 1.7;
+    font-size: 1.5rem;
+    color: #a9a9a9;
+    border-radius: 0;
+    border: 0;
+    margin-bottom: 10px;
+    margin-top: 0px;
+}
+
+/* hover colors */
+.stat-panel-heading-green:hover {
+    background-color: #002f86;
+}
+
+.stat-panel-heading-green:hover > #floorplan-photo-icon,
+.stat-panel-heading-green:hover > .panel-title-green {
+    color: white;
+}
+
+.stat-panel-heading-green {
+    background-color: #efefef;
+    border: none;
+    border-radius: 0;
+    color: #a9a9a9;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    padding-bottom: 5px;
+}
+
+#floorplan-photo-icon {
+    float: left;
+    display: inline;
+    padding-right: 12px;
+    margin-right: 12px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-top: auto;
+    margin-bottom: auto;
+    border-right: 1px solid #a9a9a9;
+}
+
+.room-filter {
+    border-radius: 0px;
+    border: 1px solid;
+    border-color: lightgray;
+}
+
+.room-list-filter {
+    border-radius: 0px;
+    border: 1px solid;
+    border-color: lightgray;
+}
+
+.filter-row {
+    margin-top: 10px;
+}
+
+.dropdown-toggle {
+    border-radius: 0px;
+    border: none;
+}
+
+.bootstrap-select {
+    margin-bottom: 10px;
+}
+
+.table-parent {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* -------------------------
+       Floor Plan Images
+   ------------------------- */
+.right-content{
+    float: right;
+}
+
+.floorplans{
+   position: inherit;
+   padding-top: 15px;
+   background-color: #a9a9a9;
+   margin-bottom: 15px;
+   margin-left: -15px;
+   margin-right: -15px;
+   padding-left: 5px;
+   padding-right: 5px;
+   float: right;
+}
+.thumbnails {
+   margin-left: -4px;
+   margin-right: -4px;
+   padding-right: 8px;
+   display:table;
+   border-collapse: collapse;
+}
+
+.thumbnail-label {
+    top:0;
+    left:0;
+    position: absolute;
+    color: #333;
+    padding 0px;
+}
+
+.thumb-div {
+    padding-right: 4px;
+    padding-left: 4px;
+    display: table-cell;
+    vertical-align: top;
+}
+
+.thumb-div img{
+  display: block;
+  width:100%;
+}
+
+.thumbnail {
+    border-radius: 0;
+    position:relative;
+    text-align: left;
+    vertical-align: middle;
+}
+
+/* get rid of upper margin only when the floor plan/room panels are displaying next to each other */
+@media (min-width: 992px) {
+    #floorPlanName {
+        margin-top: 0px;
+    }
+    /* Fix the floorplan viewer to the top corner */
+    .floorplans{
+      position: fixed;
+      top:80px;
+      height: 100%;
+      margin-right: 15px;
+    }
+
+    /* Shift the thumbnail labels down a bit */
+    .thumbnail-label{
+      padding: 5px;
+    }
+}
+
+
+/*set a border on the images to prevent shifting*/
+ #thumbnail-gallery img {
+     border:2px solid white;
+}

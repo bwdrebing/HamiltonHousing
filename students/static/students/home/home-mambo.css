@@ -11,14 +11,14 @@
 
 .landing-panel {
     border-radius: 0;
-    color: black;
+    color: white;
     border: none;
-    background-color: lightgray;
+    background-color: #93c178;
     margin-bottom: 30px;
 }
 
 .landing-panel-heading {
-    background-color: lightgray;
+    background-color: #93c178;
     border-radius: 0;
     padding-left: 15px;
     padding-right: 15px;
@@ -26,13 +26,17 @@
     padding-bottom: 15px;
 }
 
+.landing-panel > panel-body > a {
+    color: lightgray;
+}
+
 .yellow-line {
-    border-color: #fbbd19;
+    border-color: #fbed46;
     margin-bottom: 30px;
 }
 
-.landing-panel-toggle > .landing-panel-heading:hover {
-    color: darkgray;
+.landing-panel-toggle > .landing-panel-heading:hover > h3 > span {
+    color: #465c8b;
     
     /* apparently different browsers use different names */
     cursor: pointer; 

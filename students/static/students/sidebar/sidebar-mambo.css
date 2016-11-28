@@ -14,7 +14,7 @@ body {
   width: inherit;
   min-width: 250px;
   max-width: 250px;
-  background-color: dimgray;
+  background-color: #465c8b;
   float: left;
   height:100%;
   position:relative;
@@ -25,35 +25,54 @@ body {
 
 .sidebar-link {
     color: white;
+    font-family: 'Amiko', sans-serif;
+    text-transform: uppercase;
 }
 
-.sidebar-link:hover {
-    color: black;
+.sidebar-nav-item:hover,
+.sidebar-nav-item:focus,
+.sidebar-nav-item:active {
+    background-color: #465c8b;
+    color: #fbed46;
     border-radius: 0;
 }
 
+.sidebar-nav-item > .sidebar-link:focus,
+.sidebar-nav-item > .sidebar-link:active,
+.sidebar-nav-item > .sidebar-link:hover {
+    background-color: #465c8b;
+    color: #fbed46;
+    border-radius: 0;
+}
+
+
 .sidebar-nav-item.active > .sidebar-link,
-.sidebar-nav-item.active > .sidebar-link:hover,
 .sidebar-nav-item.active > .sidebar-link:focus,
-.sidebar-nav-item.active > .sidebar-link:active
-{
-    background-color: lightgray;
-    color: black;
+.sidebar-nav-item.active > .sidebar-link:active,
+.sidebar-nav-item.active > .sidebar-link:hover {
+    background-color: #465c8b;
+    color: #fbed46;
     border-radius: 0;
 }
 
 .sidebar-nav-item.all-rooms {
-    background-color: black;
+    background-color: white;
     margin-top: 20px;
     margin-bottom: 15px;
     width: 100%;
 }
 
+.sidebar-link.all-rooms-link {
+    color: black;
+    font-family: 'Helvetica', sans-serif;
+    text-transform: none;
+}
+
 .sidebar-nav-item.all-rooms > a:hover,
 .sidebar-nav-item.all-rooms > a:active,
 .sidebar-nav-item.all-rooms > a:focus {
-    background-color: #fbbd19;
-    color: black;
+    background-color: #93c178;
+    color: white;
     border-radius: 0;
 }
 
@@ -64,6 +83,7 @@ body {
     padding-right: 10px;
 }
 
+/*
 .sidebar-search {
     border: 1px solid;
     border-color: dimgray;
@@ -77,13 +97,12 @@ body {
     background-color: white;
 }
 
-/* when the sidebar is in use */
 .sidebar-search:focus {
     border: 1px solid;
     border-color: #fbbd19;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(251, 189, 25, 0.6);
     background-color: white;
-}
+}*/
 
 /*
  * off Canvas sidebar

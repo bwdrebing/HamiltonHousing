@@ -5,9 +5,7 @@ from datetime import datetime
 
 class LotteryNumber(models.Model):
     number = models.PositiveSmallIntegerField()
-    created = models.DateTimeField(auto_now_add=True,
-                                   blank=True,
-                                   db_index=True)
+    created = models.DateTimeField(auto_now_add=True, blank=True, db_index=True)
 
     def __str__(self):
         return str(self.number)
@@ -115,7 +113,7 @@ class FloorPlan(models.Model):
     thumbnail_name = models.CharField(
         max_length = 15,
         default="",
-        help_text="This will be the title shown of this floorplan's thumbnail Ex. West Flr 1 \n (Use the display name if this field is left blank.)"
+        help_text="This will be the title shown of this floorplan's thumbnail Ex. Fl. 1 (west) \n (Use the display name if this field is left blank.)"
     )
 
     image = models.ImageField(

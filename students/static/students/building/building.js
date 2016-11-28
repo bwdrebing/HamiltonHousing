@@ -1,3 +1,32 @@
+// -------------------------------------------
+//  initialize floor plan zoom plugin
+// -------------------------------------------
+jQuery(function($){
+    $('.footable').footable();
+});
+
+// -------------------------------------------
+//  apartment dropdowns
+// -------------------------------------------
+$('.table-hoverable').click(function () {
+    $(this).nextUntil('.table-dropdown').slideToggle('normal');
+    $(this).find("span").toggleClass("glyphicon-menu-up");
+    $(this).find("span").toggleClass("glyphicon-menu-down");
+});
+
+$('.table-hoverable').hover(
+    function () {
+        $(this).addClass('active');
+    }, 
+    
+    function () {
+        $(this).removeClass('active');
+    }
+);
+
+// -------------------------------------------
+//  filtering functions
+// -------------------------------------------
 $(".room-filter").change(function () {
     var value1 = $("#floorFilter").val();
     var value2 = $("#roomTypeFilter").val();
@@ -8,13 +37,13 @@ $(".room-filter").change(function () {
         return;
     }
     
-    if (value1 == "all") {
+    if (value1 == "all" && value2 != "all") {
         $(".room-list tr:not(." + value1 + ")").hide();
         $("." + value2).show();
         return;
     }
     
-    if (value2 == "all") {
+    if (value2 == "all" && value1 != "all") {
         $(".room-list tr:not(." + value2 + ")").hide();
         $("." + value1).show();
         return;
@@ -58,7 +87,6 @@ $(".room-type-filter").on("loaded.bs.select", function (e) {
 $(".building-filter").on("changed.bs.select", function(e, clickedIndex, newValue, oldValue) {
     if (building_selected.length == 0) {
         building_selected.push(building_values[clickedIndex]);
-        console.log("hiding anything without class ", building_values[clickedIndex]);
         $(".room-list tr:not(." + building_values[clickedIndex] + ")").hide();
         return;
     }
@@ -67,6 +95,14 @@ $(".building-filter").on("changed.bs.select", function(e, clickedIndex, newValue
     if (newValue) {
         building_selected.push(building_values[clickedIndex]);
         building_selected.forEach(function (value) {
+            if (room_type_selected.length != 0) {
+                room_type_selected.forEach(function (value2) {
+                    $(".room-list tr." + value + "." + value2).show();
+                });
+                
+                return;
+            }
+            
             $(".room-list tr." + value).show();
         });
         return;
@@ -78,7 +114,15 @@ $(".building-filter").on("changed.bs.select", function(e, clickedIndex, newValue
         
         /* now nothing is building_selected */
         if (building_selected.length == 0) {
-            $(".room-list tr:not(.apt-room)").show();
+            if (room_type_selected.length != 0) {
+                room_type_selected.forEach(function (value) {
+                    $(".room-list tr." + value).show();
+                });
+                
+                return;
+            }
+            
+            $(".room-list tr:not(apt-room)").show();
             return;
         }
         
@@ -89,13 +133,10 @@ $(".building-filter").on("changed.bs.select", function(e, clickedIndex, newValue
 
 /* when the building-filter is changed, the rows in the table will be hidden or shown */
 $(".room-type-filter").on("changed.bs.select", function(e, clickedIndex, newValue, oldValue) {
-    console.log("newValue ", newValue);
-    console.log("oldValue ", oldValue);
     
     /* the first value to filter by */
     if (room_type_selected.length == 0) {
         room_type_selected.push(room_type_values[clickedIndex]);
-        console.log("hiding anything without class ", room_type_values[clickedIndex]);
         $(".room-list tr:not(." + room_type_values[clickedIndex] + ")").hide();
         return;
     }
@@ -108,6 +149,7 @@ $(".room-type-filter").on("changed.bs.select", function(e, clickedIndex, newValu
                 building_selected.forEach(function (value2) {
                     $(".room-list tr." + value + "." + value2).show();
                 });
+                
                 return;
             }
             

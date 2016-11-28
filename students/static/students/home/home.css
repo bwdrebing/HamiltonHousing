@@ -31,7 +31,7 @@
     margin-bottom: 30px;
 }
 
-.landing-panel-heading:hover {
+.landing-panel-toggle > .landing-panel-heading:hover {
     color: darkgray;
     
     /* apparently different browsers use different names */
