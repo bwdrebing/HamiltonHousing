@@ -376,7 +376,7 @@ def editBuilding(request):
                   {'LotteryNumber': number,'form' : form})
 
 @login_required
-def editRoom(request):
+def editRoomSelect(request):
     """Displays a form that allows user to edit certain room attributes - available, notes, etc."""
     # get next lottery number for header
     try:
@@ -386,16 +386,42 @@ def editRoom(request):
 
     if request.method == "POST":
         #form = editBuildingForm(request.POST, instance = building)
-        current_building = Building.objects.get(name=request.POST["building"])
-        current_number = Room.objects.get(name = request.POST["room_number"])
-        current_room = [current_building, current_number]
-        form = editRoomForm(request.POST, instance = current_room)
+        current_building = Building.objects.get(name=request.POST["name"])
+        current_room = Room.objects.get(number = request.POST["room_number"], building = current_building)
+        print(current_room)
+        form = editRoomFormB(instance = current_room)
+        #if form.is_valid():
+        #    form.save()
+        return render(request,
+            'staff/edit/roomSelect.html',
+            {'LotteryNumber': number,
+             'Action': reverse('edit-room-change'),
+             'form' : form})
+    form = editRoomFormA()
+    return render(request,
+                  'staff/edit/roomSelect.html',
+                  {'LotteryNumber': number,'form' : form})
+
+@login_required
+def editRoomChange(request):
+    """Displays a form that allows user to edit certain room attributes - available, notes, etc."""
+    # get next lottery number for header
+    try:
+        number = LotteryNumber.objects.latest()
+    except:
+        number = ""
+
+    if request.method == "POST":
+        #form = editBuildingForm(request.POST, instance = building)
+        current_building = Building.objects.get(id=request.POST["building"])
+        current_room = Room.objects.get(number = request.POST["number"], building = current_building)
+        form = editRoomFormB(request.POST, instance = current_room)
         if form.is_valid():
             form.save()
             return render(request,
-                          'staff/edit.html',
-                          {'LotteryNumber': number,'form' : form})
-    form = editRoomForm()
+                  'staff/edit/edit.html',
+                  {'LotteryNumber': number})
+    form = editRoomFormB()
     return render(request,
                   'staff/edit/room.html',
                   {'LotteryNumber': number,'form' : form})

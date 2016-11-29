@@ -4,7 +4,6 @@ $(document).ready(function () {
   });
     
   $('#main').click(function() {
-    
     $('.row-offcanvas').removeClass('active');
   });
 });

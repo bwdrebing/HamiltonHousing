@@ -140,7 +140,7 @@ def make_room_available(modeladmin, request, queryset):
 # Action for admin page
 def make_room_unavailable(modeladmin, request, queryset):
     """Adds action to Room admin page - make rooms unavailable"""
-    queryset.update(unavailable=True)
+    queryset.update(available=False)
     
 # Action for admin page (not sure if this will be useful for the future
 def make_all_beds_available(modeladmin, request, queryset):

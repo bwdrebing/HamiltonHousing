@@ -20,7 +20,8 @@ urlpatterns = [
     url(r'^edit/transaction/confirm$', views.ConfirmSelection, name='review-room-confirm'),
     url(r'^edit$', views.edit, name='edit'),
     url(r'^edit/building$', views.editBuilding, name = 'edit-building'),
-    url(r'^edit/room$', views.editRoom, name = 'edit-room'),
+    url(r'^edit/roomSelect$', views.editRoomSelect, name = 'edit-room-select'),
+    url(r'^edit/roomChange$', views.editRoomChange, name = 'edit-room-change'),
     
     # login/out
     url(r'^login', views.userLogin, name='login'),

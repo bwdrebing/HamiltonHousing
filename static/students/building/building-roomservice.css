@@ -11,13 +11,21 @@
 }
 */
 
+.building-tabs > a {
+    color: #002f86;
+}
+
+.building-tabs > a:hover,
+.building-tabs > a:active {
+    color: black;
+}
+
 #main {
     background-color: white;
 }
 
 #page-title {
-    margin-bottom: 20px; 
-    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 20px;
 }
 /*
     font-family: 'Roboto', sans-serif;   
@@ -38,7 +46,6 @@
 .building-label {
     background-color: #df744a; 
     border-radius: 6px;
-    font-family: 'Proza Libre', sans-serif;
 }
 
 /* panels */
@@ -47,17 +54,13 @@
     border: none;
     border-radius: 0;
     color: white;
-    font-family: 'Rasa', sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
 }
 
 .panel-title {
     text-transform: uppercase;
     font-family: 'Proza Libre', sans-serif;
-    /*font-weight: 300;*/
     letter-spacing: 1.2px;
-   /* line-height: 1.7;*/
-    /*font-size: 1.5rem;*/
     color: white;
     border-radius: 0;
     border: none;
@@ -80,11 +83,6 @@
     border: none;
     border-radius: 0;
     color: #a9a9a9;
-    font-family: 'Roboto Slab', sans-serif;
-}
-
-.panel-body {
-    font-family: 'Amiko', sans-serif; 
 }
 
 .nodecor:hover {
