@@ -1,8 +1,12 @@
-@media (min-width: 765px) {
+/*@media (min-width: 765px) {
     .navbar-toggle {
         margin-left: 10px;
         display: inline !important;
     }
+}*/
+
+.navbar-announcement {
+    margin-bottom: 0px;
 }
 
 .navbar-toggle {
@@ -32,7 +36,7 @@
 .navbar-toggle:active > span {
     background-color: #a9a9a9;
 }
-    
+
 .header {
     background-color: #002f86;
     color: white;
@@ -103,33 +107,33 @@
     .header {
         min-height: 60px;
     }
-    
+
     #header-container {
         height: 60px;
     }
-    
+
     .navbar-toggle {
         height: 60px;
     }
-    
+
     .navbar-brand-div {
         transform: translateX(-50%);
         left: 50%;
         position: absolute;
         height: 60px;
     }
-    
+
     .navbar-brand {
         padding: 0px;
         margin: 0px;
         margin-top: 5px;
     }
-    
+
     .navbar-site-name {
         line-height: 60px;
         font-size: 16pt;
     }
-    
+
     .navbar-text {
         padding-top: 5px;
         font-size: 12pt;
@@ -141,33 +145,33 @@
     .header {
         min-height: 60px;
     }
-    
+
     #header-container {
         height: 60px;
     }
-    
+
     .navbar-toggle {
         height: 60px;
     }
-    
+
     .navbar-brand-div {
         transform: translateX(-50%);
         left: 50%;
         position: absolute;
         height: 60px;
     }
-    
+
     .navbar-brand {
         padding: 0px;
         margin: 0px;
         margin-top: 5px;
     }
-    
+
     .navbar-site-name {
         line-height: 60px;
         font-size: 22pt;
     }
-    
+
     .navbar-text {
         padding-top: 5px;
         font-size: 14pt;
@@ -179,33 +183,33 @@
     .header {
         min-height: 80px;
     }
-    
+
     #header-container {
         height: 80px;
     }
-    
+
     .navbar-toggle {
         height: 80px;
     }
-    
+
     .navbar-brand-div {
         transform: translateX(-50%);
         left: 50%;
         position: absolute;
         height: 80px;
     }
-    
+
     .navbar-brand {
         padding: 0px;
         margin: 0px;
         padding-top: 5px;
     }
-    
+
     .navbar-site-name {
-        line-height: 80px; 
+        line-height: 80px;
         font-size: 30pt;
     }
-    
+
     .navbar-text {
         padding-top: 5px;
         font-size: 18pt;
@@ -221,5 +225,5 @@
 
 #header-container {
     margin-bottom: 0px;
-    padding-bottom: 0px; 
+    padding-bottom: 0px;
 }
