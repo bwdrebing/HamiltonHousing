@@ -39,6 +39,13 @@ class StudentPageContent(models.Model):
     
     active = models.BooleanField(default=True)
     
+    navbar_announcement = models.TextField(
+        max_length=200,
+        default='',
+        blank=True,
+        help_text="This announcement will be displayed in a thin bar below the header navigation bar"
+    )
+
     updated = models.DateTimeField(auto_now=True, blank=True)
     
     class Meta:
