@@ -10,13 +10,13 @@ body, html, .row-offcanvas {
 
 @media screen and (max-width: 765px) {
     body {
-        padding-top: 60px;
+        padding-top: 65px;
     }
 }
 
 @media screen and (min-width: 765px) {
     body {
-        padding-top: 80px;
+        padding-top: 85px;
     }
 }
 
