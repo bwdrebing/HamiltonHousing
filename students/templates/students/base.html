@@ -22,6 +22,7 @@
     <!-- Custom styles for this template - sidebar, etc. -->
     <link href="/static/students/sidebar/sidebar-roomservice.css" rel="stylesheet">
     <link href="/static/students/header/header-roomservice.css" rel="stylesheet">
+    <link href="/static/students/footer/footer.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Amiko|Khula:300|Montserrat:400,700|Proza+Libre" rel="stylesheet">
       
     {% block custom-css %}
@@ -35,7 +36,7 @@
     <![endif]-->
   </head>
 
-  <body>
+  <body style = "padding-bottom: 50px">
       {% block header %}
             {% include "students/header.html" %}
       {% endblock header %}
@@ -113,10 +114,13 @@
                 </div>
               </div>
           </div>
-
         {% endblock content %}
-      </div>
+          {% block footer %}
+                {% include "students/footer.html" %}
+          {% endblock footer %}
+        </div>
     </div><!--/row-offcanvas -->
+
 
 
     <!-- Bootstrap core JavaScript
@@ -130,13 +134,15 @@
     <!-- Script for collapsable side navigation -->
     <script src="/static/students/sidebar/sidebar.js"></script>
     <!-- Script for filtering building sidebar -->
-    <script src="/static/students/sidebar/sidebar-filter.js"></script>       
+    <script src="/static/students/sidebar/sidebar-filter.js"></script> 
+
+
       
     {% block custom-js %}
         <!-- Twitter Timeline
              ================================================== -->
         <script src="/static/students/assets/js/twitter-timeline.js"></script>
     {% endblock %}
-      
-  </body>
+    </body>
+    
 </html>
