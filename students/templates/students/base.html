@@ -48,7 +48,7 @@
 
       <div id="main">
           {% block content %}
-          <div class="col-md-12 text-center">
+          <div class="col-md-12 container-fluid">
               <div class="jumbotron" id="home-jumbotron">
                     <h1>
                     {% if pageContent %}
@@ -70,12 +70,20 @@
                             {{ pageContent.header_block_text|linebreaks }}
                         {% endif %}
                     {% endif %}
-                    <a class="btn btn-default btn-lg hidden-lg hidden-md" href="{% url 'faq' %}">FAQs</a>
-                    <a class="btn btn-default btn-lg hidden-lg hidden-md" data-toggle="offcanvas" data-target=".sidebar" href="#">Search</a>
+                    <p>
+                        <a type="button" class="btn btn-default btn-lg home-button" href="{% url 'faq' %}">
+                            FAQs
+                        </a>
+                        
+                        <button type="button" class="btn btn-default btn-lg home-button search-button" data-toggle="offcanvas" data-target=".sidebar">
+                            Search
+                        </button>
+                    </p>
+                    
               </div>
-              <hr class="yellow-line">
           </div><!--/container-->
 
+          {% comment %}
           <div class="col-md-6 hidden-xs hidden-sm">
               <div class="landing-panel panel landing-panel-button hidden-sm hidden-md hidden-lg">
                 <div class="landing-panel-heading container-fluid" data-toggle="offcanvas" data-target=".sidebar" href="#" style="clear: both;">
@@ -119,6 +127,7 @@
                 </div>
               </div><!--/panel-->
           </div><!--/col-->
+          {% endcomment %}
         {% endblock content %}
           {% block footer %}
                 {% include "students/footer.html" %}
@@ -138,10 +147,6 @@
     <script src="/static/students/assets/js/ie10-viewport-bug-workaround.js"></script>
     <!-- Script for collapsable side navigation -->
     <script src="/static/students/sidebar/sidebar.js"></script>
-    <!-- Script for filtering building sidebar -->
-    <script src="/static/students/sidebar/sidebar-filter.js"></script> 
-
-
       
     {% block custom-js %}
         <!-- Twitter Timeline

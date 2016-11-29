@@ -1,14 +1,21 @@
+
+@media screen and (min-width: 750px) {
+    .search-button {
+        display: none;   
+    }
+}
+
 #home-jumbotron {
     background-color: white;
 }
 
 a {
-    color: #d1d1d1;
+    color: #002f86;
 }
 
 a:hover,
 a.active {
-    color: #002f86;
+    color: #d1d1d1;
     text-decoration: none;
 }
 
