@@ -1,8 +1,12 @@
-@media (min-width: 765px) {
+/*@media (min-width: 765px) {
     .navbar-toggle {
         margin-left: 10px;
         display: inline !important;
     }
+}*/
+
+.navbar-announcement {
+    margin-bottom: 0px;
 }
 
 .navbar-toggle {

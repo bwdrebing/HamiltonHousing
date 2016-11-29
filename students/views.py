@@ -171,7 +171,20 @@ def contact(request):
         number = LotteryNumber.objects.latest()
     except:
         number = ""
-
+        
+    pageContent = StudentPageContent.objects.filter(active=True)
+    if (pageContent):
+        pageContent = pageContent.latest()
+    else:
+        pageContent = ""
+    
+    return render(request, 
+                  'students/contact.html', 
+                  {'buildings': building_list,
+                   'LotteryNumber': number,
+                   'pageContent': pageContent})
+    
+    """
     contact_form = ContactForm()
     submitted = False
     
@@ -213,4 +226,4 @@ def contact(request):
                   {'buildings': building_list,
                    'LotteryNumber': number,
                    'contact_form': contact_form,
-                   'submitted': submitted})
+                   'submitted': submitted})"""

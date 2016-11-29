@@ -1,15 +1,16 @@
-@media (min-width: 765px) {
-   .navbar-toggle {
-      margin-left: 10px;
-      display: inline !important;
-   }
-}
+/*@media (min-width: 765px) {
+    .navbar-toggle {
+        margin-left: 10px;
+        display: inline !important;
+    }
+}*/
 
 .navbar-toggle {
     border: none;
     outline: none;
     border-radius: 0px;
     float: left;
+    padding: 0px;
     margin-top: 0px;
     margin-bottom: 0px;
     margin-right: 8px;
@@ -32,7 +33,6 @@
     background-color: #a9a9a9;
 }
     
-
 .header {
     background-color: #002f86;
     color: white;
@@ -116,9 +116,9 @@
     }
     
     .navbar-text {
+        padding-top: 5px;
         font-size: 12pt;
         line-height: 60px; /* looks weirdly off center without this line */
-        padding-top: 5px;
     }
 }
 
@@ -154,48 +154,47 @@
     }
     
     .navbar-text {
-        font-size: 14pt;
         padding-top: 5px;
+        font-size: 14pt;
         line-height: 60px;
     }
-    
 }
 
 @media screen and (min-width: 765px) {
     .header {
-	min-height: 80px;
+	   min-height: 80px;
     }
 
     #header-container {
-	height: 80px;
+	   height: 80px;
     }
 
     .navbar-toggle {
-	height: 80px;
+	   height: 80px;
     }
 
     .navbar-brand-div {
-	transform: translateX(-50%);
-	left: 50%;
-	position: absolute;
-	height: 80px;
+        transform: translateX(-50%);
+        left: 50%;
+        position: absolute;
+        height: 80px;
     }
 
     .navbar-brand {
-	padding: 0px;
-	margin: 0px;
-	padding-top: 5px;
+        padding: 0px;
+        margin: 0px;
+        padding-top: 5px;
     }
 
     .navbar-site-name {
         font-size: 30pt;
-	line-height: 80px;
+	   line-height: 80px;
     }
     
     .navbar-text {
-        font-size: 18pt;
         padding-top: 5px;
-	line-height: 80px;
+        font-size: 18pt;
+	   line-height: 80px;
     }
 }
 

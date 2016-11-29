@@ -392,18 +392,21 @@
         <div class="container-fluid">
             <div class="row">
                 <!-- <div class="col-md-6 hidden-md-up" id="BottomContent"> -->
+                {% if rooms or apts %}
                    <a href="#top" class="nodecor" id="floorPlanViewButton">
                        <div class="panel panel-green panel-default nodecor">
                            <div class="stat-panel-heading-green nodecor" style="clear: both;">
                                <h3 class="panel-title-green nodecor floorplan-button" id="floorplan-photo-icon">
                                     <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
                                </h3>
+                               
                                <h3 class="panel-title-green nodecor floorplan-button" id="floorplan-text">
                                     Back to Top
                                </h3>
                             </div>
                        </div>
                     </a>
+                {% endif %}
                  <!-- </div> -->
                   <!-- End Bottom Content -->
             </div>
