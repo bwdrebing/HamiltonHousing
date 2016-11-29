@@ -1,16 +1,16 @@
-
-@media (min-width: 765px) {
-   .navbar-toggle {
-      margin-left: 10px;
-      display: inline !important;
-   }
-}
+/*@media (min-width: 765px) {
+    .navbar-toggle {
+        margin-left: 10px;
+        display: inline !important;
+    }
+}*/
 
 .navbar-toggle {
     border: none;
     outline: none;
     border-radius: 0px;
     float: left;
+    padding: 0px;
     margin-top: 0px;
     margin-bottom: 0px;
     margin-right: 8px;
