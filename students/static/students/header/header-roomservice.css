@@ -5,6 +5,10 @@
     }
 }*/
 
+.navbar-announcement {
+    margin-bottom: 0px;
+}
+
 .navbar-toggle {
     border: none;
     outline: none;
