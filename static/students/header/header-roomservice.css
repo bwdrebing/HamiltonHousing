@@ -1,109 +1,249 @@
+/* Less code for navbar toggle always showing up */
+/*.navbar-toggle-always {
+  .navbar-toggle;
+
+  @media (min-width: 768px){
+    display: block!important;
+    background-color: transparent;
+    border: none;
+  }
+
+  .zero-margins;
+
+  .icon-bar-always {
+    .icon-bar;
+    border:1px solid #fff;
+    display: block;
+    border-radius: 1px;
+  }
+
+  .icon-bar-always + .icon-bar-always {
+    margin-top: 4px;
+  }
+}*/
+
+@media (min-width: 765px) {
+    .navbar-toggle {
+        margin-left: 10px;
+        display: inline !important;
+    }
+}
+
 .navbar-toggle {
     border: none;
     outline: none;
     border-radius: 0px;
     float: left;
+    padding: 0px;
+    margin-top: 0px;
     margin-bottom: 0px;
     margin-right: 8px;
+    margin-left: 3px;
 }
 
 .navbar-toggle > span {
     background-color: white;
+    width: 16px;
+    border-radius: 0px;
+}
+
+.navbar-toggle > span.icon-bar {
+    width: 16px;
+    border-radius: 0px;
 }
 
 .navbar-toggle:hover > span,
 .navbar-toggle:active > span {
-    background-color: #d6ba8b;
+    background-color: #a9a9a9;
 }
     
-
 .header {
-    min-height: 80px;
     background-color: #002f86;
     color: white;
     border: none;
 }
-
-
 
 @font-face {
     font-family: "Bodoni 72 Book";
     src: url("/static/students/fonts/Bodoni72Book.ttf") format("truetype");
 }
 
-@media screen and (max-width: 360px) {
+@font-face {
+    font-family: "Avenir";
+    src: url("/static/students/fonts/Avenir.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "AvenirLight";
+    src: url("/static/students/fonts/AvenirLight.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "AvenirRoman";
+    src: url("/static/students/fonts/AvenirRoman.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Calibri";
+    src: url("/static/students/fonts/Calibri.ttf") format("truetype");
+}
+
+.loto-num {
+    padding-right: 5px;
+}
+
+.brand-bold {
+    font-family: 'AvenirRoman', 'Avenir', 'Helvetica Neue', serif;
+    font-weight: bold;
+}
+
+.navbar-site-name {
+    color: white;
+    font-family: 'AvenirLight', 'Helvetica Neue', serif;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-left: 10px;
+    padding-right: 10px;
+    vertical-align: middle;
+}
+
+.navbar-brand-div {
+    padding: 0px;
+}
+
+.navbar-text {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    color: white;
+    font-family: 'Khula', sans-serif;
+}
+
+.navbar-header {
+    margin: 0px;
+    padding: 0px;
+}
+
+@media screen and (max-width: 450px){
+    .header {
+        min-height: 60px;
+    }
+    
+    #header-container {
+        height: 60px;
+    }
+    
+    .navbar-toggle {
+        height: 60px;
+    }
+    
+    .navbar-brand-div {
+        transform: translateX(-50%);
+        left: 50%;
+        position: absolute;
+        height: 60px;
+    }
+    
+    .navbar-brand {
+        padding: 0px;
+        margin: 0px;
+        margin-top: 5px;
+    }
+    
     .navbar-site-name {
-        color: white;
-        font-family: 'Bodoni 72 Book', serif;
-        padding-left: 10px;
-        padding-right: 10px;
-        font-size: 20pt;
+        line-height: 60px;
+        font-size: 16pt;
     }
     
     .navbar-text {
+        padding-top: 5px;
         font-size: 12pt;
-        margin-right: 10px;
-        color: white;
-        font-family: 'Amiko', sans-serif;
-        font-weight: 300;
-        letter-spacing: .5px;
-        line-height: 25px; /* looks weirdly off center without this line */
-        margin-top: 0px;
-        margin-bottom: 0px;
+        line-height: 60px;
     }
 }
 
-@media screen and (max-width: 765px) and (min-width: 361px) {
+@media screen and (min-width: 450px) and (max-width: 765px) {
+    .header {
+        min-height: 60px;
+    }
+    
+    #header-container {
+        height: 60px;
+    }
+    
+    .navbar-toggle {
+        height: 60px;
+    }
+    
+    .navbar-brand-div {
+        transform: translateX(-50%);
+        left: 50%;
+        position: absolute;
+        height: 60px;
+    }
+    
+    .navbar-brand {
+        padding: 0px;
+        margin: 0px;
+        margin-top: 5px;
+    }
+    
     .navbar-site-name {
-        color: white;
-        font-family: 'Bodoni 72 Book', serif;
-        padding-left: 10px;
-        padding-right: 10px;
+        line-height: 60px;
         font-size: 22pt;
     }
     
     .navbar-text {
+        padding-top: 5px;
         font-size: 14pt;
-        margin-right: 10px;
-        color: white;
-        font-family: 'Amiko', sans-serif;
-        font-weight: 300;
-        letter-spacing: .5px;
-        margin-top: 0px;
-        margin-bottom: 0px;
+        line-height: 60px;
     }
-    
 }
 
 @media screen and (min-width: 765px) {
+    .header {
+        min-height: 80px;
+    }
+    
+    #header-container {
+        height: 80px;
+    }
+    
+    .navbar-toggle {
+        height: 80px;
+    }
+    
+    .navbar-brand-div {
+        transform: translateX(-50%);
+        left: 50%;
+        position: absolute;
+        height: 80px;
+    }
+    
+    .navbar-brand {
+        padding: 0px;
+        margin: 0px;
+        padding-top: 5px;
+    }
+    
     .navbar-site-name {
-        color: white;
-        font-family: 'Bodoni 72 Book', serif;
-        padding-left: 20px;
-        margin-bottom: 0px;
-        margin-top: 0px;
+        line-height: 80px; 
         font-size: 30pt;
     }
     
     .navbar-text {
+        padding-top: 5px;
         font-size: 18pt;
-        margin-right: 10px;
-        color: white;
-        font-family: 'Amiko', sans-serif;
-        font-weight: 300;
-        letter-spacing: .5px;
-        margin-top: 0px;
-        margin-bottom: 0px;
+        line-height: 80px;
     }
 }
 
 .navbar-site-name:hover,
 .navbar-site-name:focus,
 .navbar-site-name:active {
-    color: #d6ba8b;
+    color: #a9a9a9;
 }
 
 #header-container {
-    margin-bottom: 18px;
-    margin-top: 20px;
+    margin-bottom: 0px;
+    padding-bottom: 0px; 
 }
