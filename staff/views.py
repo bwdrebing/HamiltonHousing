@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.urls import reverse
 
-from .models import LotteryNumber 
+from .models import LotteryNumber
 from .models import Building
 from .models import Room
 from .models import Apartment
@@ -30,25 +30,25 @@ def lotteryNumberInput(request):
         number = LotteryNumber.objects.latest()
     except:
         number = ""
-        
+
     form = LotteryNumberForm()
-    return render(request, 
-                  'staff/LotteryNumberInput.html', 
+    return render(request,
+                  'staff/LotteryNumberInput.html',
                   {'LotteryNumber': number,'form' : form})
 
 @login_required
 def RoomSelect(request):
     """Sends a form to request a building name and room number. Redirect to the StudentInfo to render    a new form"""
     form = BuildingForm()
-    
+
     headerText = "Please enter room information to get started..."
 
     try:
         number = LotteryNumber.objects.latest()
     except:
         number = ""
-    
-    return render(request, 
+
+    return render(request,
                   'staff/select/room.html',
                   {'HeaderText' : headerText,
                    'Action': reverse('room-select-student-info'),
@@ -62,13 +62,13 @@ def suiteSelect(request):
     form = suiteInfoForm()
     headerText = "Select the suite you are trying to fill..."
     suites = Room.objects.filter(room_type = 'B').exclude(available = False) # get all block rooms
-    
+
     try:
         number = LotteryNumber.objects.latest()
     except:
         number = ""
-        
-    
+
+
     #fixme: Only render available rooms
     return render(request,
                   'staff/select/suite.html',
@@ -88,8 +88,8 @@ def ReviewRoom(request):
         number = LotteryNumber.objects.latest()
     except:
         number = ""
-        
-    return render(request, 
+
+    return render(request,
                   'staff/edit/transaction.html',
                   {'HeaderText' : headerText,
                    'Action' : reverse('review-room-student-info'),
@@ -104,28 +104,28 @@ def ReviewStudentInfo(request):
         if responseForm.is_valid():
             building = Building.objects.get(
                 name = responseForm.cleaned_data['name'])
-            
+
             rooms = Room.objects.filter(building = building)
             room = rooms.get(number = responseForm.cleaned_data['room_number'])
-            
+
             headerText = "Placing student in  " + \
                 str(responseForm.cleaned_data['name']) + \
                 " " + str(responseForm.cleaned_data['room_number'])
-            
-            # Create a form with the room id 
+
+            # Create a form with the room id
             form = ReviewStudentInfoForm()
             form.init(room.id)
-            
+
             try:
                 number = LotteryNumber.objects.latest()
             except:
                 number = ""
-                
-            return render(request, 
+
+            return render(request,
                           'staff/edit/transactionStudentInfo.html',
-                          {'HeaderText' : headerText, 
+                          {'HeaderText' : headerText,
                            'Action' : reverse('review-room-confirm'),
-                           'LotteryNumber' : number, 
+                           'LotteryNumber' : number,
                            'form' : form})
 
 @login_required
@@ -136,10 +136,10 @@ def StudentInfo(request):
         if responseForm.is_valid():
             building = Building.objects.get(name = responseForm.cleaned_data['name'])
             name = responseForm.cleaned_data['room_number'].split()
-            
+
             roomsToRender = []
             formsToRender = []
-            
+
             if (name[0] == "Apartment"):
                 apt = Apartment.objects.get(number = name[1])
                 rooms = Room.objects.filter(building = building, apartment = apt)
@@ -152,19 +152,20 @@ def StudentInfo(request):
                     formsToRender.append(StudentInfoForm())
                     formsToRender[-1].forAdditionalRoom(rooms[i])
                 headerText = "Placing students in Apartment " + name[1]
-            
+
+            #Otherwise, if they are selecting a room
             else:
+                #Get room and generate form for that room
                 rooms = Room.objects.filter(building = building)
-
-            
                 room = rooms.get(number = responseForm.cleaned_data['room_number'])
-
                 roomsToRender.append(room)
 
                 baseForm = StudentInfoForm()
                 baseForm.forBaseRoom(room)
-
                 formsToRender = [baseForm]
+
+                #Now check to see if that room has any pull, if so, create
+                # a form for that room!
                 if(room.pull != '' and room.pull != ' ' and rooms.get(number = room.pull).available == True):
                     additionalForm = StudentInfoForm()
                     pullRoom = rooms.get(number = room.pull)
@@ -181,13 +182,13 @@ def StudentInfo(request):
                 number = LotteryNumber.objects.latest()
             except:
                 number = ""
-        
+
 
             return render(request,
                           'staff/select/studentInfo.html',
-                          {'HeaderText' : headerText, 
+                          {'HeaderText' : headerText,
                            'Action' : reverse('room-select-confirm'),
-                           'LotteryNumber' : number, 
+                           'LotteryNumber' : number,
                            'Rooms' : roomsToRender,
                            'Forms' : formsToRender})
 
@@ -209,7 +210,7 @@ def suiteStudentInfo(request):
             baseForm.forBlock(room)
 
             formsToRender = [baseForm]
-            
+
             headerText = "Placing student in  " + \
                 str(responseForm.cleaned_data['building']) + \
                 " " + str(responseForm.cleaned_data['suite_number'])
@@ -218,46 +219,46 @@ def suiteStudentInfo(request):
                 number = LotteryNumber.objects.latest()
             except:
                 number = ""
-        
-            return render(request, 
+
+            return render(request,
                           'staff/select/suiteStudentInfo.html',
-                          {'HeaderText' : headerText, 
+                          {'HeaderText' : headerText,
                            'Action' : reverse('suite-select-confirm'),
-                           'LotteryNumber' : number, 
+                           'LotteryNumber' : number,
                            'Rooms' : roomsToRender,
                            'Forms' : formsToRender})
-        
+
 @login_required
 def suiteConfirm(request):
-    """A form the show the user the information they input during the suite selection prcoess for confirmation""" 
+    """A form the show the user the information they input during the suite selection prcoess for confirmation"""
     #This form will save the transaction based on info of previous form
     #XXX:Need to be able to go back or decline the creation of transactions.
     if request.method == "POST":
         totalNumberOfStudents = int(request.POST['numberOfStudents'])
-        
+
         transaction = BlockTransaction.objects.create(
             block_number = request.POST['blockNumber'],
             suite = Room.objects.get(id=request.POST['Suite'])
         )
-        
+
         for i in range(totalNumberOfStudents):
             resident = Resident.objects.create(
                 gender = str(request.POST["Gender" + str(i)])
             )
             transaction.residents.add(resident)
-                
-        room = Room.objects.get(id=request.POST['Suite'])   
+
+        room = Room.objects.get(id=request.POST['Suite'])
         room.available = False
         room.save()
-    
+
         transaction.save()
 
     try:
         number = LotteryNumber.objects.latest()
     except:
         number = ""
-        
-    
+
+
     # todo: when select page is addded action should go there
     return select(request)
 
@@ -270,7 +271,7 @@ def ConfirmSelection(request):
         totalNumberOfStudents = int(request.POST['numberOfStudents'])
 
         for i in range(totalNumberOfStudents):
-            
+
             Transaction.objects.create(
                 Puller_Number = request.POST['Number0'],
                 Puller_Year = request.POST['Year0'],
@@ -281,7 +282,7 @@ def ConfirmSelection(request):
                 )
             #Update the room in the database
             print(request.POST)
-            room = Room.objects.get(id=request.POST['Room' + str(i)])   
+            room = Room.objects.get(id=request.POST['Room' + str(i)])
             room.gender = str(request.POST["Gender" + str(i)])
             room.lottery_number = int(request.POST["Number0"])
             room.class_year = int(request.POST["Year0"])
@@ -295,7 +296,7 @@ def ConfirmSelection(request):
             totalNumberOfPulls = int(request.POST['PullnumberOfStudents'])
 
             for i in range(totalNumberOfPulls):
-                
+
                 Transaction.objects.create(
                     Puller_Number = request.POST['Number0'],
                     Puller_Year = request.POST['Year0'],
@@ -319,7 +320,7 @@ def ConfirmSelection(request):
         number = LotteryNumber.objects.latest()
     except:
         number = ""
-        
+
     return select(request)
 
 @login_required
@@ -330,7 +331,7 @@ def edit(request):
         number = LotteryNumber.objects.latest()
     except:
         number = ""
-        
+
     return render(request,
                   'staff/edit/edit.html',
                   {'LotteryNumber' : number})
@@ -344,7 +345,7 @@ def select(request):
         number = LotteryNumber.objects.latest()
     except:
         number = ""
-        
+
     return render(request,
                   'staff/select/select.html',
                   {'LotteryNumber' : number})
@@ -357,7 +358,7 @@ def editBuilding(request):
         number = LotteryNumber.objects.latest()
     except:
         number = ""
-        
+
     if request.method == "POST":
         #form = editBuildingForm(request.POST, instance = building)
         current_building = Building.objects.get(name=request.POST["building"])
@@ -365,24 +366,24 @@ def editBuilding(request):
         if form.is_valid():
             form.save()
             return render(request,
-                          'staff/edit/edit.html', 
+                          'staff/edit/edit.html',
                           {'LotteryNumber': number,
                            'Action': reverse('edit-building'),
                            'form' : form})
     form = editBuildingForm()
-    return render(request, 
-                  'staff/edit/building.html', 
+    return render(request,
+                  'staff/edit/building.html',
                   {'LotteryNumber': number,'form' : form})
 
 @login_required
 def editRoom(request):
     """Displays a form that allows user to edit certain room attributes - available, notes, etc."""
     # get next lottery number for header
-    try: 
+    try:
         number = LotteryNumber.objects.latest()
     except:
         number = ""
-        
+
     if request.method == "POST":
         #form = editBuildingForm(request.POST, instance = building)
         current_building = Building.objects.get(name=request.POST["building"])
@@ -392,11 +393,11 @@ def editRoom(request):
         if form.is_valid():
             form.save()
             return render(request,
-                          'staff/edit.html', 
+                          'staff/edit.html',
                           {'LotteryNumber': number,'form' : form})
     form = editRoomForm()
-    return render(request, 
-                  'staff/edit/room.html', 
+    return render(request,
+                  'staff/edit/room.html',
                   {'LotteryNumber': number,'form' : form})
 
 def userLogin(request):
@@ -445,7 +446,7 @@ def userLogin(request):
                            'login_form': login_form})
     else:
         return HttpResponseRedirect(reverse('staff-home'))
-    
+
 @login_required
 def userLogout(request):
      # Since we know the user is logged in, we can now just log them out.
@@ -453,22 +454,22 @@ def userLogout(request):
 
     # Take the user back to the homepage.
     return HttpResponseRedirect(reverse('staff-home'))
-    
+
 @login_required
 def home(request):
     """The home page"""
-    try: 
+    try:
         number = LotteryNumber.objects.latest()
     except:
         number = ""
-        
+
     pageContent = StaffPageContent.objects.filter(active=True)
     if (pageContent):
         pageContent = pageContent.latest()
     else:
         pageContent = ""
-        
-    return render(request, 
+
+    return render(request,
                   'staff/home.html',
                   {'LotteryNumber' : number,
                    'pageContent': pageContent})
