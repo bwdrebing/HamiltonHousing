@@ -169,14 +169,29 @@
     -webkit-overflow-scrolling: touch;
 }
 
+body, html {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.left-content{
+  float: left;
+  height: 100vh;
+  position:relative;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.right-content{
+  float:right;
+  height 100vh;
+  overflow: hidden;
+}
 /* -------------------------
        Floor Plan Images
    ------------------------- */
-.right-content{
-    float: right;
-}
 
-.floorplans{
+/*.floorplans{
    position: inherit;
    padding-top: 15px;
    background-color: #a9a9a9;
@@ -186,7 +201,7 @@
    padding-left: 5px;
    padding-right: 5px;
    float: right;
-}
+}*/
 .thumbnails {
    margin-left: -4px;
    margin-right: -4px;
@@ -228,12 +243,12 @@
         margin-top: 0px;
     }
     /* Fix the floorplan viewer to the top corner */
-    .floorplans{
+    /*.floorplans{
       position: fixed;
       top:80px;
       height: 100%;
       margin-right: 15px;
-    }
+    }*/
 
     /* Shift the thumbnail labels down a bit */
     .thumbnail-label{

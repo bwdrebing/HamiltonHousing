@@ -25,7 +25,14 @@
 
 {% block content %}
     <a name="top"></a><!-- top anchor -->
-    <div class="container-fluid">
+    <div class="row">
+
+      {% if floor_images %}
+        <div class="col-md-7 container-fluid left-content">
+      {% else %}
+        <div class="col-md-12">
+      {% endif %}
+
         <h1 id="page-title">
             {{current_building.name}} <small style="vertical-align: middle">
                 {% if current_building.closed_to == 'F' %}
@@ -38,7 +45,7 @@
         <div class="row building-stats">
 
             <!-- Types of Rooms -->
-            <div class="col-md-7">
+            <div class="col-md-12">
                 <div class="panel panel-default" id="RoomTypePanel">
                     <div class="stat-panel-heading">
                         <h3 class="panel-title">Types of Rooms Available</h3>
@@ -87,7 +94,7 @@
 
             <!-- Building Notes -->
             {% if current_building.notes %}
-             <div class="col-md-7">
+             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="stat-panel-heading">
                         <h3 class="panel-title">Notes</h3>
@@ -120,16 +127,13 @@
             {% endif %}
 
           </div><!--/row-->
-      </div><!--/container-fluid-->
+
       <!-- End of Header Panels -->
 
       <!-- first half of page - room list -->
 
-      {% if floor_images %}
-        <div class="col-md-7 col-xs-12">
-      {% else %}
-        <div class="col-md-12">
-      {% endif %}
+      <div class="col-md-12 col-xs-12">
+
 
         <!-- tabs for if there are rooms and apartments -->
         {% if rooms and apts %}
@@ -144,25 +148,25 @@
         <div class="tab-content">
 
         {% elif apts %}
-        <ul class="nav nav-tabs">
-            {% for apt in apts %}
-                {% if forloop.first %}
-                    <li class="active building-tabs">
-                        <a href="#apt{{apt}}-pane" data-toggle="tab">
-                            Apt {{apt}}
-                        </a>
-                    </li>
-                {% else %}
-                    <li class="building-tabs">
-                        <a href="#apt{{apt}}-pane" data-toggle="tab">
-                            Apt {{apt}}
-                        </a>
-                    </li>
-                {% endif %}
-            {% endfor %}
+          <ul class="nav nav-tabs">
+              {% for apt in apts %}
+                  {% if forloop.first %}
+                      <li class="active building-tabs">
+                          <a href="#apt{{apt}}-pane" data-toggle="tab">
+                              Apt {{apt}}
+                          </a>
+                      </li>
+                  {% else %}
+                      <li class="building-tabs">
+                          <a href="#apt{{apt}}-pane" data-toggle="tab">
+                              Apt {{apt}}
+                          </a>
+                      </li>
+                  {% endif %}
+              {% endfor %}
 
-        </ul>
-        <div class="tab-content clearfix">
+          </ul>
+          <div class="tab-content clearfix">
         {% endif %}
 
 
@@ -404,17 +408,12 @@
                   <!-- End Bottom Content -->
             </div>
         </div>
+        </div><!--/container-fluid-->
       </div><!--/first half of screen-->
 
-   <!-- </div> -->
-   <!--end of Room Table and filters -->
-
-    <!-- horizontal line visible on smaller screens to divide floor plans and open room list -->
-
-
+<!-- FLOOR PLANS!! -->
     {% if floor_images %}
-<!--    <div class="hidden-lg hidden-md col-md-12"><hr></div>-->
-    <div class="col-md-5 col-xs-12">
+    <div class="col-md-5 col-xs-12 right-content">
 
     {% with first_image=floor_images|first %}
     <div class="floorplans container-fluid">
