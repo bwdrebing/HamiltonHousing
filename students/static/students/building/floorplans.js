@@ -1,16 +1,17 @@
+//TODO: kill me
 // -------------------------------------------
 //  initialize floor plan zoom plugin
 // -------------------------------------------
 $("#fullFloorPlan").elevateZoom({
     zoomType: 'inner',
     cursor: 'crosshair',
-    gallery:'thumbnail-gallery',  
-    galleryActiveClass: 'active', 
+    gallery:'thumbnail-gallery',
+    galleryActiveClass: 'active',
     imageCrossfade: true,
-}); 
+});
 
 // -------------------------------------------
-//  switch floor plan header with thumbnail 
+//  switch floor plan header with thumbnail
 //  name
 // -------------------------------------------
 $('#thumbnail-gallery a').click(function() {

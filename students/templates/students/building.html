@@ -2,11 +2,19 @@
 
 {% block title %}{{ current_building.name }}{% endblock title %}
 
-{% block custom-css %} 
-      
+{% block custom-css %}
+
     <!-- CSS for nice select menus for Floor -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
-      
+
+    <!-- CSS for imageviewer -->
+    <link href="/static/students/ImageViewer/imageviewer.css"
+          rel="stylesheet">
+
+    <!-- Floorplan css -->
+    <link href="/static/students/ImageViewer/floorplangallery.css"
+          rel="stylesheet">
+
     <!-- CSS for this page -->
     <link rel="stylesheet" href="/static/students/building/building-roomservice.css">
 
@@ -28,10 +36,10 @@
                 </small>
         </h1>
         <div class="row building-stats">
-                  
+
             <!-- Types of Rooms -->
-            <div class="col-md-6">
-                <div class="panel panel-default">
+            <div class="col-md-7">
+                <div class="panel panel-default" id="RoomTypePanel">
                     <div class="stat-panel-heading">
                         <h3 class="panel-title">Types of Rooms Available</h3>
                     </div>
@@ -72,14 +80,14 @@
                             {% endif %}
                             <br>
                         {% endif %}
-                        
+
                     </div><!--/panel-body-->
                </div><!--/panel-->
             </div><!--col-md-6-->
-                  
+
             <!-- Building Notes -->
             {% if current_building.notes %}
-             <div class="col-md-6">
+             <div class="col-md-7">
                 <div class="panel panel-default">
                     <div class="stat-panel-heading">
                         <h3 class="panel-title">Notes</h3>
@@ -93,12 +101,14 @@
 
             {% if floor_images %}
             <!-- Link to floor plan images if small screen -->
-            <div class="col-md-6 hidden-md hidden-lg">
+            <div class="col-md-7 hidden-md hidden-lg">
                <a href="#floorPlans" class="nodecor" id="floorPlanViewButton">
-                   <div class="panel panel-green panel-default nodecor">
+                   <div class='sticky-anchor'></div>
+                   <div class="panel panel-green panel-default nodecor sticky">
+
                        <div class="stat-panel-heading-green nodecor" style="clear: both;">
                            <h3 class="panel-title-green nodecor floorplan-button" id="floorplan-photo-icon">
-                                <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> 
+                                <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
                            </h3>
                            <h3 class="panel-title-green nodecor floorplan-button" id="floorplan-text">
                            View Floor Plans
@@ -111,14 +121,16 @@
 
           </div><!--/row-->
       </div><!--/container-fluid-->
-          
+      <!-- End of Header Panels -->
+
       <!-- first half of page - room list -->
+
       {% if floor_images %}
-        <div class="col-md-6 col-xs-12">
+        <div class="col-md-7 col-xs-12">
       {% else %}
         <div class="col-md-12">
       {% endif %}
-          
+
         <!-- tabs for if there are rooms and apartments -->
         {% if rooms and apts %}
         <ul class="nav nav-tabs">
@@ -130,7 +142,7 @@
             {% endfor %}
         </ul>
         <div class="tab-content">
-            
+
         {% elif apts %}
         <ul class="nav nav-tabs">
             {% for apt in apts %}
@@ -148,17 +160,18 @@
                     </li>
                 {% endif %}
             {% endfor %}
+
         </ul>
         <div class="tab-content clearfix">
-        {% endif %} 
-            
-       
+        {% endif %}
+
+
         {% if rooms %}
             <!-- start tab pane if there are tabs -->
             {% if apts %}
                 <div id="rooms-pane" class="tab-pane fade in active">
             {% endif %}
-          
+
             <div class="row filter-row">
                 <div class="col-lg-12">
                     <!-- filter by floor dropdown available if there are rooms left -->
@@ -263,13 +276,13 @@
                     {% endfor %}
                 </tbody>
             </table>
-                    
+
             <!-- end tab pane if there are tabs -->
             {% if apts %}
                 </div>
             {% endif %}
         {% endif %}
-            
+
         {% if apts %}
           {% for apt, rooms in apts.items %}
             {% if forloop.first %}
@@ -279,18 +292,18 @@
             {% else %}
                 <div id="apt{{apt}}-pane" class="tab-pane fade">
             {% endif %}
-                    
+
                 {% with room1=rooms|first %}
                 <h3>Apartment {{apt}}</h3>
                 <p class="lead">
-                    {{room1.apartment.available_beds}} total available beds | 
+                    {{room1.apartment.available_beds}} total available beds |
                     {% if room1.apartment.gender == 'F' %}
                         Female
                     {% elif room1.apartment.gender == 'M' %}
                         Male
                     {% else %}
                         Any gender
-                    {% endif %} 
+                    {% endif %}
                     {% if notes %}
                         <br>{{room1.apartment.notes}}
                     {% endif %}
@@ -345,7 +358,6 @@
                                         Any
                                     {% endif %}
                                 </td>
-
                                 <td>
                                     {% if room.pull %}
                                         {{room.pull}}
@@ -353,7 +365,6 @@
                                         None
                                     {% endif %}
                                 </td>
-
                                 <td>
                                     {% if room.notes %}
                                         {{room.notes}}
@@ -361,95 +372,104 @@
                                         --
                                     {% endif %}
                                 </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-              </div><!-- end tab pane -->
-            {% endfor %}
-         </div><!-- end tab content -->
-      {% endif %}
-                   
-      {% if not apts and not rooms %}
-        <h3>There are currently no available rooms</h3>
-      {% endif %}
-                    
-    </div><!--/first half of screen-->
-          
-    <!-- second half of screen (floor plans) -->
-    {% if floor_images %}
-    <div class="container-fluid">
-        <div class="col-md-6 col-xs-12">
+                              </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>
+                </div><!-- end tab pane -->
+              {% endfor %}
+           </div><!-- end tab content -->
+        {% endif %}
 
-            <!-- large floor image -->
-            {% with first_image=floor_images|first %}
-                <a name="floorPlans"></a>
-                <h2 id="floorPlanName">{{ first_image.display_name }}</h2>
-
-                <!-- floor plan image -->
-                <img id="fullFloorPlan" class="img-responsive floor-plan-img" src="{{first_image.image.url}}" data-zoom-image="{{first_image.image.url}}"/>
-            {% endwith %}
-
-            <!-- floor plan thumbnail links -->
+        {% if not apts and not rooms %}
+          <h3>There are currently no available rooms</h3>
+        {% endif %}
+        <!-- link to top -->
+        <div class="container-fluid">
             <div class="row">
-                {% for floorplan in floor_images %}
-                    <div class="col-xs-3 col-md-3 thumb-div" id="thumbnail-gallery">
-                        {% if forloop.first %}
-                        <a class="active thumbnail" data-image="{{floorplan.image.url}}" data-zoom-image="{{floorplan.image.url}}">
-                        {% else %}
-                        <a class="thumbnail" data-image="{{floorplan.image.url}}" data-zoom-image="{{floorplan.image.url}}">
-                        {% endif %}
-                            <img src="{{floorplan.image.url}}" class="floorplan-thumbnail" alt="{{floorplan.display_name}}" id="thumb{{forloop.counter0}}"/>
-                            <div class="caption thumbnail-label">
-                                {{floorplan.display_name}}
+                <!-- <div class="col-md-6 hidden-md-up" id="BottomContent"> -->
+                   <a href="#top" class="nodecor" id="floorPlanViewButton">
+                       <div class="panel panel-green panel-default nodecor">
+                           <div class="stat-panel-heading-green nodecor" style="clear: both;">
+                               <h3 class="panel-title-green nodecor floorplan-button" id="floorplan-photo-icon">
+                                    <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+                               </h3>
+                               <h3 class="panel-title-green nodecor floorplan-button" id="floorplan-text">
+                                    Back to Top
+                               </h3>
                             </div>
-                        </a>
-                    </div>
-                {% endfor %}
+                       </div>
+                    </a>
+                 <!-- </div> -->
+                  <!-- End Bottom Content -->
             </div>
-
-        </div><!--/floor plans-->
-    </div>
-
-    <!-- link to top -->
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-6 hidden-md hidden-lg">
-               <a href="#top" class="nodecor" id="floorPlanViewButton">
-                   <div class="panel panel-green panel-default nodecor">
-                       <div class="stat-panel-heading-green nodecor" style="clear: both;">
-                           <h3 class="panel-title-green nodecor floorplan-button" id="floorplan-photo-icon">
-                                <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span> 
-                           </h3>
-                           <h3 class="panel-title-green nodecor floorplan-button" id="floorplan-text">
-                                Back to Top
-                           </h3>
-                        </div>
-                   </div>
-                </a>
-             </div>
         </div>
+      </div><!--/first half of screen-->
+
+   <!-- </div> -->
+   <!--end of Room Table and filters -->
+
+    <!-- horizontal line visible on smaller screens to divide floor plans and open room list -->
+
+
+    {% if floor_images %}
+<!--    <div class="hidden-lg hidden-md col-md-12"><hr></div>-->
+    <div class="col-md-5 col-xs-12">
+
+    {% with first_image=floor_images|first %}
+    <div class="floorplans container-fluid">
+        <a name="floorPlans"></a>
+        <h1 id="floor-name" class="panel-title">{{first_image.display_name}}</h1>
+
+
+        <img src="{{first_image.image.url}}"
+             class="pannable-image img-responsive floor-plan-img">
+
+    {% endwith %}
+
+    <div class="row thumbnails">
+        {% for floorplan in floor_images %}
+            <div class="thumb-div" id="thumbnail-gallery">
+                {% if forloop.first %}
+                <a class="active thumbnail" data-image="{{floorplan.image.url}}" data-zoom-image="{{floorplan.image.url}}">
+                {% else %}
+                <a class="thumbnail" data-image="{{floorplan.image.url}}" data-zoom-image="{{floorplan.image.url}}">
+                {% endif %}
+                    <img src="{{floorplan.image.url}}" class="floorplan-thumbnail img-responsive" alt="{{floorplan.thumbnail_name}}" id="thumb{{forloop.counter0}}"/>
+                    <div class="thumbnail-label" title="{{floorplan.display_name}}" >
+                        {{floorplan.thumbnail_name}}
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
     </div>
-    {% endif %}
-    </div><!--/row-offcanvas -->
+    </div>
+  </div>
+  {% endif %}
 
 {% endblock content %}
-          
+
 {% block custom-js %}
-    <!-- Zoom JQuery Plugin -->
-    <script src="/static/students/assets/js/zoom/jquery.elevateZoom-3.0.8.min.js" type="text/javascript"></script>
-          
     <!-- Bootstrap Select plugin for filtering by floor -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
-          
+
+    <!-- Script for floor plan thumbnail click function -->
+    <script src="/static/students/building/thumbnail.js" type="text/javascript"></script>
+
+    <!-- Script for ImageViewer -->
+    <script src="/static/students/ImageViewer/imageviewer.min.js"></script>
+    <script src="/static/students/ImageViewer/floorplanviewer.js"></script>
+
+    <!-- Script for dropdown apartments -->
+    <script src="/static/students/building/dropdown-table.js" type="text/javascript"></script>
+
+    <!-- Script for filtering building sidebar -->
+    <script src="/static/students/sidebar/sidebar-filter.js" type="text/javascript"></script>
+
     <!-- Script for building specific js -->
     <script src="/static/students/building/building.js" type="text/javascript"></script>
-          
-    <!-- Script for floor plan stuff -->
-    <script src="/static/students/building/floorplans.js" type="text/javascript"></script>
-    
+
     <!-- FooTable -->
-    <script src="/static/students/footable/js/footable.min.js" type="text/javascript">
-    </script>
-        
+    <script src="/static/students/footable/js/footable.min.js" type="text/javascript"></script>
+
 {% endblock custom-js %}

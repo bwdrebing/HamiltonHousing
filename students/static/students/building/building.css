@@ -12,11 +12,11 @@
 */
 
 #page-title {
-    margin-bottom: 20px;   
+    margin-bottom: 20px;
 }
 
 .table-responsive {
-    padding-top: 12px;    
+    padding-top: 12px;
 }
 
 .apt-room {
@@ -24,7 +24,7 @@
 }
 
 .building-label {
-    background-color: #F24C4E;   
+    background-color: #F24C4E;
 }
 
 /* panels */
@@ -45,7 +45,7 @@
     color: white;
     border-radius: 0;
     border: none;
-    border-color: #fbbd19; 
+    border-color: #fbbd19;
 }
 
 .stat-panel-heading {
@@ -68,6 +68,17 @@
 
 .nodecor:hover {
     text-decoration: none;
+}
+.sticky{
+    position:auto;
+    top:auto;
+}
+.sticky.stick {
+    margin-top: 0;
+    position: fixed;
+    z-index: 9999;
+    width: 100%;
+    left:0%;
 }
 
 .panel-title-green {
@@ -97,6 +108,9 @@
     padding-right: 15px;
     padding-top: 15px;
     padding-bottom: 5px;
+
+    /*Sticky stuff*/
+
 }
 
 .room-filter {
@@ -148,7 +162,7 @@
 }
 
 /* get rid of upper margin only when the floor plan/room panels are displaying next to each other */
-@media (min-width: 992px) {  
+@media (min-width: 992px) {
     #floorPlanName {
         margin-top: 0px;
     }

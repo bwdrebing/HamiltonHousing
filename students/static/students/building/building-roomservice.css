@@ -28,7 +28,7 @@
     margin-bottom: 20px;
 }
 /*
-    font-family: 'Roboto', sans-serif;   
+    font-family: 'Roboto', sans-serif;
     font-size: 3.125em;
     font-weight: 400;
     line-height: 51px;
@@ -36,7 +36,7 @@
 }*/
 
 .table-responsive {
-    padding-top: 12px;    
+    padding-top: 12px;
 }
 
 .apt-room {
@@ -44,7 +44,7 @@
 }
 
 .building-label {
-    background-color: #df744a; 
+    background-color: #df744a;
     border-radius: 6px;
 }
 
@@ -67,7 +67,7 @@
     color: white;
     border-radius: 0;
     border: none;
-    border-color: #a9a9a9; 
+    border-color: #a9a9a9;
 }
 
 .stat-panel-heading {
@@ -172,31 +172,75 @@
 /* -------------------------
        Floor Plan Images
    ------------------------- */
+.right-content{
+    float: right;
+}
+
+.floorplans{
+   position: inherit;
+   padding-top: 15px;
+   background-color: #a9a9a9;
+   margin-bottom: 15px;
+   margin-left: -15px;
+   margin-right: -15px;
+   padding-left: 5px;
+   padding-right: 5px;
+   float: right;
+}
+.thumbnails {
+   margin-left: -4px;
+   margin-right: -4px;
+   padding-right: 8px;
+   display:table;
+   border-collapse: collapse;
+}
 
 .thumbnail-label {
     top:0;
     left:0;
     position: absolute;
+    color: #333;
+    padding 0px;
 }
 
 .thumb-div {
-    padding-right: 8px;
-    padding-left: 8px;
+    padding-right: 4px;
+    padding-left: 4px;
+    display: table-cell;
+    vertical-align: top;
+}
+
+.thumb-div img{
+  display: block;
+  width:100%;
 }
 
 .thumbnail {
     border-radius: 0;
     position:relative;
-    text-align: center;
+    text-align: left;
     vertical-align: middle;
 }
 
 /* get rid of upper margin only when the floor plan/room panels are displaying next to each other */
-@media (min-width: 992px) {  
+@media (min-width: 992px) {
     #floorPlanName {
         margin-top: 0px;
     }
+    /* Fix the floorplan viewer to the top corner */
+    .floorplans{
+      position: fixed;
+      top:80px;
+      height: 100%;
+      margin-right: 15px;
+    }
+
+    /* Shift the thumbnail labels down a bit */
+    .thumbnail-label{
+      padding: 5px;
+    }
 }
+
 
 /*set a border on the images to prevent shifting*/
  #thumbnail-gallery img {

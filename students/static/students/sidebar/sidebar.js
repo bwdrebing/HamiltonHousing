@@ -3,8 +3,7 @@ $(document).ready(function () {
     $('.row-offcanvas').toggleClass('active');
   });
     
-  $('#main').click(function() {
-    
+  $('#main').click(function() {    
     $('.row-offcanvas').removeClass('active');
   });
 });
