@@ -5,20 +5,28 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
         </button>
-        
+
         <!-- Site Name -->
         <div class="navbar-brand-div">
             <a class="navbar-brand navbar-site-name" href="{% url 'students-home' %}">
                 ROOM<strong class="brand-bold">SERVICE</strong>
             </a>
          </div><!--/.navbar-header-->
-        
+
          <ul class="nav pull-right">
             <li class="navbar-text">
                 {% if LotteryNumber %}
                 Next #{{ LotteryNumber }}
-                {% endif %} 
+                {% endif %}
             </li>
         </ul>
     </div><!--/.container-->
 </nav><!--/.navbar -->
+{% if pageContent %}
+  {% if pageContent.navbar_announcement %}
+    <div class="alert alert-danger" role="alert">
+      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+      {{ pageContent.navbar_announcement}}
+    </div>
+  {% endif %}
+{% endif %}

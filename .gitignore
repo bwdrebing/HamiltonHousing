@@ -4,3 +4,7 @@ db.sqlite3
 staff/migrations/*
 !staff/migrations/__init__.py
 !staff/migrations/0001_initial.py
+
+students/migrations/*
+!students/migrations/__init__.py
+!students/migrations/0001_initial.py
