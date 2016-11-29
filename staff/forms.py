@@ -258,7 +258,7 @@ class editRoomForm(forms.ModelForm):
     class Meta:
         model = Room
         fields = ['name', 'room_number', 'available', 'gender', 'available_beds', 'pull', 'notes']
-        
+
 class editRoomFormA(forms.Form):
     name = forms.ChoiceField()
     room_number = forms.ChoiceField()
@@ -275,15 +275,15 @@ class editRoomFormA(forms.Form):
 
         self.fields['name'].choices = buildingChoices
         self.fields['room_number'].choices = roomChoices
-        
-class editRoomFormB(forms.ModelForm):        
+
+class editRoomFormB(forms.ModelForm):
     class Meta:
         model = Room
         fields = ['building', 'number','available', 'gender', 'available_beds', 'pull', 'notes']
         widgets = {'building': forms.HiddenInput(), 'number': forms.HiddenInput()}
         help_texts = {
             'pull': ('Room number only, do not include building name'),}
-    
+
 
 class userLoginForm(forms.Form):
     username = forms.CharField()

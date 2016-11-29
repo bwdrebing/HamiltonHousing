@@ -15,7 +15,6 @@
 .footer-text {
     margin-top: 15px;
     font-family: 'Khula', sans-serif;
-    /*margin-bottom: 15px;*/
 }
 
 @media screen and (max-width: 370px) {
@@ -33,4 +32,3 @@ a.active {
     color: #d1d1d1;
     text-decoration: none;
 }
-   
