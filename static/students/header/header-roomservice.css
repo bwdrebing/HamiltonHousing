@@ -1,32 +1,9 @@
-/* Less code for navbar toggle always showing up */
-/*.navbar-toggle-always {
-  .navbar-toggle;
-
-  @media (min-width: 768px){
-    display: block!important;
-    background-color: transparent;
-    border: none;
-  }
-
-  .zero-margins;
-
-  .icon-bar-always {
-    .icon-bar;
-    border:1px solid #fff;
-    display: block;
-    border-radius: 1px;
-  }
-
-  .icon-bar-always + .icon-bar-always {
-    margin-top: 4px;
-  }
-}*/
 
 @media (min-width: 765px) {
-    .navbar-toggle {
-        margin-left: 10px;
-        display: inline !important;
-    }
+   .navbar-toggle {
+      margin-left: 10px;
+      display: inline !important;
+   }
 }
 
 .navbar-toggle {
@@ -34,7 +11,6 @@
     outline: none;
     border-radius: 0px;
     float: left;
-    padding: 0px;
     margin-top: 0px;
     margin-bottom: 0px;
     margin-right: 8px;
@@ -64,16 +40,6 @@
 }
 
 @font-face {
-    font-family: "Bodoni 72 Book";
-    src: url("/static/students/fonts/Bodoni72Book.ttf") format("truetype");
-}
-
-@font-face {
-    font-family: "Avenir";
-    src: url("/static/students/fonts/Avenir.ttf") format("truetype");
-}
-
-@font-face {
     font-family: "AvenirLight";
     src: url("/static/students/fonts/AvenirLight.ttf") format("truetype");
 }
@@ -83,113 +49,108 @@
     src: url("/static/students/fonts/AvenirRoman.ttf") format("truetype");
 }
 
-@font-face {
-    font-family: "Calibri";
-    src: url("/static/students/fonts/Calibri.ttf") format("truetype");
-}
-
 .loto-num {
-    padding-right: 5px;
+   padding-right: 5px;
 }
 
 .brand-bold {
-    font-family: 'AvenirRoman', 'Avenir', 'Helvetica Neue', serif;
-    font-weight: bold;
+   font-family: 'AvenirRoman', 'Avenir', 'Helvetica Neue', serif;
+   font-weight: bold;
 }
 
 .navbar-site-name {
-    color: white;
-    font-family: 'AvenirLight', 'Helvetica Neue', serif;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    padding-left: 10px;
-    padding-right: 10px;
-    vertical-align: middle;
+   color: white;
+   font-family: 'AvenirLight', 'Helvetica Neue', serif;
+   margin-top: 0px;
+   margin-bottom: 0px;
+   padding-left: 10px;
+   padding-right: 10px;
+   vertical-align: middle;
 }
 
 .navbar-brand-div {
-    padding: 0px;
+   padding: 0px;
 }
 
 .navbar-text {
-    margin-top: 0px;
-    margin-bottom: 0px;
-    color: white;
-    font-family: 'Khula', sans-serif;
+   margin-top: 0px;
+   margin-bottom: 0px;
+   color: white;
+   font-family: 'Khula', sans-serif;
 }
 
 .navbar-header {
-    margin: 0px;
-    padding: 0px;
+   margin: 0px;
+   padding: 0px;
 }
 
-@media screen and (max-width: 450px){
+@media screen and (max-width: 450px) {
     .header {
-        min-height: 60px;
+         min-height: 60px;
     }
-    
+
     #header-container {
-        height: 60px;
+	 height: 60px;
     }
-    
+
     .navbar-toggle {
-        height: 60px;
+	 height: 60px;
     }
-    
+
     .navbar-brand-div {
         transform: translateX(-50%);
         left: 50%;
         position: absolute;
         height: 60px;
     }
-    
+
     .navbar-brand {
         padding: 0px;
         margin: 0px;
         margin-top: 5px;
     }
-    
+
     .navbar-site-name {
         line-height: 60px;
-        font-size: 16pt;
+        font-size: 20pt;
     }
     
     .navbar-text {
         padding-top: 5px;
         font-size: 12pt;
-        line-height: 60px;
+        line-height: 60px; /* looks weirdly off center without this line */
     }
 }
 
-@media screen and (min-width: 450px) and (max-width: 765px) {
+@media screen and (max-width: 765px) and (min-width: 450px) {
     .header {
-        min-height: 60px;
+	min-height: 60px;
     }
-    
+
     #header-container {
-        height: 60px;
+	height: 60px;
     }
-    
+
     .navbar-toggle {
-        height: 60px;
+	height: 60px;
     }
-    
+
     .navbar-brand-div {
-        transform: translateX(-50%);
-        left: 50%;
-        position: absolute;
-        height: 60px;
+	transform: translateX(-50%);
+	left: 50%;
+	position: absolute;
+	height: 60px;
     }
-    
+ 
     .navbar-brand {
-        padding: 0px;
-        margin: 0px;
-        margin-top: 5px;
+	padding: 0px;
+	margin: 0px;
+	margin-top: 5px;
     }
-    
+
     .navbar-site-name {
-        line-height: 60px;
-        font-size: 22pt;
+	line-height: 60px;
+	font-size: 22pt;
     }
     
     .navbar-text {
@@ -201,39 +162,39 @@
 
 @media screen and (min-width: 765px) {
     .header {
-        min-height: 80px;
+	   min-height: 80px;
     }
-    
+
     #header-container {
-        height: 80px;
+	   height: 80px;
     }
-    
+
     .navbar-toggle {
-        height: 80px;
+	   height: 80px;
     }
-    
+
     .navbar-brand-div {
         transform: translateX(-50%);
         left: 50%;
         position: absolute;
         height: 80px;
     }
-    
+
     .navbar-brand {
         padding: 0px;
         margin: 0px;
         padding-top: 5px;
     }
-    
+
     .navbar-site-name {
-        line-height: 80px; 
         font-size: 30pt;
+	   line-height: 80px;
     }
     
     .navbar-text {
         padding-top: 5px;
         font-size: 18pt;
-        line-height: 80px;
+	   line-height: 80px;
     }
 }
 
@@ -245,5 +206,5 @@
 
 #header-container {
     margin-bottom: 0px;
-    padding-bottom: 0px; 
+    margin-top: 0px;
 }

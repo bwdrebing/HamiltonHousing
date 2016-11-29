@@ -3,6 +3,7 @@
 }
 
 body, html, .row-offcanvas {
+<<<<<<< HEAD
   height: 100%;
   overflow-x: hidden;
   overflow-y: hidden;
@@ -17,6 +18,22 @@ body, html, .row-offcanvas {
 @media screen and (min-width: 765px) {
     body {
         padding-top: 80px;
+=======
+    height:100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+@media screen and (max-width: 765px) {
+    body {
+        padding-top: 60px;
+    }
+}
+
+@media screen and (min-width: 765px) {
+    body {
+  	padding-top: 80px;
+>>>>>>> 2b05620a589199ef38cb88a6a29dc5512bc53e4c
     }
 }
 
@@ -119,6 +136,7 @@ body, html, .row-offcanvas {
  * --------------------------------------------------
  */
 .row-offcanvas {
+<<<<<<< HEAD
 position: relative;
 -webkit-transition: all 0.2s ease-out;
 -moz-transition: all 0.2s ease-out;
@@ -138,4 +156,25 @@ left: 0;
 .sidebar-offcanvas {
 position: absolute;
 top: 0;
+=======
+    position: relative;
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+    width:calc(100% + 250px);
+
+}
+    
+.row-offcanvas-left {
+    left: -250px;
+}
+
+.row-offcanvas-left.active {
+    left: 0;
+}
+
+.sidebar-offcanvas {
+    position: absolute;
+    top: 0;
+>>>>>>> 2b05620a589199ef38cb88a6a29dc5512bc53e4c
 }
