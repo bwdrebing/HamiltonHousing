@@ -20,107 +20,106 @@
 {% endblock %}
 
 {% block content %}
+<!--    <div class="building-content">-->
       {% if floor_images %}
         <div class="col-md-12 col-lg-6 container-fluid left-content">
       {% else %}
         <div class="col-md-12">
       {% endif %}
-        <div class="col-md-12 col-lg-12">
-            <a name="top"></a><!-- top anchor -->
-            <h1 id="page-title">
-                {{current_building.name}} <small style="vertical-align: middle">
-                    {% if current_building.closed_to == 'F' %}
-                        <span class="label building-label">Closed to Women</span>
-                    {% elif current_building.closed_to == 'M' %}
-                        <span class="label building-label">Closed to Men</span>
-                    {% endif %}
-                    </small>
-            </h1>
-            <div class="row building-stats">
+        <a name="top"></a><!-- top anchor -->
+        <h1 id="page-title">
+            {{current_building.name}} <small style="vertical-align: middle">
+                {% if current_building.closed_to == 'F' %}
+                    <span class="label building-label">Closed to Women</span>
+                {% elif current_building.closed_to == 'M' %}
+                    <span class="label building-label">Closed to Men</span>
+                {% endif %}
+                </small>
+        </h1>
+        <div class="row building-stats">
 
-                <!-- Types of Rooms -->
-                <div class="col-md-12">
-                    <div class="panel panel-default" id="RoomTypePanel">
-                        <div class="stat-panel-heading">
-                            <h3 class="panel-title">Types of Rooms Available</h3>
-                        </div>
-                        <div class="panel-body">
-                            {% if current_building.total_singles != 0 %}
-                                <strong>{{current_building.available_singles}}</strong>
-                                {% if current_building.available_singles == 1 %}
-                                    Single
-                                {% else %}
-                                    Singles
-                                {% endif %}
-                                <br>
-                            {% endif %}
-                            {% if current_building.total_doubles != 0 %}
-                                <strong>{{current_building.available_doubles}}</strong>
-                                {% if current_building.available_doubles == 1 %}
-                                    Double
-                                {% else %}
-                                    Doubles
-                                {% endif %}
-                                <br>
-                            {% endif %}
-                            {% if current_building.total_triples != 0 %}
-                                <strong>{{current_building.available_triples}}</strong>
-                                {% if current_building.available_triples == 1 %}
-                                    Triple
-                                {% else %}
-                                    Triples
-                                {% endif %}
-                                <br>
-                            {% endif %}
-                            {% if current_building.total_quads != 0 %}
-                                <strong>{{current_building.available_quads}}</strong>
-                                {% if current_building.available_quads == 1 %}
-                                    Quad
-                                {% else %}
-                                    Quads
-                                {% endif %}
-                                <br>
-                            {% endif %}
-
-                        </div><!--/panel-body-->
-                   </div><!--/panel-->
-                </div><!--col-md-6-->
-
-                <!-- Building Notes -->
-                {% if current_building.notes %}
-                 <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="stat-panel-heading">
-                            <h3 class="panel-title">Notes</h3>
-                        </div>
-                        <div class="panel-body">
-                            {{current_building.notes}}
-                        </div>
+            <!-- Types of Rooms -->
+            <div class="col-md-12">
+                <div class="panel panel-default" id="RoomTypePanel">
+                    <div class="stat-panel-heading">
+                        <h3 class="panel-title">Types of Rooms Available</h3>
                     </div>
-                 </div>
-                {% endif %}
+                    <div class="panel-body">
+                        {% if current_building.total_singles != 0 %}
+                            <strong>{{current_building.available_singles}}</strong>
+                            {% if current_building.available_singles == 1 %}
+                                Single
+                            {% else %}
+                                Singles
+                            {% endif %}
+                            <br>
+                        {% endif %}
+                        {% if current_building.total_doubles != 0 %}
+                            <strong>{{current_building.available_doubles}}</strong>
+                            {% if current_building.available_doubles == 1 %}
+                                Double
+                            {% else %}
+                                Doubles
+                            {% endif %}
+                            <br>
+                        {% endif %}
+                        {% if current_building.total_triples != 0 %}
+                            <strong>{{current_building.available_triples}}</strong>
+                            {% if current_building.available_triples == 1 %}
+                                Triple
+                            {% else %}
+                                Triples
+                            {% endif %}
+                            <br>
+                        {% endif %}
+                        {% if current_building.total_quads != 0 %}
+                            <strong>{{current_building.available_quads}}</strong>
+                            {% if current_building.available_quads == 1 %}
+                                Quad
+                            {% else %}
+                                Quads
+                            {% endif %}
+                            <br>
+                        {% endif %}
 
-                {% if floor_images %}
-                <!-- Link to floor plan images if small screen -->
-                <div class="col-md-6 hidden-md hidden-lg">
-                   <a href="#floorPlans" class="nodecor" id="floorPlanViewButton">
-                       <div class='sticky-anchor'></div>
-                       <div class="panel panel-green panel-default nodecor sticky">
+                    </div><!--/panel-body-->
+               </div><!--/panel-->
+            </div><!--col-md-6-->
 
-                           <div class="stat-panel-heading-green nodecor" style="clear: both;">
-                               <h3 class="panel-title-green nodecor floorplan-button" id="floorplan-photo-icon">
-                                    <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
-                               </h3>
-                               <h3 class="panel-title-green nodecor floorplan-button" id="floorplan-text">
-                               View Floor Plans
-                               </h3>
-                            </div>
-                       </div>
-                    </a>
-                 </div>
-                {% endif %}
+            <!-- Building Notes -->
+            {% if current_building.notes %}
+             <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="stat-panel-heading">
+                        <h3 class="panel-title">Notes</h3>
+                    </div>
+                    <div class="panel-body">
+                        {{current_building.notes}}
+                    </div>
+                </div>
+             </div>
+            {% endif %}
 
-            </div><!--col-->
+            {% if floor_images %}
+            <!-- Link to floor plan images if small screen -->
+            <div class="col-md-6 hidden-lg">
+               <a href="#floorPlans" class="nodecor" id="floorPlanViewButton">
+                   <div class='sticky-anchor'></div>
+                   <div class="panel panel-green panel-default nodecor sticky">
+
+                       <div class="stat-panel-heading-green nodecor" style="clear: both;">
+                           <h3 class="panel-title-green nodecor floorplan-button" id="floorplan-photo-icon">
+                                <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+                           </h3>
+                           <h3 class="panel-title-green nodecor floorplan-button" id="floorplan-text">
+                           View Floor Plans
+                           </h3>
+                        </div>
+                   </div>
+                </a>
+             </div>
+            {% endif %}
+
           </div><!--/row-->
 
       <!-- End of Header Panels -->
@@ -429,7 +428,7 @@
     <div class="row thumbnail-row">
 
         {% for floorplan in floor_images %}
-        <div class="col-xs-4 col-sm-6 col-md-4 col-lg-3 thumb-div">
+        <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3 thumb-div">
             <div id="thumbnail-gallery">
                 {% if forloop.first %}
                 <a class="active thumbnail" data-image="{{floorplan.image.url}}" data-zoom-image="{{floorplan.image.url}}">
@@ -446,7 +445,7 @@
         {% endfor %}
     </div>
     </div>
-  <!-- </div> -->
+<!--   </div> end building content -->
   {% endif %}
 
 {% endblock content %}

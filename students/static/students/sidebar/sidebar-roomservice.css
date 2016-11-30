@@ -128,7 +128,7 @@ body {
  * off Canvas sidebar
  * --------------------------------------------------
  */
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 765px) {
     .row-offcanvas {
     position: relative;
     -webkit-transition: all 0.2s ease-out;
