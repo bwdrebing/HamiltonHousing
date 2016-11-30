@@ -97,6 +97,12 @@ def building(request, building_name):
         number = LotteryNumber.objects.latest()
     except:
         number = ""
+            
+    pageContent = StudentPageContent.objects.filter(active=True)
+    if (pageContent):
+        pageContent = pageContent.latest()
+    else:
+        pageContent = ""
     
     return render(request, 
                   'students/building.html', 
@@ -107,7 +113,8 @@ def building(request, building_name):
                    'floors': floors,
                    'buildings': building_list,
                    'floor_images': floor_images,
-                   'LotteryNumber': number})
+                   'LotteryNumber': number,
+                   'pageContent': pageContent})
 
 # organize all rooms into a dict and collect info about them
 def get_room_types(rooms):
@@ -137,6 +144,12 @@ def allRooms(request):
     	number = LotteryNumber.objects.latest()
     except:    
         number = ""
+    
+    pageContent = StudentPageContent.objects.filter(active=True)
+    if (pageContent):
+        pageContent = pageContent.latest()
+    else:
+        pageContent = ""
         
     return render(request, 
                   'students/all.html', 
@@ -144,7 +157,8 @@ def allRooms(request):
                    'current_page': 'all-rooms',
                    'rooms': rooms,
                    'room_types': room_types,
-                   'LotteryNumber': number})
+                   'LotteryNumber': number,
+                   'pageContent': pageContent})
 
 def faq(request):
     building_list = (Building.objects.exclude(available = False)
@@ -155,11 +169,18 @@ def faq(request):
         number = LotteryNumber.objects.latest()
     except:
         number = ""
+    
+    pageContent = StudentPageContent.objects.filter(active=True)
+    if (pageContent):
+        pageContent = pageContent.latest()
+    else:
+        pageContent = ""
         
     return render(request, 
                   'students/faq.html', 
                   {'buildings': building_list,
-                   'LotteryNumber': number})
+                   'LotteryNumber': number,
+                   'pageContent': pageContent})
 
 
 def contact(request):
@@ -171,7 +192,18 @@ def contact(request):
         number = LotteryNumber.objects.latest()
     except:
         number = ""
-
+        
+    pageContent = StudentPageContent.objects.filter(active=True)
+    if (pageContent):
+        pageContent = pageContent.latest()
+    else:
+        pageContent = ""
+    return render(request, 
+          'students/contact.html', 
+          {'buildings': building_list,
+           'LotteryNumber': number,
+           'pageContent': pageContent})
+"""
     contact_form = ContactForm()
     submitted = False
     
@@ -183,7 +215,7 @@ def contact(request):
             
             contact_email = request.POST.get('contact_email', '')
             
-            form_content = request.POST.get('content', '')
+            form_content = request.POST.get('content', '')"""
 
             # Email the profile with the contact information
             template = get_template('students/contact_template.txt')
