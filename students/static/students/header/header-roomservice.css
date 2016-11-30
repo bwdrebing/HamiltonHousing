@@ -229,6 +229,8 @@
 .navbar-site-name:focus,
 .navbar-site-name:active {
     color: #a9a9a9;
+    cursor: pointer;
+    cursor: hand;
 }
 
 #header-container {
