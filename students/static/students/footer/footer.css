@@ -5,6 +5,30 @@
     font-family: 'Khula', sans-serif;
 }
 */
-.footer-text{
+
+.navbar-fixed-bottom {
+    border-top: 1px solid #cdcdcd;
+    display: block;
+    background-color: white;
+}
+
+.footer-text {
+    margin-top: 15px;
     font-family: 'Khula', sans-serif;
+}
+
+@media screen and (max-width: 370px) {
+    .hidden-xxs {
+        display: none;
+    }
+}
+
+a {
+    color: #002f86;
+}
+
+a:hover,
+a.active {
+    color: #d1d1d1;
+    text-decoration: none;
 }
