@@ -348,7 +348,7 @@ def select(request):
     return render(request,
                   'staff/select/select.html',
                   {'LotteryNumber' : number})
-
+'''
 @login_required
 def editBuilding(request):
     """Displays a form that allows user to edit certain building attributes (closed to women, men, etc.)"""
@@ -373,9 +373,59 @@ def editBuilding(request):
     return render(request, 
                   'staff/edit/building.html', 
                   {'LotteryNumber': number,'form' : form})
+'''
+@login_required
+def editBuilding(request):
+    """Displays a form that allows user to edit certain building attributes (closed to women, men, etc.)"""
+    # get next lottery number for header
+    try:
+        number = LotteryNumber.objects.latest()
+    except:
+        number = ""
+        
+    if request.method == "POST":
+        #form = editBuildingForm(request.POST, instance = building)
+        current_building = Building.objects.get(name=request.POST["name"])
+        form = editBuildingFormB(instance = current_building)
+        #if form.is_valid():
+        #   form.save()
+        return render(request,
+            'staff/edit/building.html', 
+            {'LotteryNumber': number,
+            'Action': reverse('edit-building-change'),
+            'form' : form})
+    form = editBuildingFormA()
+    return render(request, 
+                  'staff/edit/building.html', 
+                  {'LotteryNumber': number,'form' : form})
 
 @login_required
-def editRoomSelect(request):
+def editBuildingChange(request):
+    """Displays a form that allows user to edit certain room attributes - available, notes, etc."""
+    # get next lottery number for header
+    try: 
+        number = LotteryNumber.objects.latest()
+    except:
+        number = ""
+    print('EDITBUILDINGCHANGE')    
+    if request.method == "POST":
+        #form = editBuildingForm(request.POST, instance = building)
+        current_building = Building.objects.get(name=request.POST["name"])
+        form = editBuildingFormB(request.POST, instance = current_building)
+        print('IN REQUEST.METHOD')
+        if form.is_valid():
+            form.save()
+            print('IN CHECKING VALID')
+            return render(request, 
+                  'staff/edit/edit.html', 
+                  {'LotteryNumber': number})
+    form = editBuildingFormB()
+    return render(request, 
+                  'staff/edit/building.html', 
+                  {'LotteryNumber': number,'form' : form})
+
+@login_required
+def editRoom(request):
     """Displays a form that allows user to edit certain room attributes - available, notes, etc."""
     # get next lottery number for header
     try: 
@@ -387,18 +437,17 @@ def editRoomSelect(request):
         #form = editBuildingForm(request.POST, instance = building)
         current_building = Building.objects.get(name=request.POST["name"])
         current_room = Room.objects.get(number = request.POST["room_number"], building = current_building)
-        print(current_room)
         form = editRoomFormB(instance = current_room)
         #if form.is_valid():
         #    form.save()
         return render(request,
-            'staff/edit/roomSelect.html', 
+            'staff/edit/room.html', 
             {'LotteryNumber': number,
              'Action': reverse('edit-room-change'),
              'form' : form})
     form = editRoomFormA()
     return render(request, 
-                  'staff/edit/roomSelect.html', 
+                  'staff/edit/room.html', 
                   {'LotteryNumber': number,'form' : form})
 
 @login_required
@@ -422,8 +471,8 @@ def editRoomChange(request):
                   {'LotteryNumber': number})
     form = editRoomFormB()
     return render(request, 
-                  'staff/edit/room.html', 
-                  {'LotteryNumber': number,'form' : form})
+        'staff/edit/room.html', 
+        {'LotteryNumber': number,'form' : form})
 
 def userLogin(request):
     if not request.user.is_authenticated:
