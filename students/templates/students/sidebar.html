@@ -1,3 +1,14 @@
+{% comment %}
+{% if pageContent %}
+    {% if pageContent.navbar_announcement %}
+        <div id="sidebar" class="sidebar-offcanvas" style="padding-bottom: 49px;">
+    {% else %}
+        <div id="sidebar" class="sidebar-offcanvas">
+    {% endif %}
+{% else %}
+    <div id="sidebar" class="sidebar-offcanvas">
+{% endif %}
+        {% endcomment %}
 <div id="sidebar" class="sidebar-offcanvas">
     <div class="container-fluid">
         <ul class="nav nav-pills nav-stack">

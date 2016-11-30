@@ -41,12 +41,24 @@
             {% include "students/header.html" %}
       {% endblock header %}
       
-    <div class="row-offcanvas row-offcanvas-left">
+      <div class="row-offcanvas row-offcanvas-left">
+      
       {% block sidebar %}
             {% include "students/sidebar.html" %}
       {% endblock sidebar %}
 
-      <div id="main">
+      {% comment %}
+      {% if pageContent %}
+        {% if pageContent.navbar_announcement %}
+            <div id="main">
+        {% else %}
+            <div id="main">
+        {% endif %}
+      {% else %}
+            <div id="main">
+      {% endif %}
+                {% endcomment %}
+        <div id="main">
           {% block content %}
           <div class="col-md-12 container-fluid">
               <div class="jumbotron" id="home-jumbotron">
@@ -129,11 +141,13 @@
           </div><!--/col-->
           {% endcomment %}
         {% endblock content %}
-          {% block footer %}
-                {% include "students/footer.html" %}
-          {% endblock footer %}
+          
         </div>
     </div><!--/row-offcanvas -->
+                
+    {% block footer %}
+        {% include "students/footer.html" %}
+    {% endblock footer %}
 
 
 

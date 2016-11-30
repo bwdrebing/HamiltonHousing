@@ -2,14 +2,20 @@
     margin-bottom: 18px;
 }
 
-body, html, .row-offcanvas {
-    height: 100%;
-    overflow-x: hidden;
+#main{
+    padding:0px;
     overflow-y: hidden;
 }
 
-.row-offcanvas {
-    margin-bottom: 49px;
+body, html, .row-offcanvas {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;   
+}
+
+body {
+    position: relative;
+    padding-bottom: 49px;
 }
 
 @media screen and (max-width: 765px) {
