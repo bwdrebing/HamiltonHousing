@@ -406,16 +406,13 @@ def editBuildingChange(request):
     try: 
         number = LotteryNumber.objects.latest()
     except:
-        number = ""
-    print('EDITBUILDINGCHANGE')    
+        number = ""   
     if request.method == "POST":
         #form = editBuildingForm(request.POST, instance = building)
         current_building = Building.objects.get(name=request.POST["name"])
         form = editBuildingFormB(request.POST, instance = current_building)
-        print('IN REQUEST.METHOD')
         if form.is_valid():
             form.save()
-            print('IN CHECKING VALID')
             return render(request, 
                   'staff/edit/edit.html', 
                   {'LotteryNumber': number})
