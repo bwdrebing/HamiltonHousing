@@ -2,6 +2,7 @@
 {% block title %}Contact Us{% endblock title %}
 
 {% block content %}
+    {% comment %}
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -31,6 +32,27 @@
             </div>
         </div>
     </div>
+    {% endcomment %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 container-fluid">
+            <h1>Contact Us</h1>
+            <hr class="yellow-line">
+            <p class="lead">
+                {% if pageContent %}
+                    {{ pageContent.contact|linebreaksbr }}
+                    {% if pageContent.contact_email %}
+                        Reach out to <strong><a class="nodecor highlight-link" href="mailto:{{pageContent.contact_email}}">{{pageContent.contact_email}}</a></strong>.
+                    {% endif %}
+                {% else %}
+                Questions pertaining to the lottery and the lottery process should be directed to Ashley Place, assistant director of Residential Life
+                {% endif %}
+                Send comments or questions about this site to <strong><a href="mailto:hcroomservice@gmail.com">HCRoomService@gmail.com</a></strong>.
+            </p>
+        </div>
+    </div>
+</div>
+
 {% endblock content %}
 
 {% block custom-js %}
