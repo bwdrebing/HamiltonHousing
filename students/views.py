@@ -97,7 +97,7 @@ def building(request, building_name):
         number = LotteryNumber.objects.latest()
     except:
         number = ""
-        
+            
     pageContent = StudentPageContent.objects.filter(active=True)
     if (pageContent):
         pageContent = pageContent.latest()
@@ -144,7 +144,7 @@ def allRooms(request):
     	number = LotteryNumber.objects.latest()
     except:    
         number = ""
-        
+    
     pageContent = StudentPageContent.objects.filter(active=True)
     if (pageContent):
         pageContent = pageContent.latest()
@@ -169,7 +169,7 @@ def faq(request):
         number = LotteryNumber.objects.latest()
     except:
         number = ""
-        
+    
     pageContent = StudentPageContent.objects.filter(active=True)
     if (pageContent):
         pageContent = pageContent.latest()
@@ -198,53 +198,8 @@ def contact(request):
         pageContent = pageContent.latest()
     else:
         pageContent = ""
-    
     return render(request, 
-                  'students/contact.html', 
-                  {'buildings': building_list,
-                   'LotteryNumber': number,
-                   'pageContent': pageContent})
-    
-    """
-    contact_form = ContactForm()
-    submitted = False
-    
-    if request.method == 'POST':
-        contact_form = ContactForm(data=request.POST)
-
-        if contact_form.is_valid():
-            contact_name = request.POST.get('contact_name', '')
-            
-            contact_email = request.POST.get('contact_email', '')
-            
-            form_content = request.POST.get('content', '')
-
-            # Email the profile with the contact information
-            template = get_template('students/contact_template.txt')
-            
-            context = Context({
-                'contact_name': contact_name,
-                'contact_email': contact_email,
-                'form_content': form_content,
-            })
-            
-            content = template.render(context)
-
-            email = EmailMessage(
-                "New contact form submission",
-                content,
-                "Your website" +'',
-                ['youremail@gmail.com'],
-                headers = {'Reply-To': contact_email }
-            )
-            
-            email.send()
-            
-            submitted = True
-        
-    return render(request, 
-                  'students/contact.html', 
-                  {'buildings': building_list,
-                   'LotteryNumber': number,
-                   'contact_form': contact_form,
-                   'submitted': submitted})"""
+          'students/contact.html', 
+          {'buildings': building_list,
+           'LotteryNumber': number,
+           'pageContent': pageContent})

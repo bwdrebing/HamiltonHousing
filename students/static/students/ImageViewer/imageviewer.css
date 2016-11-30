@@ -218,7 +218,7 @@
 }
 
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1400px) {
   .iv-snap-view {
     z-index: -1;
     visibility: hidden;

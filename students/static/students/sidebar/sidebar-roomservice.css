@@ -2,10 +2,20 @@
     margin-bottom: 18px;
 }
 
+#main{
+    padding:0px;
+    overflow-y: hidden;
+}
+
 body, html, .row-offcanvas {
-  height: 100%;
-  overflow-x: hidden;
-  overflow-y: hidden;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;   
+}
+
+body {
+    position: relative;
+    padding-bottom: 49px;
 }
 
 @media screen and (max-width: 765px) {
@@ -118,7 +128,7 @@ body, html, .row-offcanvas {
  * off Canvas sidebar
  * --------------------------------------------------
  */
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 765px) {
     .row-offcanvas {
     position: relative;
     -webkit-transition: all 0.2s ease-out;
