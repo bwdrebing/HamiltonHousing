@@ -175,22 +175,53 @@ body, html {
 }
 
 .left-content{
-  float: left;
-  height: 100vh;
+  height: 100%;
   position:relative;
   overflow-y: scroll;
   overflow-x: hidden;
+
 }
 
 .right-content{
-  float:right;
-  height 100vh;
+  float:left;
+  height: 100%;
   overflow: hidden;
+  background-color: #efefef;
 }
+
+@media (max-width: 1200px){
+  .right-content{
+    height: auto;
+  }
+
+  .left-content{
+    height: auto;;
+    overflow: hidden;
+  }
+  
+  body, html {
+    overflow: inherit;
+  }
+}
+
+#main{
+  padding:0px;
+}
+
 /* -------------------------
        Floor Plan Images
    ------------------------- */
-
+.floorplan-title{
+  padding:5px;
+  margin-bottom: 0px;
+  margin-top: 5px;
+  text-transform: uppercase;
+  font-family: 'Proza Libre', sans-serif;
+  font-weight: 300;
+  letter-spacing: 1.2px;
+  line-height: 1.7;
+  font-size: 1.5rem;
+}
 /*.floorplans{
    position: inherit;
    padding-top: 15px;
@@ -202,12 +233,9 @@ body, html {
    padding-right: 5px;
    float: right;
 }*/
+
 .thumbnails {
-   margin-left: -4px;
-   margin-right: -4px;
-   padding-right: 8px;
-   display:table;
-   border-collapse: collapse;
+   /*padding-right: 8px;*/
 }
 
 .thumbnail-label {
@@ -221,22 +249,21 @@ body, html {
 .thumb-div {
     padding-right: 4px;
     padding-left: 4px;
-    display: table-cell;
-    vertical-align: top;
-}
 
-.thumb-div img{
-  display: block;
-  width:100%;
 }
 
 .thumbnail {
     border-radius: 0;
+    margin-bottom: 8px;
     position:relative;
     text-align: left;
     vertical-align: middle;
 }
 
+.thumbnail-row{
+  padding-left: 11px;
+  padding-right: 11px;
+}
 /* get rid of upper margin only when the floor plan/room panels are displaying next to each other */
 @media (min-width: 992px) {
     #floorPlanName {
