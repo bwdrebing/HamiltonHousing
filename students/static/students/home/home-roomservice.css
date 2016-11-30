@@ -1,16 +1,23 @@
-a {
-    color: #d1d1d1;
-}
-
-a:hover,
-a.active {
-    color: #002f86;
-    text-decoration: none;
+@media screen and (min-width: 750px) {
+    .search-button {
+        display: none;   
+    }
 }
 
 #home-jumbotron {
     padding-bottom: 10px;
     padding-top: 10px;
+    background-color: white;
+}
+
+a {
+    color: #002f86;
+}
+
+a:hover,
+a.active {
+    color: #d1d1d1;
+    text-decoration: none;
 }
 
 .landing-panel-title {
