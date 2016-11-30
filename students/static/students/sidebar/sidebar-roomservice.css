@@ -10,13 +10,13 @@ body, html, .row-offcanvas {
 
 @media screen and (max-width: 765px) {
     body {
-        padding-top: 60px;
+        padding-top: 65px;
     }
 }
 
 @media screen and (min-width: 765px) {
     body {
-        padding-top: 80px;
+        padding-top: 85px;
     }
 }
 
@@ -118,24 +118,25 @@ body, html, .row-offcanvas {
  * off Canvas sidebar
  * --------------------------------------------------
  */
-.row-offcanvas {
-position: relative;
--webkit-transition: all 0.2s ease-out;
--moz-transition: all 0.2s ease-out;
-transition: all 0.2s ease-out;
-width:calc(100% + 250px);
-}
+@media screen and (max-width: 750px) {
+    .row-offcanvas {
+    position: relative;
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+    width:calc(100% + 250px);
+    }
 
-.row-offcanvas-left
-{
-left: -250px;
-}
+    .row-offcanvas-left {
+        left: -250px;
+    }
 
-.row-offcanvas-left.active {
-left: 0;
-}
+    .row-offcanvas-left.active {
+        left: 0;
+    }
 
-.sidebar-offcanvas {
-position: absolute;
-top: 0;
+    .sidebar-offcanvas {
+        position: absolute;
+        top: 0;
+    }
 }
