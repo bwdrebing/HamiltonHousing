@@ -44,20 +44,17 @@
                 <form method="POST" class="post-form form-horizontal" action="{{Action}}">
                 {% csrf_token %}
                 <div class="container-fluid">
-                {% for field in form.hidden_fields %}
-                    {{field}}
-                {% endfor %}
-                {% for field in form.visible_fields %}
+                {% for field in form %}
                     <div class="form-group form-group-lg">
                         <label for="FormInput" class="control-label">{{field.label}}</label>
-                        <div>{{field}}{{field.help_text}}</div>
+                        <div>{{field}}</div>
                     </div>
                 {% endfor %}
                 </div>
                 
                 <!--{{form.as_p}}-->
                 <button type="submit" class="save btn btn-default btn-lg">
-                    Next
+                    Save
                 </button>
                 </form>
             </div>

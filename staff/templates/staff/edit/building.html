@@ -43,13 +43,10 @@
                     Edit Building Information
                 </h1>
                 <hr class="yellow-line">
-                <form method="POST" class="post-form form-horizontal" action="{{Action}}">
+                <form method="POST" class="post-form form-horizontal">
                 {% csrf_token %}
                 <div class="container-fluid">
-                {% for field in form.hidden_fields %}
-                    {{field}}
-                {% endfor %}
-                {% for field in form.visible_fields %}
+                {% for field in form %}
                     <div class="form-group form-group-lg">
                         <label for="FormInput" class="control-label">{{field.label}}</label>
                         <div>{{field}}</div>
@@ -59,7 +56,7 @@
                     
                     <!--{{form.as_p}}-->
                 <button type="submit" class="save btn btn-default btn-lg">
-                    Next
+                    Save
                 </button>
                 </form>
             </div>
@@ -76,6 +73,6 @@
     <script src="/../static/staff/dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="/static/staff/assets/js/ie10-viewport-bug-workaround.js"></script>
-    <script src="/static/staff/RoomSelect/addFormControlToInputs.js"></script>
+    <script src="/static/staff/RoomSelect/addFormControlToInputs.js"></script>x
   </body>
 </html>
