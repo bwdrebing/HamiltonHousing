@@ -1,8 +1,20 @@
-@media (min-width: 765px) {
+/* @media (min-width: 765px) {
     .navbar-toggle {
         margin-left: 10px;
         display: inline !important;
     }
+} */
+
+.navbar-announcement {
+    margin-bottom: 0px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-radius: 0px;
+    border: none;
+    background-color: #b91823;
+    color: white;
+    text-align: center;
+    font-family: 'Khula', 'Helvetica Neue', Helvetica, sans-serif;
 }
 
 .navbar-toggle {
