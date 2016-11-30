@@ -169,11 +169,14 @@
     -webkit-overflow-scrolling: touch;
 }
 
-body, html {
+body, html, .building-content {
     overflow-x: hidden;
     overflow-y: hidden;
 }
 
+.building-content{
+    height: 100%;    
+}
 .left-content{
   height: 100%;
   position:relative;
@@ -198,7 +201,7 @@ body, html {
     overflow: hidden;
   }
 
-  body, html {
+  .building-content, body, html {
     overflow: inherit;
   }
 }

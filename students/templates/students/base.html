@@ -45,9 +45,20 @@
       {% block sidebar %}
             {% include "students/sidebar.html" %}
       {% endblock sidebar %}
-    
+        
+        {% if pageContent %}
+            {% if pageContent.navbar_announcement %}
+                <div class="alert alert-danger navbar-announcement" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    {{ pageContent.navbar_announcement}}
+                </div>  
+            {% endif %}
+        {% endif %}
       <div id="main">
+
           {% block content %} 
+        
+
         <div class="col-md-12 container-fluid">
               <div class="jumbotron" id="home-jumbotron">
                 <h1>
@@ -94,15 +105,6 @@
                    <div class="landing-panel panel landing-panel-button nodecor">
                        <div class="landing-panel-heading container-fluid nodecor" style="clear: both;">
                            <h3 class="landing-panel-title" style="float: left;">FAQ</h3>
-                           <h3 class="landing-panel-title" style="float: right;"><span class="glyphicon glyphicon-chevron-right"></span></h3>
-                        </div>
-                   </div>
-              </a>
-              
-               <a href="{% url 'faq' %}" class="nodecor hidden-xs" id="faq-button">
-                   <div class="landing-panel panel landing-panel-button nodecor">
-                       <div class="landing-panel-heading container-fluid nodecor" style="clear: both;">
-                           <h3 class="landing-panel-title" style="float: left;">Frequently Asked Questions</h3>
                            <h3 class="landing-panel-title" style="float: right;"><span class="glyphicon glyphicon-chevron-right"></span></h3>
                         </div>
                    </div>
