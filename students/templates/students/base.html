@@ -47,8 +47,9 @@
       {% endblock sidebar %}
     
       <div id="main">
-          {% block content %}
-          <div class="col-md-12" id="home-jumbotron">
+          {% block content %} 
+        <div class="col-md-12 container-fluid">
+              <div class="jumbotron" id="home-jumbotron">
                 <h1>
                 {% if pageContent %}
                     {{pageContent.header_text}}
@@ -57,7 +58,7 @@
                 {% endif %}
                 </h1>
               
-                <p class="lead">
+                <p>
                 {% if pageContent %}
                     {{ pageContent.header_subtext|linebreaksbr }}
                 {% else %}
@@ -69,8 +70,17 @@
                         {{ pageContent.header_block_text|linebreaks }}
                     {% endif %}
                 {% endif %}
-                <hr class="yellow-line">
+                <p>
+                   <a type="button" class="btn btn-default btn-lg home-button" href="{% url 'faq' %}">
+                            FAQs
+                    </a>
+                        
+                    <button type="button" class="btn btn-default btn-lg home-button search-button" data-toggle="offcanvas" data-target=".sidebar">
+                            Search
+                    </button>
+                </p>
           </div>
+        </div> <!-- End Container-->
 
           <div class="col-md-6">
               <div class="landing-panel panel landing-panel-button hidden-sm hidden-md hidden-lg">
@@ -100,10 +110,39 @@
               
           </div>
 
+          {% comment %}
+          <div class="col-md-6 hidden-xs hidden-sm">
+              <div class="landing-panel panel landing-panel-button hidden-sm hidden-md hidden-lg">
+                <div class="landing-panel-heading container-fluid" data-toggle="offcanvas" data-target=".sidebar" href="#" style="clear: both;">
+                    <h3 class="landing-panel-title" style="float: left;">Start Your Search</h3>
+                    <h3 class="landing-panel-title" style="float: right;"><span class="glyphicon glyphicon-chevron-right"></span></h3>
+                  </div>
+              </div>
+
+              <a href="{% url 'faq' %}" class="nodecor hidden-sm hidden-md hidden-lg" id="faq-button">
+                   <div class="landing-panel panel landing-panel-button nodecor">
+                       <div class="landing-panel-heading container-fluid nodecor" style="clear: both;">
+                           <h3 class="landing-panel-title" style="float: left;">FAQ</h3>
+                           <h3 class="landing-panel-title" style="float: right;"><span class="glyphicon glyphicon-chevron-right"></span></h3>
+                        </div>
+                   </div>
+              </a>
+
+               <a href="{% url 'faq' %}" class="nodecor hidden-xs" id="faq-button">
+                   <div class="landing-panel panel landing-panel-button nodecor">
+                       <div class="landing-panel-heading container-fluid nodecor" style="clear: both;">
+                           <h3 class="landing-panel-title" style="float: left;">Frequently Asked Questions</h3>
+                           <h3 class="landing-panel-title" style="float: right;"><span class="glyphicon glyphicon-chevron-right"></span></h3>
+                        </div>
+                   </div>
+              </a>
+
+          </div><!--/col-->
+
           <div class="col-md-6">
               <div class="landing-panel panel">
                 <div class="landing-panel-heading container-fluid">
-                    <h3 class="landing-panel-title" style="float: left;">Contact</h3>
+                    <h3 class="landing-panel-title" style="float: left;">Contact Us</h3>
                 </div>
                 <div class="panel-body">
                     {% if pageContent %}
@@ -111,16 +150,17 @@
                     {% else %}
                         Questions pertaining to the lottery and the lottery process should be directed to Ashley Place, assistant director of Residential Life, at <a class="nodecor highlight-link" href="mailto:aplace@hamilton.edu">aplace@hamilton.edu</a>.
                     {% endif %}
+                    Send comments or questions about this site to <a href="mailto:hcroomservice@gmail.com">HCRoomService@gmail.com</a>.
                 </div>
-              </div>
-          </div>
+              </div><!--/panel-->
+          </div><!--/col-->
+          {% endcomment %}
         {% endblock content %}
           {% block footer %}
                 {% include "students/footer.html" %}
           {% endblock footer %}
         </div>
     </div><!--/row-offcanvas -->
-
 
 
     <!-- Bootstrap core JavaScript
@@ -133,9 +173,6 @@
     <script src="/static/students/assets/js/ie10-viewport-bug-workaround.js"></script>
     <!-- Script for collapsable side navigation -->
     <script src="/static/students/sidebar/sidebar.js"></script>
-    <!-- Script for filtering building sidebar -->
-    <script src="/static/students/sidebar/sidebar-filter.js"></script> 
-
 
       
     {% block custom-js %}
