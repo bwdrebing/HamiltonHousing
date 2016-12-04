@@ -49,7 +49,7 @@
               <li>
                   <a>
                     {% if LotteryNumber %}
-                        Next Up: {{ LotteryNumber }}
+                        Next Up: {{LotteryNumber.class_year}} #{{LotteryNumber.number}}
                     {% endif %} 
                   </a>
                   {# <a href="{% url 'login' %}">Login</a> #}

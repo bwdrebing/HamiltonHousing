@@ -16,7 +16,7 @@
          <ul class="nav pull-right">
             <li class="navbar-text">
                 {% if LotteryNumber %}
-                Next #{{ LotteryNumber }}
+                    {{LotteryNumber.class_year}} #{{LotteryNumber.number}}
                 {% endif %}
             </li>
         </ul>

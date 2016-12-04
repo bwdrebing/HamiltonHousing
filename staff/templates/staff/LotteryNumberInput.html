@@ -41,7 +41,7 @@
             <div class="col-md-8">
                 <h1>Input the Next Lottery Number</h1>
                 <hr class="yellow-line">
-                <p class="lead">Current Number: {{ LotteryNumber }}</p>
+                <p class="lead" id="current-loto-num" value="{{LotteryNumber.class_year}}">Current Number: {{LotteryNumber.class_year}} #{{LotteryNumber.number}}</p>
                 <form method="POST" class="post-form form-horizontal">
                     <div class="container-fluid">
                         {% csrf_token %}
@@ -70,5 +70,6 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="/static/staff/assets/js/ie10-viewport-bug-workaround.js"></script>
     <script src="/static/staff/RoomSelect/addFormControlToInputs.js"></script>
+    <script src="/static/staff/StaffForms/lotterynum.js"></script>
   </body>
 </html>
