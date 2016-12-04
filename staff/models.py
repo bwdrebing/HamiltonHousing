@@ -5,10 +5,16 @@ from datetime import datetime
 
 class LotteryNumber(models.Model):
     number = models.PositiveSmallIntegerField()
+    class_year = models.CharField(
+        max_length=4,
+        default='',
+        help_text="This is the class year whose number is being called (ex. Senior 1 / Soph 322"
+    )
+    
     created = models.DateTimeField(auto_now_add=True, blank=True, db_index=True)
 
     def __str__(self):
-        return str(self.number)
+        return str(self.class_year) + " " + str(self.number)
 
     class Meta:
         get_latest_by = "created"
@@ -17,13 +23,6 @@ class Building(models.Model):
     name = models.CharField(max_length = 100, unique=True)
     available = models.BooleanField(blank=True, default=True)
     total_rooms = models.PositiveSmallIntegerField(default=0)
-    total_singles = models.PositiveSmallIntegerField(default=0)
-    total_doubles = models.PositiveSmallIntegerField(default=0)
-    total_triples = models.PositiveSmallIntegerField(default=0)
-    total_quads = models.PositiveSmallIntegerField(default=0)
-    total_fivepulls = models.PositiveSmallIntegerField(default=0)
-    total_sixpulls = models.PositiveSmallIntegerField(default=0)
-    total_beds = models.PositiveSmallIntegerField(default=0)
 
     #Gender Blocking Choices, can be closed to men, closed to women, or none
     GENDER_CHOICES = (
@@ -51,6 +50,9 @@ class Building(models.Model):
                            .filter(available = True)
                            .exclude(available_beds = 0)
                            .count())
+    
+    def has_singles(self):
+        return (Room.objects.filter(building = self).filter(room_type = 'S').count() != 0)
 
     def get_available_singles(self):
         return (Room.objects.filter(building = self)
@@ -58,6 +60,9 @@ class Building(models.Model):
                             .exclude(available_beds = 0)
                             .filter(room_type = 'S')
                             .count())
+    
+    def has_doubles(self):
+        return (Room.objects.filter(building = self).filter(room_type = 'D').count() != 0)
 
     def get_available_doubles(self):
         return (Room.objects.filter(building = self)
@@ -65,6 +70,9 @@ class Building(models.Model):
                             .exclude(available_beds = 0)
                             .filter(room_type = 'D')
                             .count())
+    
+    def has_triples(self):
+        return (Room.objects.filter(building = self).filter(room_type = 'T').count() != 0)
 
     def get_available_triples(self):
         return (Room.objects.filter(building = self)
@@ -72,6 +80,9 @@ class Building(models.Model):
                             .exclude(available_beds = 0)
                             .filter(room_type = 'T')
                             .count())
+    
+    def has_quads(self):
+        return (Room.objects.filter(building = self).filter(room_type = 'Q').count() != 0)
 
     def get_available_quads(self):
         return (Room.objects.filter(building = self)
@@ -113,7 +124,7 @@ class FloorPlan(models.Model):
     thumbnail_name = models.CharField(
         max_length = 15,
         default="",
-        help_text="This will be the title shown of this floorplan's thumbnail Ex. Fl. 1 (west) \n (Use the display name if this field is left blank.)"
+        help_text="This will be the title shown of this floorplan's thumbnail Ex. Flr 1 W \n (The display name will be used if this field is left blank.)"
     )
 
     image = models.ImageField(

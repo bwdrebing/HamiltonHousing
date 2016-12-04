@@ -20,18 +20,21 @@ from .forms import *
 @login_required
 def lotteryNumberInput(request):
     """View with a simple form that allows a new Next Lottery Number to be input"""
-    if request.method == "POST":
-        form = LotteryNumberForm(request.POST)
-        if form.is_valid():
-            form.save()
-
-    #fixme: Change so lottery number doesn't load if there is none
     try:
         number = LotteryNumber.objects.latest()
     except:
         number = ""
         
-    form = LotteryNumberForm()
+    if request.method == "POST":
+        if (number):
+            form = LotteryNumberForm(request.POST, instance=number)
+        else:
+            form = LotteryNumberForm(request.POST)
+        if form.is_valid():
+            form.save()
+        
+    form = LotteryNumberForm(instance=number)
+    
     return render(request, 
                   'staff/LotteryNumberInput.html', 
                   {'LotteryNumber': number,'form' : form})

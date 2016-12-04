@@ -1,0 +1,20 @@
+{% extends "students/base.html" %}
+
+{% block title %}{{ current_building.name }}{% endblock title %}
+
+{% block custom-css %}
+    <!-- CSS for this page -->
+    <link rel="stylesheet" href="/static/students/building/building-roomservice.css">
+{% endblock %}
+
+{% block content %}
+
+<div class="col-md-12">
+    <h1 id="page-title">
+        {{current_building.name}}
+    </h1>
+    <p class="lead">Oops! This building is currently unavailable.<br>
+        Return to the <strong><a href="{% url 'students-home' %}">home page</a></strong> or view a list of <strong><a href="{% url 'all-rooms' %}">all available rooms</a></strong>.</p>
+</div>
+
+{% endblock content %}

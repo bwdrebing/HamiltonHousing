@@ -265,16 +265,45 @@ class TransactionResource(resources.ModelResource):
     '''this is just the bare bones set up for exporting transactions
     after we adjust this model we can set up export processing with
     foreignkeys, nice titles, etc'''
+    Puller_Room = fields.Field(
+        attribute = 'Puller_Room', 
+        column_name = 'Puller Room', 
+        widget = ForeignKeyWidget(Room))
+    Puller_Year = fields.Field(
+        attribute = 'Puller_Year',
+        column_name = 'Puller Class Year')
+    Puller_Number = fields.Field(
+        attribute = 'Puller_Number',
+        column_name = 'Puller Lottery Number')
+    Pullee_Room = fields.Field(
+        attribute = 'Pullee_Room', 
+        column_name = 'Pullee Room', 
+        widget = ForeignKeyWidget(Room))
+    Pullee_Year = fields.Field(
+        attribute = 'Pullee_Year',
+        column_name = 'Pullee Class Year')
+    Pullee_Number = fields.Field(
+        attribute = 'Pullee_Number',
+        column_name = 'Pullee Lottery Number')
     
     class Meta:
         model = Transaction
+        export_id_fields = ['Puller_Year', 'Puller_Number']
+        fields = ('Puller_Year', 'Puller_Number', 'Puller_Room', 'Pullee_Year', 'Pullee_Number', 'Pullee_Room')
+        export_order = fields
         
 class TransactionAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = TransactionResource
+    list_display = ['Puller_Year', 'Puller_Number', 'Puller_Room', 'Pullee_Year',
+                    'Pullee_Number']
+    
+    list_filter = ('Puller_Year', )
     
 class ApartmentAdmin(admin.ModelAdmin):
     list_display = ['building', 'number', 'gender']
     ordering = ['building', 'number']
+    
+    list_filter = ('building', )
     
 # MASS MAKE UNAVAILABLE ACTION FOR ADMIN PAGE
 def make_contents_unavailable(modeladmin, request, queryset):

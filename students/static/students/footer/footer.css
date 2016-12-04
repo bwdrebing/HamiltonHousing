@@ -23,12 +23,12 @@
     }
 }
 
-a {
+.navbar-fixed-bottom a {
     color: #002f86;
 }
 
-a:hover,
-a.active {
+.navbar-fixed-bottom a:hover,
+.navbar-fixed-bottom a.active {
     color: #d1d1d1;
     text-decoration: none;
 }

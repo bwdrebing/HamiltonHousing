@@ -12,7 +12,7 @@ class LotteryNumberForm(forms.ModelForm):
 
     class Meta:
         model = LotteryNumber
-        fields = ('number',)
+        fields = ('number', 'class_year')
 
 class BuildingForm(forms.Form):
     name = forms.ChoiceField()
