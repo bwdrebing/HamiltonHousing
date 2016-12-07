@@ -1,0 +1,38 @@
+.panel-default > .panel-heading {
+}
+
+.panel-group .panel {
+    box-shadow: none;
+}
+
+.panel-default >.panel-heading+.panel-collapse>.panel-body {
+}
+
+.faq-link {
+    background-color: #002f86;
+    color: white;
+}
+
+.faq-link > a {
+    color: white;
+}
+
+.faq-link:hover,
+.faq-link:active,
+.faq-link:hover a, 
+.faq-link:active a,
+.faq-link:active span, 
+.faq-link:hover span {
+    color: #d1d1d1;
+    text-decoration: none;
+}
+
+p > a {
+    color: #002f86;
+}
+
+p > a:hover,
+p > a.active {
+    color: #d1d1d1;
+    text-decoration: none;
+}
